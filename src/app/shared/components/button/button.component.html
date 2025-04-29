@@ -1,0 +1,22 @@
+<button [type]="type()" [class]="buttonClass" (click)="handleClick($event)">
+  <span *ngIf="isLoading()">⏳</span>
+
+  <ng-content
+    select="[button-icon]"
+    *ngIf="!iconClass && !isLoading() && iconPosition() === 'left'"
+  ></ng-content>
+  <i
+    *ngIf="iconClass && !isLoading() && iconPosition() === 'left'"
+    [class]="iconClass"
+  ></i>
+  <span *ngIf="!isLoading() && label()">{{ label() }}</span>
+  <i
+    *ngIf="iconClass && !isLoading() && iconPosition() === 'right'"
+    [class]="iconClass"
+  ></i>
+
+  <ng-content
+    select="[button-icon]"
+    *ngIf="!iconClass && !isLoading() && iconPosition() === 'right'"
+  ></ng-content>
+</button>

@@ -1,0 +1,113 @@
+<section id="createSubItemDialog">
+  <h1>Novo Sub item</h1>
+  <form [formGroup]="itemForm">
+    <input-custom
+      type="text"
+      placeholder="Coloque o nome atribuido ao sub item"
+      label="Nome do sub item"
+      name="name"
+      formControlName="name"
+      required
+    ></input-custom>
+    <textarea-custom
+      placeholder="Descreva o que será feito neste sub item. Exemplo: Será realizada a contratação de um serviço de construção"
+      name="description"
+      label="Descrição do sub item"
+      formControlName="description"
+      [maxlength]="255"
+    ></textarea-custom>
+    <select-custom
+      [label]="'Categoria'"
+      [source]="{
+        api: {
+          method: 'GET',
+          url: 'items/categories',
+        },
+        keys: {
+          display: 'label',
+          value: 'category',
+        }
+      }"
+      formControlName="category"
+    ></select-custom>
+    <select-custom
+      [label]="'Responsável'"
+      [source]="{
+        api: {
+          method: 'GET',
+          url: 'users/emplooyes',
+        },
+        keys: {
+          display: 'username',
+          value: 'id',
+        }
+      }"
+      formControlName="responsible_user_id"
+    ></select-custom>
+
+    <div class="createSubItemDialog--dates">
+      <input-custom
+        type="date"
+        label="Data de inicio"
+        placeholder="Data de inicio"
+        name="start_date"
+        formControlName="start_date"
+        required
+      ></input-custom>
+      <img src="./icons/MoveArrowRight.svg" alt="Seta" />
+      <input-custom
+        type="date"
+        label="Data de fim"
+        placeholder="Data de fim"
+        name="end_date"
+        formControlName="end_date"
+        required
+      ></input-custom>
+    </div>
+    <section class="createSubItemDialog--values">
+      <input-custom
+        type="currency"
+        placeholder="R$ 0,00"
+        label="Orçamento"
+        name="unit_price"
+        formControlName="unit_price"
+        required
+      ></input-custom>
+      <input-custom
+        type="number"
+        placeholder="0"
+        label="Quantidade"
+        name="quantity"
+        formControlName="quantity"
+        required
+      ></input-custom>
+      <select-custom
+        [label]="'Unidade'"
+        [source]="{
+        api: {
+          method: 'GET',
+          url: 'sub-item/units',
+        },
+        keys: {
+          display: 'description',
+          value: 'description_code',
+        }
+      }"
+        formControlName="unit"
+      ></select-custom>
+    </section>
+  </form>
+  <section class="createSubItemDialog--actions">
+    <button-custom
+      type="button"
+      variant="transparent"
+      label="Cancelar"
+      (clicked)="onCancel()"
+    ></button-custom>
+    <button-custom
+      type="button"
+      label="Gerar Sub Item"
+      (clicked)="onSubmit()"
+    ></button-custom>
+  </section>
+</section>

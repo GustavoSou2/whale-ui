@@ -1,0 +1,10 @@
+<span
+  class="action-status--tag"
+  [ngStyle]="{
+    backgroundColor: status?.color,
+    color: getTextColor(status?.color)
+  }"
+  [matTooltip]="status?.description"
+>
+  {{ status?.name }}
+</span>

@@ -1,0 +1,21 @@
+<ul id="menu">
+  <small>Menu</small>
+  @for(item of menu; track item) {
+  <li [class]="itemClass(item)" (click)="handleClick(item.path)">
+    <img src="./icons/{{ item.icon }}" alt="{{ item.title }}" />
+    <span>{{ item.title }}</span>
+  </li>
+  }
+
+  <ng-container *ngIf="isAdmin" [ngTemplateOutlet]="admin"></ng-container>
+</ul>
+
+<ng-template #admin>
+  <small>Administrativo</small>
+  @for(item of adminMenu; track item) {
+  <li [class]="itemClass(item)" (click)="handleClick(item.path)">
+    <img src="./icons/{{ item.icon }}" alt="{{ item.title }}" />
+    <span>{{ item.title }}</span>
+  </li>
+  }
+</ng-template>

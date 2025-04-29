@@ -1,0 +1,27 @@
+<section class="social-proof--section" id="feedback">
+  <h2>O que você achou da experiência?</h2>
+
+<p>Queremos ouvir sua opinião para continuar evoluindo. Seu feedback nos ajuda a construir uma plataforma cada vez melhor para o setor da construção civil.</p>
+
+  <div class="social-proof--container">
+    <div *ngFor="let social of feedbacks" class="social-card">
+      <div class="social-card--title">
+        <h3 class="social-card--title-name">{{ social.name }}</h3>
+        <small class="social-card--title-job">{{ social.role }}</small>
+      </div>
+      <p class="social-card--feedback">
+        {{ social.feedback }}
+      </p>
+      <p class="social-card--highlight">
+        {{ social.highlight }}
+      </p>
+      <div class="social-card--starts">
+        <img
+          *ngFor="let star of [1, 2, 3, 4, 5]"
+          [src]="'./landing/star.svg'"
+          alt="star"
+        />
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,33 @@
+<form id="budgetUpsert" [formGroup]="budget">
+  <div>
+    <h1>Novo Orçamento</h1>
+    <p>
+      O Orçamento Total do Projeto representa a estimativa financeira global
+      necessária para a execução completa da obra. Ele inclui todos os custos
+      diretos e indiretos, como materiais, mão de obra, equipamentos, taxas,
+      impostos e possíveis imprevistos. Esse valor é essencial para garantir o
+      controle financeiro do projeto, evitando excedentes e assegurando a
+      viabilidade da construção dentro do planejamento estipulado.
+    </p>
+  </div>
+  <input-custom
+    type="currency"
+    placeholder="Valor total do projeto"
+    name="amout"
+    formControlName="amout"
+    required
+  ></input-custom>
+  <section class="budgetUpsert--actions">
+    <button-custom
+      type="button"
+      variant="transparent"
+      label="Cancelar"
+      (clicked)="onCancel()"
+    ></button-custom>
+    <button-custom
+      type="button"
+      label="Salvar"
+      (clicked)="onSubmit()"
+    ></button-custom>
+  </section>
+</form>

@@ -1,0 +1,105 @@
+<section id="clientUpsert">
+  <h1>Novo Cliente</h1>
+  <form [formGroup]="client">
+    <input-custom
+      type="text"
+      placeholder="Nome do cliente"
+      name="name"
+      formControlName="name"
+      required
+    ></input-custom>
+    <input-custom
+      type="email"
+      placeholder="Email"
+      name="email"
+      formControlName="email"
+      required
+    ></input-custom>
+    <input-custom
+      type="phone"
+      placeholder="Telefone"
+      name="phone"
+      formControlName="phone"
+      required
+    ></input-custom>
+    <fieldset class="clientUpsert--address">
+      <legend>Endereço</legend>
+      <input-custom
+        type="text"
+        placeholder="País"
+        name="country"
+        formControlName="country"
+      ></input-custom>
+      <div class="clientUpsert--address-street-number">
+        <input-custom
+          type="text"
+          placeholder="Rua"
+          name="street"
+          formControlName="street"
+        ></input-custom>
+        <input-custom
+          type="text"
+          placeholder="Número"
+          name="number"
+          formControlName="number"
+        ></input-custom>
+      </div>
+      <input-custom
+        type="text"
+        placeholder="Complemento"
+        name="complement"
+        formControlName="complement"
+      ></input-custom>
+      <input-custom
+        type="text"
+        placeholder="Bairro"
+        name="neighborhood"
+        formControlName="neighborhood"
+      ></input-custom>
+      <div class="clientUpsert--address-zip-city">
+        <input-custom
+          type="text"
+          placeholder="Cidade"
+          name="city"
+          formControlName="city"
+        ></input-custom>
+        <input-custom
+          type="text"
+          placeholder="Estado"
+          name="state"
+          formControlName="state"
+        ></input-custom>
+        <input-custom
+          type="text"
+          placeholder="CEP"
+          name="postal_code"
+          formControlName="postal_code"
+        ></input-custom>
+      </div>
+    </fieldset>
+  </form>
+  <section class="clientUpsert--actions">
+    <button-custom
+      type="button"
+      variant="transparent"
+      label="Cancelar"
+      (clicked)="cancel()"
+    ></button-custom>
+    <ng-container *ngIf="!client.valid; else buttonClientValid">
+      <button-custom
+        type="button"
+        variant="secondary"
+        label="Gerar cliente"
+      ></button-custom>
+    </ng-container>
+
+    <ng-template #buttonClientValid>
+      <button-custom
+        type="button"
+        variant="primary"
+        label="Gerar cliente"
+        (clicked)="submit()"
+      ></button-custom>
+    </ng-template>
+  </section>
+</section>

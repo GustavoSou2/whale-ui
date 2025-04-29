@@ -1,0 +1,63 @@
+<section id="item--detail">
+  <section class="detail--item__info">
+    <h2>{{ item.name }}</h2>
+    <p>{{ item.description }}</p>
+    <span class="date">
+      {{ item.start_date | date }} →
+      {{ item.end_date | date }}
+    </span>
+    <div class="detail--item__tags">
+      <span class="tag tag--responsible">
+        <img src="./icons/Mention.svg" alt="Check" />
+        {{ item.users?.username }}
+      </span>
+
+      <span
+        class="tag tag--category"
+        [ngStyle]="{
+          backgroundColor: CATEGORY_DICTIONARY[item.category].color + '30',
+          color: CATEGORY_DICTIONARY[item.category].color
+        }"
+      >
+        {{ CATEGORY_DICTIONARY[item.category].label }}
+      </span>
+
+      <span
+        class="tag tag--status"
+        [ngStyle]="{
+          backgroundColor: STATUS_DICTIONARY[item.status].color + '30',
+          color: STATUS_DICTIONARY[item.status].color
+        }"
+      >
+        {{ STATUS_DICTIONARY[item.status].label }}
+      </span>
+    </div>
+  </section>
+  <section class="detail--item__budget">
+    <div class="detail--item__budgets detail--item__budgets__actual_cost">
+      <small>Gasto atual:</small>
+      <h2>{{ item.actual_cost | currency : "R$"  }}</h2>
+    </div>
+    <div class="detail--item__budgets detail--item__budgets__actual_cost">
+      <small>Gasto estimado atual:</small>
+      <h2>{{ actualCost | currency : "R$" }}</h2>
+    </div>
+    <div class="detail--item__budgets detail--item__budgets__budget">
+      <small>Orçamento:</small>
+      <h2>{{ item.budget | currency : "R$" }}</h2>
+    </div>
+  </section>
+  <section class="detail--item__actions">
+    <ng-content select="[item-actions]"></ng-content>
+  </section>
+  <section class="detail--item__subitems">
+    <h3>Subitens</h3>
+    <section class="detail--item__subitems-table">
+      <ng-content select="[item-subitems]"></ng-content>
+    </section>
+  </section>
+  <section class="detail--item__comments">
+    <h2>Comentários</h2>
+    <ng-content select="[item-comments]"></ng-content>
+  </section>
+</section>

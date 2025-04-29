@@ -1,0 +1,43 @@
+#menu {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+
+   small {
+      font-size: 0.9rem;
+      margin-top: 1rem;
+    }
+
+  li {
+    width: 100%;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0 0.7rem;
+    color: var(--big-stone-700);
+    cursor: pointer;
+    border-radius: 4px;
+
+    &.admin-list {
+      margin-top: 1rem;
+    }
+
+   
+
+    span {
+      font-size: 0.9rem;
+      font-weight: 300;
+    }
+
+    &:hover {
+      background-color: var(--big-stone-200);
+    }
+
+    &.current {
+      a {
+        background-color: var(--big-stone-100);
+      }
+    }
+  }
+}

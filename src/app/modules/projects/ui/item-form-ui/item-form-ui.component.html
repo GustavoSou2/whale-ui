@@ -1,0 +1,90 @@
+<section id="createItemDialog">
+  <h1>Novo Item</h1>
+  <form [formGroup]="itemForm">
+    <input-custom
+      type="text"
+      placeholder="Coloque o nome atribuido ao item"
+      label="Nome do item"
+      name="name"
+      formControlName="name"
+      required
+    ></input-custom>
+    <textarea-custom
+      placeholder="Exemplo: Será feita a estrutura do alicerces e inicio da terraplanagem"
+      name="description"
+      label="Descrição do item"
+      formControlName="description"
+      [maxlength]="255"
+    ></textarea-custom>
+    <input-custom
+      type="currency"
+      placeholder="R$ 0,00"
+      label="Orçamento previsto"
+      name="budget"
+      formControlName="budget"
+      required
+    ></input-custom>
+ 
+    <select-custom
+      [label]="'Categoria'"
+      [source]="{
+        api: {
+          method: 'GET',
+          url: 'items/categories',
+        },
+        keys: {
+          display: 'label',
+          value: 'category',
+        }
+      }"
+      formControlName="category"
+    ></select-custom>
+    <select-custom
+      [label]="'Responsável'"
+      [source]="{
+        api: {
+          method: 'GET',
+          url: 'users/emplooyes',
+        },
+        keys: {
+          display: 'username',
+          value: 'id',
+        }
+      }"
+      formControlName="responsible_user_id"
+    ></select-custom>
+
+    <div class="createItemDialog--dates">
+      <input-custom
+        type="date"
+        label="Data de inicio"
+        placeholder="Data de inicio"
+        name="start_date"
+        formControlName="start_date"
+        required
+      ></input-custom>
+      <img src="./icons/MoveArrowRight.svg" alt="Seta" />
+      <input-custom
+        type="date"
+        label="Data de fim"
+        placeholder="Data de fim"
+        name="end_date"
+        formControlName="end_date"
+        required
+      ></input-custom>
+    </div>
+  </form>
+  <section class="createItemDialog--actions">
+    <button-custom
+      type="button"
+      variant="transparent"
+      label="Cancelar"
+      (clicked)="onCancel()"
+    ></button-custom>
+    <button-custom
+      type="button"
+      label="Gerar item"
+      (clicked)="onSubmit()"
+    ></button-custom>
+  </section>
+</section>

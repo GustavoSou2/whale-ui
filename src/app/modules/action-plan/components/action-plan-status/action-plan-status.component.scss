@@ -1,0 +1,60 @@
+#actionPlanStatus {
+  width: 100%;
+  flex-wrap: wrap;
+  display: flex;
+  gap: 1rem;
+  margin-top: 16px;
+
+  .status--card {
+    flex: 1 1 250px;
+    display: flex;
+    gap: 0.6rem;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+    background-color: var(--color);
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+
+    &::before {
+      content: "";
+      width: 300px;
+      height: 300px;
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      background-color: #ffffff30;
+      border-radius: 50%;
+      transition: 300ms ease-in-out;
+    }
+
+    &:hover {
+      &::before {
+        top: -60%;
+        right: -40%;
+      }
+    }
+
+    .status--card-square {
+      width: 35px;
+      height: 35px;
+      border-radius: 8px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: var(--big-stone-500);
+      background-color: white;
+      font-size: 1rem;
+      z-index: 3;
+    }
+
+    .status--card-name {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: white;
+
+      z-index: 3;
+    }
+  }
+}

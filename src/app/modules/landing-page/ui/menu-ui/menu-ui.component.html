@@ -1,0 +1,53 @@
+<section id="l-menu">
+  <div class="logo">
+    <img [src]="'logo/logo_royal.svg'" alt="logo" />
+    <span class="logo">Alicerce</span>
+  </div>
+
+  <nav class="list desktop">
+    <ul class="list-container">
+      <li><a (click)="redirectToSection('landing')">Inicio</a></li>
+      <li><a (click)="redirectToSection('diff')">Diferenciais</a></li>
+      <li><a (click)="redirectToSection('about')">Sobre</a></li>
+      <li><a (click)="redirectToSection('feedback')">Feedbacks</a></li>
+      <li><a (click)="redirectToSection('prices')">Preços</a></li>
+      <li><a (click)="redirectToSection('faq')">faq</a></li>
+      <li><a (click)="redirectToSection('contact')">Contato</a></li>
+    </ul>
+  </nav>
+
+  <div class="menu-icon" (click)="toggleMenu()">
+    <i class="icon">☰</i>
+  </div>
+
+  <div class="mobile-menu" [class.open]="menuOpen">
+    <div class="close" (click)="toggleMenu()">
+      <i class="fa-solid fa-times"></i>
+    </div>
+    <ul class="list-container">
+      <li><a (click)="redirectToSection('landing')">Inicio</a></li>
+      <li><a (click)="redirectToSection('diff')">Diferenciais</a></li>
+      <li><a (click)="redirectToSection('about')">Sobre</a></li>
+      <li><a (click)="redirectToSection('feedback')">Feedbacks</a></li>
+      <li><a (click)="redirectToSection('prices')">Preços</a></li>
+      <li><a (click)="redirectToSection('faq')">faq</a></li>
+      <li><a (click)="redirectToSection('contact')">Contato</a></li>
+    </ul>
+
+    
+  </div>
+
+  <div class="actions">
+    <button-custom
+      type="button"
+      label="Cadastrar-se"
+      variant="transparent"
+      (clicked)="redirect('register')"
+    ></button-custom>
+    <button-custom
+      type="button"
+      label="Entrar"
+      (clicked)="redirect('login')"
+    ></button-custom>
+  </div>
+</section>

@@ -1,0 +1,30 @@
+<section class="metrics-section" id="about">
+  <h2>Construa com inteligência</h2>
+  <p>
+    Gerencie obras, equipes e orçamentos em um só lugar, com uma plataforma
+    pensada para maximizar resultados na construção civil.
+  </p>
+
+  <div class="metrics-container">
+    <div *ngFor="let metric of metrics" class="metric-card">
+      <h3 class="metric-value">{{ metric.value }}</h3>
+      <p class="metric-label">{{ metric.label }}</p>
+    </div>
+  </div>
+
+  <div class="functions">
+    <h2>Adaptado para a construção civil e além</h2>
+    <p>
+      Criado para atender as demandas da construção civil, nosso sistema é
+      flexível o suficiente para ser adaptado a diversos setores que exigem
+      gestão de projetos, planos de ação e validações técnicas com alto nível de
+      controle.
+    </p>
+
+    <div class="functions-container">
+      <div *ngFor="let function of functions" class="function-card">
+        <h3 class="function-value">{{ function }}</h3>
+      </div>
+    </div>
+  </div>
+</section>

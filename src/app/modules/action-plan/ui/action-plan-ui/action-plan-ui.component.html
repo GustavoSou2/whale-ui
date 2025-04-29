@@ -1,0 +1,21 @@
+<layout title="Plano de Ação">
+  <ng-container layout-header>
+    <section class="action-plan--header"></section>
+  </ng-container>
+  <ng-container layout-content>
+    <section class="action-plan--content">
+      <section class="action-plan--table-container">
+        <ng-container *ngTemplateOutlet="layoutHeaderRef"></ng-container>
+        <ng-container *ngTemplateOutlet="layoutContentRef"></ng-container>
+      </section>
+    </section>
+  </ng-container>
+  
+</layout>
+
+<ng-template #layoutHeaderRef>
+  <ng-content select="[action-plan-header]"></ng-content>
+</ng-template>
+<ng-template #layoutContentRef>
+  <ng-content select="[action-plan-content]"></ng-content>
+</ng-template>

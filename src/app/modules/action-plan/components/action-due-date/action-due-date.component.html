@@ -1,0 +1,14 @@
+<span
+  class="action-due-date"
+  matTooltip="Atrasado há {{ daysLate }} dia{{ daysLate > 1 ? 's' : '' }}"
+  matTooltipPosition="below"
+  [ngClass]="{
+    'action-due-date--late': isLate,
+  }"
+>
+  @if(isLate) {
+  <mat-icon *ngIf="isLate" color="warn"> error_outline </mat-icon>
+  }
+
+  {{ date | date : "shortDate" }}
+</span>

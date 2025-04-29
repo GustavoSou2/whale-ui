@@ -1,0 +1,19 @@
+<section id="actionPlanMetrics">
+  <section class="action-plan--metrics-totals">
+    <div
+      class="metrics-totals--card"
+      *ngFor="let metric of metricsTotal(); let i = index"
+      [ngClass]="{ 'metrics-totals--card--highlight': i === 0 }"
+    >
+      <span class="metrics-totals--card__title">{{ metric.title }}</span>
+      <span class="metrics-totals--card__value">
+        @if (i === 0) {
+        {{ metric.value | number : "1.0-0" }}
+
+        } @else {
+        {{ metric.value | currency : "BRL" : "symbol" : "1.0-0" }}
+        }
+      </span>
+    </div>
+  </section>
+</section>

@@ -1,0 +1,41 @@
+<section id="confirm-account">
+  <section class="confirm-account--content">
+    <section class="confirm-account--logo">
+      <img [src]="'logo/logo_royal.svg'" alt="" />
+      <span class="logo">Alicerce</span>
+    </section>
+    <h1 class="confirm-account--title">Confirmação da conta</h1>
+    <section class="confirm-account--content">
+      <h2>Quase lá!</h2>
+      <p>
+        Enviamos um e-mail de ativação para <span>{{ email }}</span
+        >. Para concluir seu cadastro, clique no link no e-mail. Se não recebeu,
+        aguarde alguns minutos e verifique a pasta de spam. Você também pode
+        solicitar um novo envio.
+      </p>
+      <p>Se não encontrar, verifique a pasta de spam.</p>
+      <div class="timer">
+        <p>
+          Você pode reenviar em
+          <strong>{{ timer() | number : "1.0-0" }}</strong> segundos.
+        </p>
+      </div>
+
+      <ng-container *ngIf="isResendEnabled()">
+        <button-custom
+          type="button"
+          label="Reenviar e-mail"
+          (clicked)="resendEmail()"
+          style="width: 280px; margin-top: 2rem"
+        ></button-custom>
+      </ng-container>
+      <button-custom
+        type="button"
+        label="Ir para o login"
+        variant="transparent"
+        (clicked)="logIn()"
+        style="width: 280px; margin-top: 2rem"
+      ></button-custom>
+    </section>
+  </section>
+</section>

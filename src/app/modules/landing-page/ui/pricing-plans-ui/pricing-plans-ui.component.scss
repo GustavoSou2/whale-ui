@@ -1,0 +1,111 @@
+.pricing-container {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 3rem 1rem;
+
+  .section-title {
+    font-size: 2rem;
+    font-weight: 400;
+    text-align: center;
+  }
+
+  .plan-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+
+  .plan-card {
+    flex: 1 1 420px;
+    background-color: var(--big-stone-50);
+    padding: 2rem;
+    border-radius: 1rem;
+    transition: box-shadow 0.2s ease;
+
+    .line {
+      width: 100%;
+      height: 1px;
+      background-color: var(--waterloo-200);
+      margin: 2rem 0;
+      display: flex;
+      position: relative;
+      justify-content: center;
+      align-items: center;
+
+      .functions-container {
+        position: absolute;
+        background-color: var(--big-stone-50);
+        padding: 0 1rem;
+
+        .functions {
+          background-color: var(--big-stone-100);
+          padding: 0.5rem 1rem;
+          font-size: 0.8rem;
+          font-weight: 500;
+          color: var(--waterloo-600);
+          border-radius: 24px;
+        }
+      }
+    }
+
+    .plan-name {
+      font-size: 1.25rem;
+      font-weight: 400;
+      margin-bottom: 0.5rem;
+    }
+
+    .plan-price {
+      font-size: 2rem;
+      font-weight: 400;
+    }
+
+    .plan-price-yearly {
+      width: 100%;
+      font-weight: 400;
+      font-size: 0.9rem;
+      color: var(--waterloo-600);
+
+      .tag {
+        background-color: var(--royal-blue-600);
+        color: white;
+        padding: 0.25rem 0.5rem;
+        border-radius: 24px;
+        font-size: 0.8rem;
+        margin-left: 0.5rem;
+      }
+    }
+
+    .plan-features {
+      list-style: none;
+      padding: 0;
+      margin-bottom: 1.5rem;
+
+      li {
+        font-size: 0.875rem;
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: var(--waterloo-500);
+      }
+    }
+
+    .plan-button {
+      width: 100%;
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      background-color: #e5e7eb;
+      color: #111;
+      border: none;
+      cursor: pointer;
+
+      &.highlight {
+        background-color: #3b82f6;
+        color: white;
+      }
+    }
+  }
+}

@@ -1,0 +1,37 @@
+<section id="roleUpsert">
+  <h1>Nova Regra</h1>
+  <form [formGroup]="role">
+    <input-custom
+      type="text"
+      placeholder="Colaborador"
+      label="Coloque o nome atribuido a esta regra"
+      name="role"
+      formControlName="role"
+      required
+    ></input-custom>
+  </form>
+  <section class="roleUpsert--actions">
+    <button-custom
+      type="button"
+      variant="transparent"
+      label="Cancelar"
+      (clicked)="cancel()"
+    ></button-custom>
+    <ng-container *ngIf="!role.valid; else buttonRoleValid">
+      <button-custom
+        type="button"
+        variant="secondary"
+        label="Criar"
+      ></button-custom>
+    </ng-container>
+
+    <ng-template #buttonRoleValid>
+      <button-custom
+        type="button"
+        variant="primary"
+        label="Convidar"
+        (clicked)="submit()"
+      ></button-custom>
+    </ng-template>
+  </section>
+</section>

@@ -1,0 +1,97 @@
+#login {
+  width: 100%;
+  height: 100dvh;
+  display: grid;
+  grid-template-columns: 1fr 700px;
+  overflow: hidden;
+
+  .login--content {
+    width: 100%;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+
+    .login--logo {
+      padding: 3rem 4rem 0;
+      display: flex;
+      flex-direction: column;
+      line-height: 1rem;
+      img {
+        width: 100px;
+      }
+
+      .logo--label {
+        font-size: 2.2rem;
+        font-weight: 500;
+        color: var(--royal-blue-600);
+        font-family: "Roboto", system-ui;
+        margin-left: 1.2rem;
+      }
+    }
+    .login--form-hero,
+    .login--without-account,
+    .login--footer {
+      padding: 2rem 4rem;
+    }
+
+    .login--form-hero {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+
+      .login--hero {
+        h1 {
+          font-size: 2rem;
+        }
+      }
+
+      .login--form {
+        width: 30dvw;
+
+        form {
+          width: 450px;
+          display: flex;
+          flex-direction: column;
+          gap: 0.8rem;
+
+          .confirm-term {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+
+            a {
+              color: var(--royal-blue-600);
+            }
+          }
+        }
+      }
+    }
+
+    .login--without-account {
+      display: flex;
+      gap: 0.5rem;
+
+      span {
+        font-size: 0.9rem;
+      }
+
+      a {
+        color: var(--royal-blue-600);
+      }
+    }
+  }
+
+  .login--img {
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+  }
+}

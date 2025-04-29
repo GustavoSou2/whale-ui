@@ -1,0 +1,16 @@
+<section id="loader">
+  <ng-container
+    *ngIf="loading | async"
+    [ngTemplateOutlet]="loader"
+  ></ng-container>
+  <ng-content></ng-content>
+</section>
+
+<ng-template #loader>
+  <div class="loader--container" @fadeInOut>
+    <div class="loader--top-animation"></div>
+    <section class="loader--animation">
+      <img [src]="'./animations/building_op2.gif'" alt="Carregando" />
+    </section>
+  </div>
+</ng-template>

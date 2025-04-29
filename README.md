@@ -1,6 +1,7 @@
 # SaaS de Orçamentos para Construção Civil
 
 ## Visão Geral
+
 Este SaaS foi projetado para oferecer uma solução robusta para empresas e profissionais da construção civil que necessitam de um sistema eficiente para criação, gerenciamento e acompanhamento de orçamentos. O diferencial da plataforma está na personalização do fluxo de trabalho, permitindo que os usuários adaptem seus processos conforme as necessidades específicas de cada projeto.
 
 A ferramenta não apenas facilita a criação de orçamentos detalhados, mas também integra a gestão de planos de ação, possibilitando um controle minucioso sobre cada etapa do projeto. Com fluxos de aprovação flexíveis e rastreamento de progresso, a plataforma garante maior transparência e eficiência na execução das obras.
@@ -8,32 +9,38 @@ A ferramenta não apenas facilita a criação de orçamentos detalhados, mas tam
 ## Recursos Principais
 
 ### 1. Gestão de Projetos
+
 - Criação de projetos detalhados com datas, descrições e clientes.
 - Acompanhamento do progresso de cada projeto.
 - Associação de planos de ação personalizados.
 
 ### 2. Criação de Planos de Ação
+
 - Estruturação de tarefas necessárias para cada projeto.
 - Configuração de status personalizados para acompanhar cada etapa.
 - Fluxos de aprovação customizáveis para garantir conformidade e qualidade.
 
 ### 3. Orçamentos e Controle de Custos
+
 - Cadastro e precificação de materiais.
 - Registro de itens do orçamento com quantidade, custo unitário e total.
 - Comparação entre orçamento planejado e custos reais da obra.
 
 ### 4. Fluxo de Aprovação
+
 - Definição de responsáveis por aprovações de cada etapa do projeto.
 - Possibilidade de adicionar etapas como "Aguardando Aprovação", "Inspeção Técnica", entre outras.
 - Histórico completo de alterações e aprovações.
 
 ### 5. Relatórios e Auditoria
+
 - Geração de relatórios sobre progresso do projeto, custos e aprovações.
 - Logs de auditoria para rastreamento de todas as alterações feitas na plataforma.
 
 ## Exemplo Real de Aplicação
 
 ### Cenário
+
 Imagine uma empresa de engenharia chamada **Construtora ProBuild** que está responsável pela reforma completa de um prédio comercial de 10 andares. O gestor da empresa decide utilizar a plataforma SaaS para organizar o projeto, garantindo melhor controle sobre custos, prazos e execução das tarefas.
 
 ---
@@ -41,6 +48,7 @@ Imagine uma empresa de engenharia chamada **Construtora ProBuild** que está res
 ### Fluxo de Uso da Plataforma
 
 #### 1. Criação do Projeto
+
 O gestor acessa a plataforma e cadastra um novo projeto:
 
 - **Nome do Projeto**: Reforma do Prédio Comercial
@@ -53,6 +61,7 @@ O gestor acessa a plataforma e cadastra um novo projeto:
 ---
 
 #### 2. Definição do Plano de Ação
+
 O gestor cria um plano de ação dentro do projeto, organizando as principais atividades.
 
 - **Nome do Plano**: Reforma Geral
@@ -61,6 +70,7 @@ O gestor cria um plano de ação dentro do projeto, organizando as principais at
 Dentro deste plano de ação, ele adiciona as seguintes tarefas:
 
 1. **Troca de Pisos**
+
    - **Status Inicial**: Pendente
    - **Possíveis Transições**:
      - Em andamento
@@ -68,6 +78,7 @@ Dentro deste plano de ação, ele adiciona as seguintes tarefas:
      - Concluído
 
 2. **Pintura das Paredes**
+
    - **Status Inicial**: Pendente
    - **Possíveis Transições**:
      - Em andamento
@@ -75,6 +86,7 @@ Dentro deste plano de ação, ele adiciona as seguintes tarefas:
      - Concluído
 
 3. **Revisão Elétrica**
+
    - **Status Inicial**: Pendente
    - **Possíveis Transições**:
      - Em andamento
@@ -92,14 +104,15 @@ Dentro deste plano de ação, ele adiciona as seguintes tarefas:
 ---
 
 #### 3. Criação do Orçamento
+
 Agora, o gestor registra os materiais e custos para cada etapa.
 
-| Material                 | Quantidade  | Preço Unitário  | Subtotal     |
-|--------------------------|-------------|-----------------|--------------|
-| Piso Porcelanato          | 500 m²      | R$ 120,00/m²    | R$ 60.000,00 |
-| Tinta Acrílica Premium    | 100 litros  | R$ 250,00/litro | R$ 25.000,00 |
-| Fiação Elétrica (cobre)   | 2.000 metros| R$ 15,00/m      | R$ 30.000,00 |
-| Elevadores Inteligentes   | 2 unidades  | R$ 80.000,00    | R$ 160.000,00|
+| Material                | Quantidade   | Preço Unitário  | Subtotal      |
+| ----------------------- | ------------ | --------------- | ------------- |
+| Piso Porcelanato        | 500 m²       | R$ 120,00/m²    | R$ 60.000,00  |
+| Tinta Acrílica Premium  | 100 litros   | R$ 250,00/litro | R$ 25.000,00  |
+| Fiação Elétrica (cobre) | 2.000 metros | R$ 15,00/m      | R$ 30.000,00  |
+| Elevadores Inteligentes | 2 unidades   | R$ 80.000,00    | R$ 160.000,00 |
 
 **Valor Total Previsto:** **R$ 275.000,00**
 
@@ -126,6 +139,7 @@ O orçamento é salvo e vinculado ao projeto, permitindo futuras revisões confo
 ---
 
 #### 5. Conclusão e Relatórios
+
 Após todas as etapas serem concluídas e aprovadas:
 
 - O projeto é finalizado na plataforma.
@@ -139,6 +153,7 @@ O cliente recebe um relatório final detalhado e a obra é encerrada.
 ---
 
 ## Conclusão
+
 Este SaaS oferece uma solução completa para o setor da construção civil, garantindo organização, controle de custos e transparência na execução de projetos. A interface intuitiva e flexível permite que empresas de diferentes portes adaptem o sistema às suas necessidades, tornando a gestão de obras mais eficiente e profissional.
 
 Esse exemplo mostra como a plataforma pode ser aplicada no dia a dia de uma empresa, ajudando desde a estruturação dos processos até a finalização e entrega dos projetos.
@@ -155,3 +170,49 @@ Esse exemplo mostra como a plataforma pode ser aplicada no dia a dia de uma empr
 **Contato:**  
 Para dúvidas ou mais informações, entre em contato com [seu email aqui].
 
+````[
+    {
+    "id": 1,
+    "project_id": 1,
+    "name": "#1174245 Ação - Demolição e Limpeza do Terreno",
+    "description": "Remoção de entulho, vegetação e materiais indesejáveis no terreno",
+    "status_id": 1,
+    "company_id": 1,
+    "created_at": "2025-04-24T20:42:46.000Z",
+    "updated_at": "2025-04-24T20:42:46.000Z",
+    "responsible_user_id": 2,
+    "completed_at": null,
+    "action_type": "execution",
+    "priority": "low",
+    "notes": null,
+    "action_plan_status": {
+        "id": 1,
+        "company_id": 1,
+        "name": "Criação da Ação",
+        "name_code": "criacao",
+        "description": "Ação foi criada e está aguardando preenchimento de dados iniciais.",
+        "created_at": "2025-04-24T16:04:12.000Z",
+        "rank": 0,
+        "color": "#9CA3AF"
+    },
+    "action_plan_status_behavior_progress": [],
+    "approval_flows": [],
+    "users": {
+        "id": 2,
+        "username": "João Silva",
+        "email": "joao.silva@constru-max.com.br",
+        "password": "$2b$10$H3h9q7xfRxt1rIEAFy1kb.mfSn3aXiI7OPeZum6a0AmDOfrcffW82",
+        "role_id": 2,
+        "created_at": "2025-04-24T12:53:08.000Z",
+        "company_id": 1
+    },
+    "target_id": 1,
+    "target_type": "subitem",
+    "category": "labor",
+    "start_date": "2025-04-01T00:00:00.000Z",
+    "end_date": "2025-04-05T00:00:00.000Z",
+    "actual_cost": "0",
+    "estimated_cost": "50000"
+}
+]```
+````

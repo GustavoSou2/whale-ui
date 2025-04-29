@@ -1,0 +1,81 @@
+<section
+  class="table--container"
+  [ngStyle]="{ width: tableFullWidth ? '100%' : 'max-content' }"
+>
+  <table
+    class="table"
+    [ngStyle]="{ width: tableFullWidth ? '100%' : 'max-content' }"
+  >
+    <thead>
+      <tr>
+        <th *ngIf="hasAction && actionsPosition === 'left'"></th>
+        <th *ngFor="let col of columns">
+          <div class="th-header" [style.width]="col.width">
+            {{ col.header }}
+            <img src="./icons/Info.svg" alt="" />
+          </div>
+        </th>
+        <th *ngIf="hasAction && actionsPosition === 'right'"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of data | async">
+        <ng-container *ngIf="hasAction && actionsPosition === 'left'">
+          <ng-container
+            *ngTemplateOutlet="actionsRef; context: { $implicit: row }"
+          ></ng-container>
+        </ng-container>
+
+        <td *ngFor="let col of columns">
+          <ng-container *ngIf="col.loadComponent; else defaultContent">
+            <ndc-dynamic
+              [ndcDynamicComponent]="col.loadComponent"
+              [ndcDynamicInputs]="{ data: row[col.key], rowData: row }"
+            ></ndc-dynamic>
+          </ng-container>
+
+          <ng-template #defaultContent>
+            @if (!!col?.onFormatter) {
+            {{ col?.onFormatter(row[col.key], row) || "-" }}
+            } @else {
+            {{ row[col.key] || "-" }}
+            }
+          </ng-template>
+        </td>
+
+        <ng-container *ngIf="hasAction && actionsPosition === 'right'">
+          <ng-container
+            *ngTemplateOutlet="actionsRef; context: { $implicit: row }"
+          ></ng-container>
+        </ng-container>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<ng-template #actionsRef let-row>
+  <td *ngIf="hasAction">
+    <div class="table--actions">
+      <ng-container *ngFor="let action of actions">
+        <ng-container
+          *ngIf="(!!action?.hidden && !action?.hidden(row)) || !action?.hidden"
+        >
+          <ng-container *ngIf="action.loadComponent; else buttonAction">
+            <ng-container #vcAction></ng-container>
+          </ng-container>
+        </ng-container>
+
+        <ng-template #buttonAction>
+          <button-custom
+            *ngIf="action.icon"
+            type="button"
+            variant="transparent"
+            (click)="action?.onClick(row)"
+          >
+            <img [src]="'./icons/' + action.icon" alt="icone" button-icon />
+          </button-custom>
+        </ng-template>
+      </ng-container>
+    </div>
+  </td>
+</ng-template>

@@ -1,0 +1,28 @@
+<section class="card">
+  <span class="document-name">
+    <div class="document-name">
+      <span class="status" style="--card-status-color: {{ status.color }}">{{
+        status.name
+      }}</span>
+      {{ name }}
+    </div>
+    <small class="document-ref">#{{ id }}</small>
+  </span>
+  <span class="document-type">{{ description }} </span>
+  <span class="document-solicitante">
+    Solicitante:
+    <strong>{{ created_by.username }}</strong>
+  </span>
+  <span class="document-solicitante">
+    Clientes:
+    <strong>{{ clients.name }}</strong>
+  </span>
+  <span class="document-date">
+    Previsão
+    <strong class="document-date-due">
+      <strong>{{ init_date | date : "dd-MM-yyyy" }}</strong> →
+      <strong>{{ end_date | date : "dd-MM-yyyy" }}</strong>
+    </strong>
+  </span>
+  <button-custom type="button" label="Detalhes" (clicked)="navigate()"></button-custom>
+</section>

@@ -1,0 +1,17 @@
+<div class="faq-container" id="faq">
+  <h2>Perguntas Frequentes</h2>
+  <div *ngFor="let faq of faqs; let i = index" class="faq-item">
+    <div class="faq-header" (click)="toggle(i)">
+      <span>{{ faq.question }}</span>
+      <span class="icon">{{ openIndex === i ? "-" : "+" }}</span>
+    </div>
+    <div
+      class="faq-body"
+      [@collapseAnimation]="openIndex === i ? 'open' : 'closed'"
+    >
+      <p class="faq-answer">
+        {{ faq.answer }}
+      </p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,38 @@
+<section id="comments" style="--bg-detail: {{ bgDetail }}">
+  <section class="comments--input-container">
+    <avatar />
+    <section class="comments--input">
+      <section class="comments--input--text">
+        <textarea-custom
+          placeholder="Comentário..."
+          name="description"
+          [(ngModel)]="comment"
+        ></textarea-custom>
+      </section>
+      <section class="comments--input--button">
+        <button-custom
+          type="button"
+          label="Enviar"
+          icon="fa-regular fa-paper-plane"
+          iconPosition="right"
+          (click)="addComment()"
+        >
+        </button-custom>
+      </section>
+    </section>
+  </section>
+  <section class="comments--list">
+    <div *ngFor="let comment of comments" class="comments--list-item">
+      <section class="comments--list-item-header">
+        <section class="item-user">
+          <avatar />
+          <h3>{{ comment.users.username }}</h3>
+        </section>
+        <span>{{ comment.created_at | timeAgo }}</span>
+      </section>
+      <section class="comments--list-item-content">
+        <p>{{ comment.content }}</p>
+      </section>
+    </div>
+  </section>
+</section>

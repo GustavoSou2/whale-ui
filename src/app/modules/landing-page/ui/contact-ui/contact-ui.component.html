@@ -1,0 +1,45 @@
+<div class="contact-container" id="contact">
+  <h2>Entre em contato com nossa equipe</h2>
+  <p>
+    Tire dúvidas, envie sugestões ou fale sobre sua necessidade. Estamos prontos
+    para ajudar e construir soluções com você.
+  </p>
+  <form class="contact-form" (ngSubmit)="onSubmit()">
+    <div class="form-left">
+      <input
+        type="text"
+        [(ngModel)]="name"
+        name="name"
+        placeholder="Nome"
+        required
+      />
+      <input
+        type="text"
+        [(ngModel)]="phone"
+        name="phone"
+        placeholder="Telefone"
+        required
+      />
+      <input
+        type="email"
+        [(ngModel)]="email"
+        name="email"
+        placeholder="E-mail"
+        required
+      />
+    </div>
+    <div class="form-right">
+      <textarea
+        [(ngModel)]="message"
+        name="message"
+        placeholder="Mensagem"
+        required
+      ></textarea>
+      <button-custom
+        type="submit"
+        label="Enviar"
+        style="width: 100%"
+      ></button-custom>
+    </div>
+  </form>
+</div>

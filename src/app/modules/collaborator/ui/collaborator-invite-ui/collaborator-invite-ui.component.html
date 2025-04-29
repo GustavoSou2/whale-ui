@@ -1,0 +1,54 @@
+<section id="collaboratorInvite">
+  <h1>Convidar novo colaborador</h1>
+  <form [formGroup]="client">
+    <small>
+      Por favor, insira o endereço de e-mail do colaborador que você deseja
+      convidar para a equipe.
+    </small>
+    <select-custom
+      [source]="{
+        api: {
+          method: 'GET',
+          url: 'roles',
+        },
+        keys: {
+          display: 'name',
+          value: 'id',
+        }
+      }"
+      formControlName="role"
+    ></select-custom>
+
+    <input-custom
+      type="email"
+      placeholder="Email"
+      name="email"
+      formControlName="email"
+      required
+    ></input-custom>
+  </form>
+  <section class="collaboratorInvite--actions">
+    <button-custom
+      type="button"
+      variant="transparent"
+      label="Cancelar"
+      (clicked)="cancel()"
+    ></button-custom>
+    <ng-container *ngIf="!client.valid; else buttonClientValid">
+      <button-custom
+        type="button"
+        variant="secondary"
+        label="Convidar"
+      ></button-custom>
+    </ng-container>
+
+    <ng-template #buttonClientValid>
+      <button-custom
+        type="button"
+        variant="primary"
+        label="Convidar"
+        (clicked)="submit()"
+      ></button-custom>
+    </ng-template>
+  </section>
+</section>

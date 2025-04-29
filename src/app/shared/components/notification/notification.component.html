@@ -1,0 +1,88 @@
+@let notifications = notifications$ | async;
+<section id="notification">
+  <button
+    type="button"
+    class="notification--button"
+    [ngClass]="{ 'item-to-read': validateIfHasNotificationsToRead() | async }"
+    [attr.data-notifications-count]="notifications.length"
+    (click)="showToastr()"
+  >
+    <img
+      class="app--menu-list-item-icon"
+      src="./svgs/notification.svg"
+      alt="Icone de notificação"
+    />
+  </button>
+
+  <section
+    class="notification--dialog"
+    *ngIf="!!(notificationToastr$ | async)"
+    @fadeSlideInOut
+  >
+    <header class="notification--dialog--header">
+      <h1>
+        Notificação
+        <div class="notification--dialog-cout">
+          {{ notifications.length }}
+        </div>
+      </h1>
+    </header>
+
+    <div class="notification--dialog--content" (scroll)="onScroll($event)">
+      <ng-container *ngIf="!!(notificationToastr$ | async) && notifications.length > 0; else emptyNotificationRef">
+        <ul>
+          <li
+            *ngFor="let item of notifications"
+            class="notification--card"
+            [ngClass]="{ 'notification--card--is-not-read': !item.readAt }"
+            (click)="markAsRead(item)"
+          >
+            <div class="avatar">
+              {{ item.createdBy.userName[0] }}
+            </div>
+            <div class="info">
+              <div class="info--title">
+                <p>
+                  {{ item.createdBy.userName }}
+                </p>
+                <p>
+                  <strong>
+                    {{ TYPE_DICT[item.type] }} | {{ item.title }}</strong
+                  >
+                </p>
+                <span
+                  [@expandText]="item.isCollapsed ? 'expanded' : 'collapsed'"
+                  class="message-container"
+                >
+                  {{ item.message }}
+                </span>
+              </div>
+              <span class="info--module">{{ MODULE_DICT[item.origin] }}</span>
+
+              <p class="info--link">
+                <a (click)="navigateToDoc(item)"
+                  >Visualizar Documento
+                  <i class="fa-solid fa-arrow-up-right-from-square"></i
+                ></a>
+              </p>
+              <div class="info--dates">
+                <small>{{ item.createdAt | timeAgo }}</small>
+
+                <small>{{
+                  item.createdAt | date : "dd 'de' MMMM" : "pt"
+                }}</small>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </ng-container>
+
+      <ng-template #emptyNotificationRef>
+        <div class="empty-notification">
+          <i class="fa-regular fa-envelope-open"></i>
+          <p>Nenhuma notificação.</p>
+        </div>
+      </ng-template>
+    </div>
+  </section>
+</section>

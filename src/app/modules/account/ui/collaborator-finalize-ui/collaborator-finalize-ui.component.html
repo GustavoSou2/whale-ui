@@ -1,0 +1,80 @@
+<section id="collaboratorFinalize">
+  <section class="collaboratorFinalize--content">
+    <section class="logo">
+      <img [src]="'logo/logo_royal.svg'" alt="" />
+      <span class="logo--label">Alicerce</span>
+    </section>
+    <section class="collaborator-finalize--hero">
+      <h1>Bem-vindo a Alicerce</h1>
+      <p>
+        Olá, <strong>{{ urlData.user_email }}</strong
+        >! Estamos muito felizes em convidá-lo para fazer parte da
+        <strong>{{ urlData.company_name }}</strong> como
+        <strong>{{ urlData.role_name }}</strong
+        >.
+      </p>
+      <p>
+        Email de cadastro: {{ urlData.user_email }}. É muito importante que você
+        finalize o processo para garantir seu acesso completo ao nosso sistema e
+        começar a trabalhar em nossas iniciativas.
+      </p>
+      <p>{{ urlData.inviter_name }} do(a) {{ urlData.company_name }}</p>
+    </section>
+    <form [formGroup]="form">
+      <input-custom
+        type="text"
+        placeholder="Nome"
+        name="username"
+        formControlName="username"
+        required
+      ></input-custom>
+
+      <input-custom
+        type="password"
+        placeholder="Senha"
+        name="password"
+        formControlName="password"
+        required
+      ></input-custom>
+      <input-custom
+        type="password"
+        placeholder="Confirme a Senha"
+        name="confirmPassword"
+        formControlName="confirmPassword"
+        required
+      ></input-custom>
+      <ng-container
+        *ngIf="confirmPasswordHasError && passwordHasData &&!!form.errors?.['passwordsMismatch'] "
+        [ngTemplateOutlet]="errorPasswordNotMatch"
+      ></ng-container>
+      <div
+        class="collaborator-finalize--form-strong-password"
+        style="--password-score-color: {{
+          passwordMedByScore.color
+        }}; --password-score-width: {{ passwordScore }}%"
+      >
+        <span>Sua senha é forte?</span>
+        <div class="collaborator-finalize--form-strong-password-med"></div>
+        <p class="collaborator-finalize--form-strong-password-label">
+          {{ passwordMedByScore.label }}
+        </p>
+      </div>
+
+      <span class="confirm-term"
+        >Ao continuar, você concorda com os
+        <a routerLink="/account/login">Termos de serviço</a> e
+        <a routerLink="/account/login">Políticas de privacidade</a></span
+      >
+
+      <button-custom
+        type="button"
+        label="Concluir Cadastro"
+        (clicked)="submit.emit(true)"
+      ></button-custom>
+    </form>
+  </section>
+</section>
+
+<ng-template #errorPasswordNotMatch>
+  <div class="error-message" @errorAnimation>As senhas não coincidem</div>
+</ng-template>

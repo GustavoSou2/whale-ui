@@ -1,0 +1,54 @@
+#landing {
+  width: 100%;
+  height: 100dvh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+
+  & > h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-weight: 400;
+  }
+
+  .lading--content {
+  }
+
+  .landing--l {
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 75dvh;
+      border-radius: 32px;
+      background: var(--royal-blue-100);
+      border: 1px solid var(--royal-blue-300);
+    }
+
+    width: 65%;
+    height: max-content;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    z-index: 5;
+    position: relative;
+  }
+
+  @media only screen and (max-width: 768px) {
+    .landing--l {
+      width: 100%;
+
+      &::before {
+        width: 90%;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+    }
+  }
+}

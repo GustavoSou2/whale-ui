@@ -1,0 +1,82 @@
+.card {
+  padding: 1rem;
+  background-color: white;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  border: 1px solid var(--big-stone-100);
+
+  .status {
+    width: max-content;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    float: right;
+    background-color: var(--card-status-color);
+    color: white;
+  }
+
+  .document-name {
+    color: var(--big-stone-600);
+    display: flex;
+    font-family: "Inter";
+    font-size: 1.2rem;
+    gap: 1rem;
+    justify-content: space-between;
+    margin: 0 0 15px;
+
+    .document-ref {
+      color: var(--big-stone-300);
+    }
+  }
+
+  .document-solicitante {
+    display: flex;
+    justify-content: space-between;
+    color: var(--big-stone-300);
+    font-size: 0.9rem;
+
+    strong {
+      font-weight: 500;
+      color: var(--big-stone-600);
+    }
+  }
+
+  .document-type {
+    height: 100px;
+    color: var(--big-stone-600);
+    padding: 0.2rem 0.5rem;
+    font-size: 0.9rem;
+    border-radius: 4px;
+  }
+
+  .document-date {
+    display: flex;
+    justify-content: space-between;
+    color: var(--big-stone-300);
+    font-size: 0.9rem;
+
+    strong {
+      display: flex;
+      gap: 1rem;
+      font-weight: 500;
+      color: var(--big-stone-600);
+    }
+  }
+
+  .document-button {
+    background-color: transparent;
+    border: 1px solid var(--indigo-600);
+    border-radius: 4px;
+    margin-top: 15px;
+    color: var(--indigo-600);
+    padding: 0.3rem 0;
+    cursor: pointer;
+
+    &:hover {
+      background-color: var(--indigo-600);
+      color: white;
+    }
+  }
+}

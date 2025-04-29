@@ -1,0 +1,25 @@
+<div class="beta-container">
+  <h1 class="title">O acesso ao beta foi encerrado 😢</h1>
+  <p class="subtitle">
+    Mas você ainda pode se cadastrar para receber novidades e garantir acesso
+    antecipado no lançamento oficial!
+  </p>
+
+  <form class="lead-form" (ngSubmit)="onSubmit()">
+    <input
+      type="text"
+      [(ngModel)]="name"
+      name="name"
+      placeholder="Seu nome"
+      required
+    />
+    <input
+      type="email"
+      [(ngModel)]="email"
+      name="email"
+      placeholder="Seu e-mail"
+      required
+    />
+    <button type="submit">Quero ser avisado</button>
+  </form>
+</div>

@@ -1,0 +1,14 @@
+.action-due-date {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  font-size: 1rem;
+  font-weight: 500;
+  font-family: "Figtree", system-ui;
+  color: var(--waterloo-800);
+  cursor: pointer;
+
+  &.action-due-date--late {
+    color: var(--burnt-sienna-600);
+  }
+}

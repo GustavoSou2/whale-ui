@@ -1,0 +1,23 @@
+<section id="confirm-account">
+  <section class="confirm-account--content">
+    <section class="confirm-account--logo">
+      <img [src]="'logo/logo_royal.svg'" alt="" />
+      <span class="logo">Alicerce</span>
+    </section>
+    <h1 class="confirm-account--title">Confirmção de conta concluída</h1>
+    <section class="confirm-account--content">
+      <p>
+        Sua conta foi confirmada com sucesso. Você já pode acessar a plataforma
+        e aproveitar todos os recursos disponíveis.
+      </p>
+
+      <button-custom
+        type="button"
+        label="Ir para o login"
+        variant="transparent"
+        (clicked)="logIn()"
+        style="width: 280px; margin-top: 2rem"
+      ></button-custom>
+    </section>
+  </section>
+</section>

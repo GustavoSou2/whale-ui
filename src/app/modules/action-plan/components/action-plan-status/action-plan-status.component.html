@@ -1,0 +1,16 @@
+<section id="actionPlanStatus">
+  <div
+    class="status--card"
+    *ngFor="let status of statusList"
+    style="--color: {{ status.color }}; --color-gradient: {{ status.color }}30;"
+    (click)="selectStatus(status)"
+    [matTooltip]="status?.description"
+  >
+    <div class="status--card-square">
+      {{ status.action_plan?.length || 0 }}
+    </div>
+    <span class="status--card-name">
+      {{ status.name }}
+    </span>
+  </div>
+</section>

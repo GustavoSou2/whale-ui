@@ -1,0 +1,95 @@
+#confirm-account {
+  width: 100%;
+  height: 100dvh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--big-stone-50);
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50dvh;
+    background: var(--royal-blue-600);
+    opacity: 0.8;
+  }
+
+  .confirm-account--content {
+    width: 40dvw;
+    background-color: white;
+    padding: 2rem 3.4rem;
+    border-radius: 6px;
+    z-index: 1;
+    display: grid;
+    grid-template-rows: auto 100px 1fr;
+    gap: 2rem;
+  }
+
+  .confirm-account--logo {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    line-height: 1rem;
+
+    img {
+      width: 150px;
+    }
+  }
+
+  .confirm-account--title {
+    font-size: 2rem;
+    font-weight: 500;
+    margin-left: 1.2rem;
+    padding: 1rem 0 0;
+  }
+
+  .confirm-account--content {
+    width: 30dvw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
+
+    h2 {
+      font-size: 1.3rem;
+    }
+
+    span {
+      font-weight: bold;
+    }
+
+    .button-custom {
+      margin-top: 2rem;
+      width: 200px;
+    }
+  }
+}
+
+.timer {
+  font-weight: bold;
+  color: #d9534f;
+}
+
+button {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+
+  &:hover {
+    background: #0056b3;
+  }
+
+  &:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+  }
+}

@@ -1,0 +1,12 @@
+<layout title="Clientes">
+  <ng-container *ngTemplateOutlet="layoutHeader" layout-header></ng-container>
+
+  <ng-container *ngTemplateOutlet="table" layout-content></ng-container>
+</layout>
+
+<ng-template #layoutHeader>
+  <ng-content select="[clients-header]"></ng-content>
+</ng-template>
+<ng-template #table>
+  <table-custom [tableSource]="tableSource"></table-custom>
+</ng-template>

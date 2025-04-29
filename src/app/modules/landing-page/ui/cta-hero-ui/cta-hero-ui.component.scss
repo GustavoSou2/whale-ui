@@ -1,0 +1,56 @@
+.cta-hero {
+  background: linear-gradient(
+    135deg,
+    var(--victoria-700),
+    var(--royal-blue-700),
+    var(--royal-blue-500)
+  );
+  padding: 6rem 2rem;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 24px;
+  margin: 0 1rem;
+  position: relative;
+
+  .cta-content {
+    z-index: 2;
+
+    .cta-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .cta-subtitle {
+      font-size: 1.25rem;
+      margin-bottom: 2rem;
+      opacity: 0.9;
+      color: #f5f5f5;
+    }
+
+    .cta-button {
+      background-color: #fff;
+      color: #1e3a8a;
+      font-weight: 400;
+      padding: 0.75rem 2rem;
+      border-radius: 6px;
+      font-size: 1rem;
+      border: none;
+      cursor: pointer;
+      transition: background 0.3s;
+
+      &:hover {
+        background-color: #dbeafe;
+      }
+    }
+  }
+
+  img {
+    position: absolute;
+    width: 100%;
+    opacity: 0.1;
+    z-index: 1;
+  }
+}

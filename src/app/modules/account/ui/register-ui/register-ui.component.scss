@@ -1,0 +1,142 @@
+#register {
+  width: 100%;
+  height: 100dvh;
+  display: grid;
+  grid-template-columns: 700px 1fr;
+
+  .register--content {
+    width: 100%;
+    height: 100dvh;
+    overflow: hidden;
+    display: grid;
+    gap: 2rem;
+    padding: 0 0 1rem;
+    grid-template-rows: auto 1fr auto;
+
+    .register--logo {
+      padding: 1rem 4rem 0;
+      display: flex;
+      flex-direction: column;
+      line-height: 1rem;
+      img {
+        width: 100px;
+      }
+
+      .logo--label {
+        font-size: 2.2rem;
+        font-weight: 500;
+        color: var(--royal-blue-600);
+        font-family: "Roboto", system-ui;
+        margin-left: 1.2rem;
+      }
+    }
+    .register--form-hero,
+    .register--without-account,
+    .register--footer {
+      padding: 0 4rem;
+    }
+
+    .register--form-hero {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+
+      .register--hero {
+        h1 {
+          font-size: 2rem;
+        }
+      }
+
+      .register--form {
+        width: 30dvw;
+
+        form {
+          width: 450px;
+          display: flex;
+          flex-direction: column;
+          gap: 0.8rem;
+
+          .error-message {
+            font-size: 0.8rem;
+            color: var(--burnt-sienna-700);
+          }
+
+          .register--form-strong-password {
+            display: flex;
+            flex-direction: column;
+
+            span {
+              font-size: 0.9rem;
+            }
+
+            .register--form-strong-password-med {
+              width: 100%;
+              height: 0.3rem;
+              margin-top: 0.5rem;
+              background-color: var(--big-stone-100);
+              border-radius: 4px;
+              position: relative;
+
+              &::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: var(--password-score-width);
+                height: 0.3rem;
+                background-color: var(--password-score-color);
+                border-radius: 4px;
+                transition: 0.3s ease-in-out;
+              }
+            }
+
+            .register--form-strong-password-label {
+              margin-top: 0.5rem;
+              float: right;
+              font-size: 0.7rem;
+              color: var(--password-score-color);
+            }
+          }
+
+          .confirm-term {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+
+            a {
+              color: var(--royal-blue-600);
+            }
+          }
+        }
+      }
+    }
+
+    .register--without-account {
+      display: flex;
+      gap: 0.5rem;
+
+      span {
+        font-size: 0.9rem;
+      }
+
+      a {
+        color: var(--royal-blue-600);
+      }
+    }
+  }
+
+  .register--img {
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+  }
+}

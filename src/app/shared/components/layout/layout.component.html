@@ -1,0 +1,12 @@
+<section class="layout">
+  <section class="layout--header">
+    <h1>{{ title() }}</h1>
+    <div class="line"></div>
+    <section class="layout--header-actions">
+      <ng-content select="[layout-header]"></ng-content>
+    </section>
+  </section>
+  <section class="layout--content">
+    <ng-content select="[layout-content]"></ng-content>
+  </section>
+</section>

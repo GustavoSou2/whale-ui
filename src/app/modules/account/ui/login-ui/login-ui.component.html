@@ -1,0 +1,48 @@
+<section id="login">
+  <section class="login--img">
+    <img [src]="'constructor_2.jpg'" alt="" />
+  </section>
+  <section class="login--content">
+    <section class="login--logo">
+      <img [src]="'logo/logo_royal.svg'" alt="" />
+      <span class="logo--label">Alicerce</span>
+    </section>
+    <section class="login--form-hero">
+      <section class="login--hero">
+        <h1>Bem-vindo a Alicerce</h1>
+        <p>A construção do futuro começa com uma boa gestão.</p>
+      </section>
+      <section class="login--form">
+        <form [formGroup]="form">
+          <input-custom
+            type="email"
+            placeholder="exemplo@gmail.com"
+            name="alicerce_email"
+            formControlName="alicerce_email"
+            required
+          ></input-custom>
+          <input-custom
+            type="password"
+            placeholder="Senha"
+            name="alicerce_password"
+            formControlName="alicerce_password"
+            required
+          ></input-custom>
+
+          <button-custom
+            type="button"
+            label="Entrar"
+            (clicked)="submit.emit(true)"
+          ></button-custom>
+        </form>
+      </section>
+    </section>
+    <section class="login--without-account">
+      <span>Não possui uma conta ainda?</span>
+      <a routerLink="/account/login">Cadastrar-se</a>
+    </section>
+    <section class="login--footer">
+      <p>© 2021 Alicerce. Todos os direitos reservados.</p>
+    </section>
+  </section>
+</section>

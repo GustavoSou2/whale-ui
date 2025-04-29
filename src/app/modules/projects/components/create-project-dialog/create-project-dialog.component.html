@@ -1,0 +1,129 @@
+<section id="createProjectDialog">
+  <h1>Novo Projeto</h1>
+  <form [formGroup]="project">
+    <input-custom
+      type="text"
+      placeholder="Nome do projeto"
+      name="name"
+      formControlName="name"
+      required
+    ></input-custom>
+    <textarea-custom
+      placeholder="Descrição"
+      name="description"
+      formControlName="description"
+    ></textarea-custom>
+
+    <select-custom
+      [label]="'Cliente'"
+      [source]="{
+        api: {
+          method: 'GET',
+          url: 'clients',
+        },
+        keys: {
+          display: 'name',
+          value: 'id',
+        }
+      }"
+      formControlName="client_id"
+    ></select-custom>
+    <select-custom
+      [label]="'Status'"
+      [source]="{
+        api: {
+          method: 'GET',
+          url: 'status',
+        },
+        keys: {
+          display: 'name',
+          value: 'id',
+        }
+      }"
+      formControlName="status"
+    ></select-custom>
+    <div class="createProjectDialog--dates">
+      <input-custom
+        type="date"
+        label="Data de inicio"
+        placeholder="Data de inicio"
+        name="init_date"
+        formControlName="init_date"
+        required
+      ></input-custom>
+      <img src="./icons/MoveArrowRight.svg" alt="Seta" />
+      <input-custom
+        type="date"
+        label="Data de fim"
+        placeholder="Data de fim"
+        name="end_date"
+        formControlName="end_date"
+        required
+      ></input-custom>
+    </div>
+
+    <fieldset class="createProjectDialog--address">
+      <legend>Endereço</legend>
+      <input-custom
+        type="text"
+        placeholder="País"
+        name="country"
+        formControlName="country"
+      ></input-custom>
+      <div class="createProjectDialog--address-street-number">
+        <input-custom
+          type="text"
+          placeholder="Rua"
+          name="street"
+          formControlName="street"
+        ></input-custom>
+        <input-custom
+          type="text"
+          placeholder="Número"
+          name="number"
+          formControlName="number"
+        ></input-custom>
+      </div>
+    
+      <input-custom
+        type="text"
+        placeholder="Bairro"
+        name="neighborhood"
+        formControlName="neighborhood"
+      ></input-custom>
+      <div class="createProjectDialog--address-zip-city">
+        <input-custom
+          type="text"
+          placeholder="Cidade"
+          name="city"
+          formControlName="city"
+        ></input-custom>
+        <input-custom
+          type="text"
+          placeholder="Estado"
+          name="state"
+          formControlName="state"
+        ></input-custom>
+        <input-custom
+          type="text"
+          placeholder="CEP"
+          name="zip_code"
+          formControlName="zip_code"
+        ></input-custom>
+      </div>
+    </fieldset>
+  </form>
+  <section class="createProjectDialog--actions">
+    <button-custom
+      type="button"
+      variant="transparent"
+      label="Cancelar"
+      (clicked)="onCancel()"
+    ></button-custom>
+    <button-custom
+      type="button"
+      label="Gerar projeto"
+      (clicked)="onSubmit()"
+    ></button-custom>
+  </section>
+</section>

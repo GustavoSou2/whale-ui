@@ -1,0 +1,47 @@
+<div class="pricing-container" id="prices">
+  <h2 class="section-title">Escolha o plano ideal</h2>
+  <div class="plan-grid">
+    <div
+      *ngFor="let plan of plans"
+      class="plan-card"
+      [ngClass]="{ popular: plan.popular }"
+    >
+      <h3 class="plan-name">{{ plan.name }}</h3>
+      <p class="plan-price">
+        {{ plan.priceMonthly | currency : "BRL" : "symbol"
+        }}<small>/mensal</small>
+      </p>
+      <p class="plan-price-yearly">
+        ou por {{ plan.priceYearly | currency : "BRL" : "symbol"
+        }}<small>/anual</small> <span class="tag">20% de desconto</span>
+      </p>
+      <div class="line">
+        <div class="functions-container">
+          <span class="functions"> Funcionalidades </span>
+        </div>
+      </div>
+      <ul class="plan-features">
+        <li
+          *ngFor="let feature of plan.features"
+          [class.disabled]="!feature.included"
+        >
+          <ng-container *ngIf="feature.included; else crossRef">
+            <ng-container *ngTemplateOutlet="checkRef"></ng-container>
+          </ng-container>
+          {{ feature.label }}
+        </li>
+      </ul>
+      <button class="plan-button" [ngClass]="{ highlight: plan.popular }">
+        Assinar
+      </button>
+    </div>
+  </div>
+</div>
+
+<ng-template #checkRef>
+  <img src="./landing/check.svg" alt="Certo" />
+</ng-template>
+
+<ng-template #crossRef>
+  <img src="./landing/close.svg" alt="Errado" />
+</ng-template>

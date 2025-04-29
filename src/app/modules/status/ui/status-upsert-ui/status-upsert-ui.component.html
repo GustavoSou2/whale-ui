@@ -1,0 +1,48 @@
+<section id="statusUpsert">
+  <h1>Novo Status</h1>
+  <form [formGroup]="status">
+    <input-custom
+      type="text"
+      placeholder="Nome do status"
+      name="name"
+      formControlName="name"
+      required
+    ></input-custom>
+    <textarea-custom
+      placeholder="Descrição"
+      name="description"
+      formControlName="description"
+      [maxlength]="255"
+    ></textarea-custom>
+    <div class="statusUpsert--color">
+      <label for="color">Cor do status</label>
+      <label for="color" class="statusUpsert--color-picker" [style.background]="status.get('color')?.value"></label>
+      <input type="color" id="color" formControlName="color">
+    </div>
+  </form>
+  <section class="statusUpsert--actions">
+    <button-custom
+      type="button"
+      variant="transparent"
+      label="Cancelar"
+      (clicked)="cancel()"
+    ></button-custom>
+
+    <ng-container *ngIf="!status.valid; else buttonStatusValid">
+      <button-custom
+        type="button"
+        variant="secondary"
+        label="Criar status"
+      ></button-custom>
+    </ng-container>
+
+    <ng-template #buttonStatusValid>
+      <button-custom
+        type="button"
+        variant="primary"
+        label="Gerar status"
+        (clicked)="submit()"
+      ></button-custom>
+    </ng-template>
+  </section>
+</section>
