@@ -12,12 +12,12 @@ export class AuthGuard implements CanActivate {
   canActivate(): boolean {
     const isProduction = environment.production;
     
-    const urlBase = isProduction ? 'https://alicerce.pro' : 'http://localhost:4200';
+    const urlBase = isProduction ? 'https://www.alicerce.pro' : 'http://localhost:4200';
     
     const token = this.cookieService.get('token'); // Obtém o token do cookie
 
     if (!token) {
-      this.router.navigate([`${urlBase}/login`]); // Redireciona para a página de login
+      this.router.navigateByUrl(`${urlBase}/login`); // Redireciona para a página de login
       return false;
     }
 
