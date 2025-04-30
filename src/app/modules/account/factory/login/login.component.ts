@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { ToastService } from '../../../../shared/components/toast/toast.service';
 import { StatusActionPlanService } from '../../../status-action-plan/services/status-action-plan/status-action-plan.service';
+import { environment } from '../../../../../environment/environment';
 
 @Component({
   selector: 'app-login',
@@ -45,7 +46,11 @@ export class LoginComponent {
         this.cookieService.set('token', authResponse.access_token, 7);
         this.cookieService.set('user', JSON.stringify(authResponse.user), 7);
 
-        this.router.navigate(['home']);
+        const isProduction = environment.production;
+
+        const urlBase = isProduction ? 'https://app.alicerce.com.br' : 'http://app.localhost:4200';
+
+        this.router.navigate([`${urlBase}/home`]);
       });
   }
 }

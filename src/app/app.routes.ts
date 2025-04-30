@@ -2,14 +2,57 @@ import { Routes } from '@angular/router';
 import { modules } from './modules/nav/factory/menu/menu.component';
 import { AuthGuard } from './guards/auth.guard';
 
-export const routes: Routes = [
+const defRoutes: Routes = [
   {
-    path: 'pt', // LandingPageComponent
+    path: '',
     loadComponent: () =>
       import(
         './modules/landing-page/factory/landing-page/landing-page.component'
       ).then((m) => m.LandingPageComponent),
   },
+  {
+    path: 'login',
+    loadComponent: () =>
+      import('./modules/account/factory/login/login.component').then(
+        (m) => m.LoginComponent
+      ),
+  },
+  {
+    path: 'register',
+    loadComponent: () =>
+      import('./modules/account/factory/register/register.component').then(
+        (m) => m.RegisterComponent
+      ),
+  },
+  {
+    path: 'register/confirm-account',
+    loadComponent: () =>
+      import(
+        './modules/account/factory/confirm-account/confirm-account.component'
+      ).then((m) => m.ConfirmAccountComponent),
+  },
+  {
+    path: 'register/confirm',
+    loadComponent: () =>
+      import('./modules/account/factory/confirm/confirm.component').then(
+        (m) => m.ConfirmComponent
+      ),
+  },
+  {
+    path: 'collaborator/finalize',
+    loadComponent: () =>
+      import(
+        './modules/account/factory/collaborator-finalize/collaborator-finalize.component'
+      ).then((m) => m.CollaboratorFinalizeComponent),
+  },
+  {
+    path: '',
+    redirectTo: '',
+    pathMatch: 'full',
+  },
+];
+
+const appRoutes: Routes = [
   {
     path: '',
     canActivate: [AuthGuard],
@@ -109,43 +152,12 @@ export const routes: Routes = [
     ],
   },
   {
-    path: 'login',
-    loadComponent: () =>
-      import('./modules/account/factory/login/login.component').then(
-        (m) => m.LoginComponent
-      ),
-  },
-  {
-    path: 'register',
-    loadComponent: () =>
-      import('./modules/account/factory/register/register.component').then(
-        (m) => m.RegisterComponent
-      ),
-  },
-  {
-    path: 'register/confirm-account',
-    loadComponent: () =>
-      import(
-        './modules/account/factory/confirm-account/confirm-account.component'
-      ).then((m) => m.ConfirmAccountComponent),
-  },
-  {
-    path: 'register/confirm',
-    loadComponent: () =>
-      import('./modules/account/factory/confirm/confirm.component').then(
-        (m) => m.ConfirmComponent
-      ),
-  },
-  {
-    path: 'collaborator/finalize',
-    loadComponent: () =>
-      import(
-        './modules/account/factory/collaborator-finalize/collaborator-finalize.component'
-      ).then((m) => m.CollaboratorFinalizeComponent),
-  },
-  {
     path: '',
-    redirectTo: '',
+    redirectTo: 'home',
     pathMatch: 'full',
   },
 ];
+
+const subdomain = window.location.hostname.split('.')[0];
+
+export const routes = subdomain == 'localhost' ? defRoutes : appRoutes;

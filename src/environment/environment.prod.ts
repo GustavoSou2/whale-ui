@@ -1,8 +1,8 @@
-import { EnvironmentType } from "./environment.type";
+import { EnvironmentType } from './environment.type';
 
 export const environment: EnvironmentType = {
-    production: true,
-    baseURL: 'http://localhost:4200', 
-    apiURL: 'http://localhost:3000',
-    version: '1.0.0',
+  production: true,
+  baseURL: 'http://alicerce.pro',
+  apiURL: 'http://localhost:3000',
+  version: '1.0.0',
 };
