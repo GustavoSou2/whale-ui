@@ -66,9 +66,6 @@ export class AppComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
 
-    console.log(environment);
-    console.log(routes);
-
     if (!this.dialogHost) {
       console.error('dialogHost não encontrado!');
       return;
