@@ -48,7 +48,7 @@ export class LoginComponent {
 
         const isProduction = environment.production;
 
-        const urlBase = isProduction ? 'https://app.alicerce.com.br' : 'http://app.localhost:4200';
+        const urlBase = isProduction ? 'https://app.alicerce.pro' : 'http://app.localhost:4200';
 
         this.router.navigate([`${urlBase}/home`]);
       });
