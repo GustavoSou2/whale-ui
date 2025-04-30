@@ -160,4 +160,5 @@ const appRoutes: Routes = [
 
 const subdomain = window.location.hostname.split('.')[0];
 
-export const routes = subdomain == 'localhost' ? defRoutes : appRoutes;
+export const routes =
+  subdomain == 'www' || subdomain == 'localhost' ? defRoutes : appRoutes;
