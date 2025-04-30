@@ -24,6 +24,8 @@ import {
   trigger,
 } from '@angular/animations';
 import { StatusActionPlanService } from './modules/status-action-plan/services/status-action-plan/status-action-plan.service';
+import { environment } from '../environment/environment';
+import { routes } from './app.routes';
 
 @Component({
   selector: 'app-root',
@@ -63,6 +65,10 @@ export class AppComponent implements AfterViewInit {
   actionStatus$ = this.statusActionPlanService.loadActionStatus();
 
   ngAfterViewInit(): void {
+
+    console.log(environment);
+    console.log(routes);
+
     if (!this.dialogHost) {
       console.error('dialogHost não encontrado!');
       return;
