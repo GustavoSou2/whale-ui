@@ -1,4 +1,4 @@
-import { Component, output } from '@angular/core';
+import { Component, HostListener, output } from '@angular/core';
 import { HeroUiComponent } from '../hero-ui/hero-ui.component';
 import { ServicesUiComponent } from '../services-ui/services-ui.component';
 import { DiffUiComponent } from '../diff-ui/diff-ui.component';
@@ -10,6 +10,7 @@ import { PricingPlansUiComponent } from '../pricing-plans-ui/pricing-plans-ui.co
 import { ContactUiComponent } from '../contact-ui/contact-ui.component';
 import { FaqUiComponent } from '../faq-ui/faq-ui.component';
 import { CtaHeroUiComponent } from '../cta-hero-ui/cta-hero-ui.component';
+import { ScrollToTopComponent } from '../../components/scroll-to-top/scroll-to-top.component';
 
 @Component({
   selector: 'landing-page-ui',
@@ -26,6 +27,7 @@ import { CtaHeroUiComponent } from '../cta-hero-ui/cta-hero-ui.component';
     ContactUiComponent,
     FaqUiComponent,
     CtaHeroUiComponent,
+    ScrollToTopComponent,
   ],
   templateUrl: './landing-page-ui.component.html',
   styleUrl: './landing-page-ui.component.scss',

@@ -50,6 +50,8 @@
   img {
     position: absolute;
     width: 100%;
+    object-fit: cover;
+    height: 100%;
     opacity: 0.1;
     z-index: 1;
   }

@@ -62,7 +62,7 @@ export class AppComponent implements AfterViewInit {
 
   dialogIsOpen = false;
 
-  actionStatus$ = this.statusActionPlanService.loadActionStatus();
+  //actionStatus$ = this.statusActionPlanService.loadActionStatus();
 
   ngAfterViewInit(): void {
 

@@ -5,21 +5,21 @@
     antecipado no lançamento oficial!
   </p>
 
-  <form class="lead-form" (ngSubmit)="onSubmit()">
+  <form class="lead-form" [formGroup]="betaEndedForm" (ngSubmit)="onSubmit()">
     <input
       type="text"
-      [(ngModel)]="name"
+      formControlName="name"
       name="name"
       placeholder="Seu nome"
       required
     />
     <input
       type="email"
-      [(ngModel)]="email"
+      formControlName="email"
       name="email"
       placeholder="Seu e-mail"
       required
     />
-    <button type="submit">Quero ser avisado</button>
+    <button type="submit" [disabled]="!betaEndedForm.valid">Quero ser avisado</button>
   </form>
 </div>

@@ -1,5 +1,5 @@
 <main id="landing" class="lading--content">
-  <menu-ui />
+  <menu-ui  (callToEnded)="emitCallToAction()" />
   <section class="landing--l">
     <hero-ui (callToEnded)="emitCallToAction()" />
     <diff-ui class="lading--content" />
@@ -12,4 +12,5 @@
     <contact-ui class="lading--content" />
     <footer-ui class="lading--content" />
   </section>
+  <scroll-to-top></scroll-to-top>
 </main>

@@ -1,27 +1,27 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, inject } from '@angular/core';
+import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
+import { PhoneMaskDirective } from '../../../../core/directives/phone-mask/phone-mask.directive';
 
 @Component({
   selector: 'contact-ui',
   standalone: true,
-  imports: [CommonModule, FormsModule, ButtonComponent],
+  imports: [CommonModule, FormsModule,ReactiveFormsModule, ButtonComponent, PhoneMaskDirective],
   templateUrl: './contact-ui.component.html',
   styleUrl: './contact-ui.component.scss',
 })
 export class ContactUiComponent {
-  name = '';
-  phone = '';
-  email = '';
-  message = '';
+  
+  fb = inject(FormBuilder);
+  contact = this.fb.group({
+    name: ['', [Validators.required, Validators.minLength(3)]],
+    phone: ['', [Validators.required]],
+    email: [''],
+    message: [''],
+  });
 
   onSubmit() {
-    console.log('Form submitted:', {
-      name: this.name,
-      phone: this.phone,
-      email: this.email,
-      message: this.message,
-    });
+    console.log('Form submitted:', this.contact.value);
   }
 }

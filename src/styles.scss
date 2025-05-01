@@ -22,6 +22,11 @@ $whale-ui-theme: mat.define-theme(
 @import "./assets/scss/colors.global";
 @import "./assets/scss/fontes.global";
 
+html {
+  scroll-behavior: smooth;
+  scroll-behavior: auto !important;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -43,14 +48,18 @@ $whale-ui-theme: mat.define-theme(
   transition: 300ms ease-in-out;
 
   &::-webkit-scrollbar-track {
-    background-color: #f4f4f4;
+    background-color: var(--big-stone-50);
+    padding: 0 0.2rem;
   }
   &::-webkit-scrollbar {
     width: 6px;
+    padding: 0 0.2rem;
     background: #f4f4f4;
   }
   &::-webkit-scrollbar-thumb {
-    background: #dad7d7;
+    background: var(--royal-blue-600);
+    border-radius: 10px;
+    margin: 0.3rem;
   }
 }
 

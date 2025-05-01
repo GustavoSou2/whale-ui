@@ -12,9 +12,11 @@
         }}<small>/mensal</small>
       </p>
       <p class="plan-price-yearly">
-        ou por {{ plan.priceYearly | currency : "BRL" : "symbol"
-        }}<small>/anual</small> <span class="tag">20% de desconto</span>
+        ou por <small class="before-descont">{{ plan.priceYearly | currency : "BRL" : "symbol"
+        }}</small> {{ calculateDescont(plan.priceYearly) | currency : "BRL" : "symbol"
+        }}<small>/anual</small>
       </p>
+      <span class="tag">20% de desconto</span>
       <div class="line">
         <div class="functions-container">
           <span class="functions"> Funcionalidades </span>

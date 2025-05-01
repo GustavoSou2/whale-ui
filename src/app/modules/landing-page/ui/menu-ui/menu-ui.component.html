@@ -11,13 +11,13 @@
       <li><a (click)="redirectToSection('about')">Sobre</a></li>
       <li><a (click)="redirectToSection('feedback')">Feedbacks</a></li>
       <li><a (click)="redirectToSection('prices')">Preços</a></li>
-      <li><a (click)="redirectToSection('faq')">faq</a></li>
+      <li><a (click)="redirectToSection('faq')">FAQ</a></li>
       <li><a (click)="redirectToSection('contact')">Contato</a></li>
     </ul>
   </nav>
 
   <div class="menu-icon" (click)="toggleMenu()">
-    <i class="icon">☰</i>
+    <img src="./icons/menu.svg" alt="">
   </div>
 
   <div class="mobile-menu" [class.open]="menuOpen">
@@ -30,24 +30,18 @@
       <li><a (click)="redirectToSection('about')">Sobre</a></li>
       <li><a (click)="redirectToSection('feedback')">Feedbacks</a></li>
       <li><a (click)="redirectToSection('prices')">Preços</a></li>
-      <li><a (click)="redirectToSection('faq')">faq</a></li>
+      <li><a (click)="redirectToSection('faq')">FAQ</a></li>
       <li><a (click)="redirectToSection('contact')">Contato</a></li>
     </ul>
-
-    
   </div>
 
-  <div class="actions">
+  <div class="actions" [class.float--actions]="menuOpen">
     <button-custom
       type="button"
-      label="Cadastrar-se"
-      variant="transparent"
-      (clicked)="redirect('register')"
-    ></button-custom>
-    <button-custom
-      type="button"
-      label="Entrar"
-      (clicked)="redirect('login')"
+      label="Solicitar acesso antecipado"
+      size="sm"
+      (clicked)="emitEnded()"
+      style="width: max-content"
     ></button-custom>
   </div>
 </section>

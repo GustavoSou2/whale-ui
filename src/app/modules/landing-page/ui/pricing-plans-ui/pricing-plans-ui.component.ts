@@ -13,7 +13,7 @@ export class PricingPlansUiComponent {
     {
       name: 'Essencial',
       priceMonthly: 89,
-      priceYearly: 854,
+      priceYearly: 1068,
       features: [
         { label: 'Até 3 usuários', included: true },
         { label: 'Projetos ilimitados', included: true },
@@ -29,7 +29,7 @@ export class PricingPlansUiComponent {
     {
       name: 'Profissional',
       priceMonthly: 189,
-      priceYearly: 1814,
+      priceYearly: 2268,
       features: [
         { label: 'Até 10 usuários', included: true },
         { label: 'Projetos ilimitados', included: true },
@@ -45,7 +45,7 @@ export class PricingPlansUiComponent {
     {
       name: 'Enterprise',
       priceMonthly: 239,
-      priceYearly: 2294,
+      priceYearly: 2868,
       features: [
         { label: 'Usuários ilimitados', included: true },
         { label: 'Projetos ilimitados', included: true },
@@ -59,4 +59,8 @@ export class PricingPlansUiComponent {
       popular: false,
     },
   ];
+
+  calculateDescont(price: number) {
+    return price - (price * 20) / 100;
+  }
 }

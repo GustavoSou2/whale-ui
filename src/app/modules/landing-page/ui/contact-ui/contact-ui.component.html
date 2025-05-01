@@ -4,25 +4,26 @@
     Tire dúvidas, envie sugestões ou fale sobre sua necessidade. Estamos prontos
     para ajudar e construir soluções com você.
   </p>
-  <form class="contact-form" (ngSubmit)="onSubmit()">
+  <form class="contact-form" [formGroup]="contact" (ngSubmit)="onSubmit()">
     <div class="form-left">
       <input
         type="text"
-        [(ngModel)]="name"
+        formControlName="name"
         name="name"
         placeholder="Nome"
         required
       />
       <input
         type="text"
-        [(ngModel)]="phone"
-        name="phone"
+        formControlName="phone"
+        name="text"
+        phoneMask
         placeholder="Telefone"
         required
       />
       <input
         type="email"
-        [(ngModel)]="email"
+        formControlName="email"
         name="email"
         placeholder="E-mail"
         required
@@ -30,7 +31,7 @@
     </div>
     <div class="form-right">
       <textarea
-        [(ngModel)]="message"
+        formControlName="message"
         name="message"
         placeholder="Mensagem"
         required
