@@ -34,11 +34,11 @@
       </li>
       <li>
         <strong>Data de Início:</strong>
-        {{ actionPlan.target_detail.start_date | date : "dd/MM/yyyy" }}
+        {{ actionPlan.target_detail.start_date | date : "dd/MM/yyyy"  : "UTC" }}
       </li>
       <li>
         <strong>Data de Término:</strong>
-        {{ actionPlan.target_detail.end_date | date : "dd/MM/yyyy" }}
+        {{ actionPlan.target_detail.end_date | date : "dd/MM/yyyy" : "UTC" }}
       </li>
     </ul>
   </div>

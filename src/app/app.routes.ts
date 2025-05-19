@@ -11,42 +11,7 @@ const defRoutes: Routes = [
       ).then((m) => m.LandingPageComponent),
   },
   {
-    path: 'login',
-    loadComponent: () =>
-      import('./modules/account/factory/login/login.component').then(
-        (m) => m.LoginComponent
-      ),
-  },
-  {
-    path: 'register',
-    loadComponent: () =>
-      import('./modules/account/factory/register/register.component').then(
-        (m) => m.RegisterComponent
-      ),
-  },
-  {
-    path: 'register/confirm-account',
-    loadComponent: () =>
-      import(
-        './modules/account/factory/confirm-account/confirm-account.component'
-      ).then((m) => m.ConfirmAccountComponent),
-  },
-  {
-    path: 'register/confirm',
-    loadComponent: () =>
-      import('./modules/account/factory/confirm/confirm.component').then(
-        (m) => m.ConfirmComponent
-      ),
-  },
-  {
-    path: 'collaborator/finalize',
-    loadComponent: () =>
-      import(
-        './modules/account/factory/collaborator-finalize/collaborator-finalize.component'
-      ).then((m) => m.CollaboratorFinalizeComponent),
-  },
-  {
-    path: '',
+    path: '**',
     redirectTo: '',
     pathMatch: 'full',
   },
@@ -137,6 +102,14 @@ const appRoutes: Routes = [
           ).then((m) => m.ApprovalFlowComponent),
       },
       {
+        path: 'approval-flow/:id',
+        canActivate: [AuthGuard],
+        loadComponent: () =>
+          import(
+            './modules/approval-flow/factory/approval-flow/approval-flow.component'
+          ).then((m) => m.ApprovalFlowComponent),
+      },
+      {
         path: 'action-plan',
         canActivate: [AuthGuard],
         loadComponent: () =>
@@ -152,7 +125,42 @@ const appRoutes: Routes = [
     ],
   },
   {
-    path: '',
+    path: 'login',
+    loadComponent: () =>
+      import('./modules/account/factory/login/login.component').then(
+        (m) => m.LoginComponent
+      ),
+  },
+  {
+    path: 'register',
+    loadComponent: () =>
+      import('./modules/account/factory/register/register.component').then(
+        (m) => m.RegisterComponent
+      ),
+  },
+  {
+    path: 'register/confirm-account',
+    loadComponent: () =>
+      import(
+        './modules/account/factory/confirm-account/confirm-account.component'
+      ).then((m) => m.ConfirmAccountComponent),
+  },
+  {
+    path: 'register/confirm',
+    loadComponent: () =>
+      import('./modules/account/factory/confirm/confirm.component').then(
+        (m) => m.ConfirmComponent
+      ),
+  },
+  {
+    path: 'collaborator/finalize',
+    loadComponent: () =>
+      import(
+        './modules/account/factory/collaborator-finalize/collaborator-finalize.component'
+      ).then((m) => m.CollaboratorFinalizeComponent),
+  },
+  {
+    path: '**',
     redirectTo: 'home',
     pathMatch: 'full',
   },

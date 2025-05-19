@@ -1,12 +1,17 @@
 <layout title="Fluxo de Aprovação">
   <ng-container *ngTemplateOutlet="layoutHeader" layout-header></ng-container>
 
-  <ng-container *ngTemplateOutlet="table" layout-content></ng-container>
+  <section class="approval--content" layout-content>
+    <ng-container *ngTemplateOutlet="table"></ng-container>
+  </section>
 </layout>
 
 <ng-template #layoutHeader>
   <ng-content select="[approval-header]"></ng-content>
 </ng-template>
 <ng-template #table>
-  <table-custom [tableSource]="tableSource"></table-custom>
+  <table-custom
+    [tableSource]="tableSource"
+    [tableFullWidth]="false"
+  ></table-custom>
 </ng-template>

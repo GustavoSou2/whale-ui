@@ -6,6 +6,7 @@ import { AvatarComponent } from '../../../../shared/components/avatar/avatar.com
 import { MenuComponent } from '../menu/menu.component';
 import { ProjectsService } from '../../../projects/services/projects/projects.service';
 import { catchError, tap, throwError } from 'rxjs';
+import { StatusActionPlanService } from '../../../status-action-plan/services/status-action-plan/status-action-plan.service';
 
 @Component({
   selector: 'app-nav',
@@ -53,6 +54,10 @@ import { catchError, tap, throwError } from 'rxjs';
 })
 export class NavComponent {
   projectsService = inject(ProjectsService);
+  statusActionPlanService = inject(StatusActionPlanService);
+
+  actionStatus$ = this.statusActionPlanService.loadActionStatus();
+
   navTopBarActions = [
     {
       icon: 'Notifications.svg',

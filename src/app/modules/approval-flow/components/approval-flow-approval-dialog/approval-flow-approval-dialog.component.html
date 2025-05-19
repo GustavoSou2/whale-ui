@@ -1,0 +1,56 @@
+<div class="modal">
+  <h1>Detalhes da Aprovação</h1>
+  <span class="detail"
+    >A aprovação é o processo de validação em que um responsável (individual ou
+    grupo) analisa e autoriza a continuidade de uma etapa ou atividade. No
+    contexto do fluxo de aprovação, ela garante que requisitos, documentos ou
+    orçamentos estejam corretos e em conformidade antes de prosseguir para o
+    próximo status. Esse controle contribui para a qualidade, segurança e
+    rastreabilidade das decisões dentro do projeto.</span
+  >
+
+  <section class="approval-dialog--detail">
+    <h2>{{ ApprovalFlowEntityType[approvalItem.entity_type].name }}</h2>
+    <div class="field">
+      <span class="label">Data Limite:</span>
+      {{ approvalItem.deadline | date : "dd/MM/yyyy" }}
+    </div>
+    <div class="field">
+      <span class="label">Status da Aprovação:</span>
+      <approval-flow-status
+        [data]="approvalItem.approval_status"
+      ></approval-flow-status>
+    </div>
+
+    <div class="field" *ngIf="approvalItem.users">
+      <span class="label">Responsável:</span>
+      {{ approvalItem.users.username }}
+    </div>
+
+    <div class="field" *ngIf="approvalItem.responsible_group_id">
+      <span class="label">Grupo Responsável:</span>
+      Grupo #{{ approvalItem.responsible_group_id }}
+      <div class="note">* Apenas um precisa aprovar</div>
+    </div>
+
+    <div class="field" *ngIf="approvalItem.rejection_reason">
+      <span class="label">Motivo da Reprovação:</span>
+      <div class="rejection">{{ approvalItem.rejection_reason }}</div>
+    </div>
+  </section>
+
+  <div class="modal-footer">
+    <button-custom
+      type="button"
+      label="Fechar"
+      variant="transparent"
+      (clicked)="onClose()"
+    ></button-custom>
+    <button-custom
+      type="button"
+      label="Aprovar"
+      variant="success"
+      (clicked)="onApprove()"
+    ></button-custom>
+  </div>
+</div>

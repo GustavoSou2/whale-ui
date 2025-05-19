@@ -1,0 +1,96 @@
+.modal {
+  width: 450px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  span.detail {
+    white-space: pre-line;
+    font-size: 0.9rem;
+    color: var(--waterloo-700);
+    line-height: 1.2rem;
+  }
+
+  .approval-dialog--detail {
+    padding: 1rem;
+    border-radius: 6px;
+    background-color: var(--waterloo-50);
+
+    h2 {
+      margin-bottom: 1rem;
+    }
+  }
+
+  .field {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: var(--waterloo-900);
+
+    .label {
+      color: var(--waterloo-700);
+    }
+  }
+
+  &-body {
+    .field {
+      margin-bottom: 12px;
+
+      .label {
+        font-weight: 600;
+        margin-right: 6px;
+      }
+
+      .status {
+        font-weight: bold;
+        padding: 4px 10px;
+        border-radius: 8px;
+        display: inline-block;
+
+        &.aprovado {
+          background-color: #d4edda;
+          color: #155724;
+        }
+
+        &.reprovado {
+          background-color: #f8d7da;
+          color: #721c24;
+        }
+
+        &.atrasado {
+          background-color: #fff3cd;
+          color: #856404;
+        }
+
+        &.pendente {
+          background-color: #d1ecf1;
+          color: #0c5460;
+        }
+      }
+
+      .note {
+        font-size: 12px;
+        color: #888;
+        margin-top: 4px;
+      }
+
+      .rejection {
+        background-color: #fbe9e7;
+        padding: 8px;
+        border-radius: 6px;
+        color: #b71c1c;
+      }
+    }
+  }
+
+  &-footer {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+}

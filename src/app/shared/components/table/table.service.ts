@@ -20,6 +20,10 @@ export class TableDataSourceService<T> {
     this.dataSubject.next(data);
   }
 
+  get data() {
+    return this.dataSubject.value;
+  }
+
   addData(data: T[]): void {
     const currentData = this.dataSubject.value;
     this.dataSubject.next([...currentData, ...data]);

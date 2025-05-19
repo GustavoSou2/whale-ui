@@ -16,9 +16,9 @@ import {
   styleUrl: './tipseen.component.scss',
   animations: [
     trigger('fadeInOut', [
-      state('visible', style({ opacity: 1, transform: 'scale(1)' })),
-      state('hidden', style({ opacity: 0, transform: 'scale(0.95)' })),
-      transition('visible => hidden', [animate('200ms ease-in-out')]),
+      state(':enter', style({ opacity: 1, transform: 'scale(1)' })),
+      state(':leave', style({ opacity: 0, transform: 'scale(0.95)' })),
+      transition(': => hidden', [animate('200ms ease-in-out')]),
       transition('hidden => visible', [animate('200ms ease-in-out')]),
     ]),
   ],

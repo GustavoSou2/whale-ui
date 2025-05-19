@@ -1,0 +1,153 @@
+#action-plan--detail {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 1rem 2rem;
+  overflow-y: auto;
+
+  .detail--action-plan__info {
+    display: flex;
+    flex-direction: column;
+
+    h2 {
+      font-size: 1.5rem;
+      color: var(--waterloo-800);
+    }
+    p {
+      font-size: 1rem;
+      color: var(--waterloo-600);
+    }
+
+    .detail--action-plan__tags {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-top: 0.5rem;
+
+      .tag {
+        background-color: var(--waterloo-100);
+        padding: 0.2rem 1rem;
+        border-radius: 24px;
+        font-size: 0.9rem;
+        text-align: start;
+        color: var(--waterloo-600);
+
+        &.tag--responsible {
+          border-radius: 4px;
+          display: flex;
+          align-items: center;
+          padding: 0.2rem 0.5rem;
+          gap: 0.5rem;
+        }
+      }
+    }
+
+    .date {
+      font-size: 1rem;
+      color: var(--waterloo-600);
+      margin-top: 0.5rem;
+      font-family: "Poppins", sans-serif;
+    }
+  }
+
+  .detail--action-plan__budget {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 1rem;
+    margin: 1rem 0 0;
+
+    .detail--action-plan__budgets {
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      background: var(--big-stone-100);
+      border-radius: 12px;
+
+      small {
+        font-size: 0.8rem;
+        color: var(--waterloo-600);
+      }
+
+      h2 {
+        font-size: 1.5rem;
+        color: var(--waterloo-800);
+      }
+    }
+  }
+
+  .detail--action-plan__actions {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .detail--action-plan__subitems {
+    display: flex;
+    height: max-content;
+    flex-direction: column;
+    gap: 1rem;
+    margin: 2rem 0;
+
+    .detail--action-plan__subitems-table {
+      width: 100%;
+      overflow-x: auto;
+      padding: 0 0 1rem;
+
+      &::-webkit-scrollbar {
+        height: 5px;
+        background-color: var(--royal-blue-500);
+        border-radius: 12px;
+      }
+
+      .detail--action-plan__subitems-table-over {
+        table {
+          min-width: 600px;
+          border-collapse: collapse;
+        }
+      }
+    }
+  }
+
+  .tag {
+    background-color: var(--waterloo-100);
+    padding: 0.2rem 1rem;
+    border-radius: 24px;
+    font-size: 0.9rem;
+    text-align: start;
+    color: var(--waterloo-600);
+
+    &.tag--responsible {
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      padding: 0.2rem 0.5rem;
+      gap: 0.5rem;
+    }
+  }
+
+  .detail--action-plan__approval {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin: 2rem 0;
+    background-color: var(--big-stone-50);
+    border-radius: 6px;
+    padding: 1rem;
+
+    .detail--action-plan__approval-status {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .date {
+      font-size: 1rem;
+      color: var(--waterloo-600);
+      font-family: "Poppins", sans-serif;
+    }
+
+    button-custom {
+      width: max-content;
+    }
+  }
+}

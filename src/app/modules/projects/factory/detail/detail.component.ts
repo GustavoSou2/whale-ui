@@ -143,9 +143,22 @@ export class DetailComponent {
         .createItem(result)
         .pipe(
           tap((response) => {
-            this.toastService.addToast('success', 'Item criado com sucesso');
-
             this.tableSourceService.reload();
+
+            const loader = this.loaderService.show();
+
+            this.router
+              .navigateByUrl('/', { skipLocationChange: true })
+              .then(() => {
+                this.router.navigate([window.location.pathname]).then(() => {
+                  this.toastService.addToast(
+                    'success',
+                    'Item criado com sucesso'
+                  );
+
+                  loader.hide();
+                });
+              });
           }),
           catchError(({ error }) => {
             this.toastService.addToast(
@@ -208,12 +221,21 @@ export class DetailComponent {
         .createSubItem(result)
         .pipe(
           tap((response) => {
-            this.toastService.addToast(
-              'success',
-              'Sub item criado com sucesso'
-            );
-
             this.tableSourceService.reload();
+
+            const loader = this.loaderService.show();
+
+            this.router
+              .navigateByUrl('/', { skipLocationChange: true })
+              .then(() => {
+                this.router.navigate([this.router.url]).then(() => {
+                  this.toastService.addToast(
+                    'success',
+                    'Sub item criado com sucesso'
+                  );
+                  loader.hide();
+                });
+              });
           }),
           catchError(({ error }) => {
             this.toastService.addToast(
@@ -231,4 +253,3 @@ export class DetailComponent {
     console.log(search);
   }
 }
-

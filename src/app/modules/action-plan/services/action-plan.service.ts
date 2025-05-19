@@ -29,15 +29,14 @@ export enum ActionPlanType {
   CORRECTIVE = 'corrective',
   PLANNING = 'planning',
   TRAINING = 'training',
-  AUDIT = 'audit'
+  AUDIT = 'audit',
 }
 
 export enum ActionPlanPriority {
   HIGH = 'high',
   MEDIUM = 'medium',
-  LOW = 'low'
+  LOW = 'low',
 }
-
 
 @Injectable()
 export class ActionPlanService {
@@ -60,14 +59,20 @@ export class ActionPlanService {
 
   cancelActionPlan(id: string) {
     const status = this.statusActionPlanService.getCancelStatus();
-    
-    if (!status) return throwError(() => new Error('Status cancelado não encontrado'));
-    
+
+    if (!status)
+      return throwError(() => new Error('Status cancelado não encontrado'));
+
     return this.updateActionPlan(id, { status_id: status.id });
   }
 
   backToInitialStatus(id: string, statusId: number) {
-    
     return this.updateActionPlan(id, { status_id: statusId });
+  }
+
+  updateActualCost(id: string, data: any) {}
+
+  advancedActionPlanStatus(id: string) {
+    return this.apiService.post(`action-plan/${id}/advance-status`, {});
   }
 }

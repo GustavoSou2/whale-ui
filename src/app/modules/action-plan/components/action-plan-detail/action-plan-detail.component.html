@@ -1,0 +1,77 @@
+<section id="action-plan--detail">
+  <section class="detail--action-plan__info">
+    <h2>{{ actionPlan.name }}</h2>
+    <p>{{ actionPlan.description }}</p>
+    <span class="date">
+      {{ actionPlan.start_date | date : "dd/MM/yyyy" : "UTC" }} →
+      {{ actionPlan.end_date | date : "dd/MM/yyyy" : "UTC" }}
+    </span>
+    <div class="detail--action-plan__tags">
+      <span class="tag tag--responsible">
+        <img src="./icons/Mention.svg" alt="Check" />
+        {{ actionPlan.users?.username }}
+      </span>
+
+      <span
+        class="tag tag--category"
+        [ngStyle]="{
+          backgroundColor:
+            CATEGORY_DICTIONARY[actionPlan.category].color + '30',
+          color: CATEGORY_DICTIONARY[actionPlan.category].color
+        }"
+      >
+        {{ CATEGORY_DICTIONARY[actionPlan.category].label }}
+      </span>
+
+      <action-status [data]="actionPlan.action_plan_status"></action-status>
+    </div>
+  </section>
+  <section class="detail--action-plan__budget">
+    <div
+      class="detail--action-plan__budgets detail--action-plan__budgets__actual_cost"
+    >
+      <small>Gasto atual:</small>
+      <h2>{{ actionPlan.actual_cost | currency : "R$" }}</h2>
+    </div>
+    <div
+      class="detail--action-plan__budgets detail--action-plan__budgets__actual_cost"
+    >
+      <small>Gasto estimado atual:</small>
+      <h2>{{ actionPlan.estimated_cost | currency : "R$" }}</h2>
+    </div>
+  </section>
+  <section
+    class="detail--action-plan__approval"
+    *ngIf="actionPlan.has_approval_flow"
+  >
+    <h2>Aprovação</h2>
+    <div class="detail--action-plan__approval-status">
+      <span>Você tem uma aprovação pendente</span>
+      <span class="date">
+        Aprovação deve ser feita até
+        {{ actionPlan.approval_flow.deadline | date : "dd/MM/yyyy" : "UTC" }}
+      </span>
+    </div>
+    @if(actionPlan.approval_flow.approval_status.name_code == 'approved') {
+    <div class="detail--action-plan__approval-status">
+      <span>Documento aprovado</span>
+      <span class="date">
+        Aprovado em
+        {{
+          actionPlan.approval_flow.approval_status.approval_date
+            | date : "dd/MM/yyyy" : "UTC"
+        }}
+      </span>
+    </div>
+    } @else {
+    <button-custom
+      type="button"
+      label="Aprovar"
+      (clicked)="directToApproval(actionPlan.approval_flow)"
+    ></button-custom>
+    }
+  </section>
+  <section class="detail--action-plan__actions">
+    <dynamic-tabs [tabs]="createDynamicTabs(actionPlan)"></dynamic-tabs>
+  </section>
+</section>

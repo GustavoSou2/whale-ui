@@ -36,15 +36,16 @@ import {
 } from '../../../action-plan/services/action-plan.service';
 import { ToastService } from '../../../../shared/components/toast/toast.service';
 import { Router } from '@angular/router';
+import { LoaderService } from '../../../../shared/components/loader/loader.service';
 
-  const initActionPlan = (name: string, type: 'item' | 'subitem') => {
-    return `<p>
+const initActionPlan = (name: string, type: 'item' | 'subitem') => {
+  return `<p>
     O <strong>plano de ação</strong> é um conjunto estruturado de etapas, tarefas e validações que visam garantir o cumprimento de requisitos técnicos, legais e operacionais dentro da obra. Ele permite o <strong>acompanhamento detalhado</strong> do progresso, com responsáveis designados, prazos definidos e status personalizados para cada fase do processo.
   </p><p>
     Neste caso, você está prestes a iniciar o plano de ação para o seguinte elemento:<br>
     Referente ao ${type}: <strong>${name}</strong><br>
   </p><p><strong>Deseja realmente iniciar o plano de ação para este item/subitem?</strong></p>`;
-  };
+};
 
 @Component({
   selector: 'app-item-detail',
@@ -100,11 +101,7 @@ import { Router } from '@angular/router';
       ></table-custom>
     </ng-template>
   `,
-  providers: [
-    SubItemsService,
-    DatePipe,
-    ActionPlanService,
-  ],
+  providers: [SubItemsService, DatePipe, ActionPlanService],
 })
 export class ItemDetailComponent implements AfterViewInit {
   @Input() data!: any;
@@ -113,6 +110,7 @@ export class ItemDetailComponent implements AfterViewInit {
   private subItemsService = inject(SubItemsService);
   private actionPlanService = inject(ActionPlanService);
   private toastService = inject(ToastService);
+  private loaderService = inject(LoaderService);
   private confirmationDialogService = inject(ConfirmationDialogService);
   private datePipe = inject(DatePipe);
   subItems$!: Observable<any>;
@@ -256,10 +254,27 @@ export class ItemDetailComponent implements AfterViewInit {
               })
               .pipe(
                 tap((actionPlan) => {
+                  const loader = this.loaderService.show();
+
                   this.toastService.addToast(
                     'success',
                     'Plano de ação iniciado com sucesso'
                   );
+
+                  this.router
+                    .navigateByUrl('/', { skipLocationChange: true })
+                    .then(() => {
+                      this.router
+                        .navigate([window.location.pathname])
+                        .then(() => {
+                          this.toastService.addToast(
+                            'success',
+                            'Item criado com sucesso'
+                          );
+
+                          loader.hide();
+                        });
+                    });
                 }),
                 catchError((error) => {
                   this.toastService.addToast(

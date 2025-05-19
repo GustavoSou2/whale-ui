@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-const ACTION_PLAN_PRIORITY: Record<string, { title: string; color: string }> = {
+export const PRIORITY: Record<string, { title: string; color: string }> = {
   hight: {
     title: 'Alta',
     color: '#b73b1e',
@@ -12,6 +12,10 @@ const ACTION_PLAN_PRIORITY: Record<string, { title: string; color: string }> = {
   low: {
     title: 'Baixa',
     color: '#7595bb',
+  },
+  urgent: {
+    title: 'Urgente',
+    color: '#0b1215',
   },
 };
 
@@ -27,7 +31,7 @@ export class ActionPriorityComponent {
   @Input() rowData: any;
 
   get priority() {
-    return ACTION_PLAN_PRIORITY[this.data];
+    return PRIORITY[this.data];
   }
 
   get priorityTitle() {

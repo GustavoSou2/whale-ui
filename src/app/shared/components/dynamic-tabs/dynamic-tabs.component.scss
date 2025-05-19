@@ -1,0 +1,38 @@
+.tabs {
+  width: 100%;
+  margin-top: 1.4rem;
+}
+
+.tab-headers {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.tab-icon i {
+  font-size: 1rem;
+}
+
+.tab-content {
+  margin-top: 1rem;
+  min-height: 500px;
+  position: relative;
+  overflow: hidden;
+}
+
+.tab-header--button {
+  padding: 0.2rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  border: none;
+  color: var(--waterloo-600);
+  background: var(--waterloo-50);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+
+  &.active {
+    background: #546de530;
+    color: #546de5;
+  }
+}

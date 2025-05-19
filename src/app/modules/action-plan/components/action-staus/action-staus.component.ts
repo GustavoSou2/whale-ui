@@ -12,7 +12,7 @@ import { getTextColor } from '../../../../core/functions/text-color.functino';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
-  selector: 'app-action-staus',
+  selector: 'action-status',
   standalone: true,
   imports: [CommonModule, MatTooltipModule],
   templateUrl: './action-staus.component.html',

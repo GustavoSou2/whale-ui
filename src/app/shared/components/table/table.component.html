@@ -1,11 +1,48 @@
+<section class="table--header" *ngIf="tableHeaderActions">
+  <section class="table--header-main" *ngIf="tableHeaderNew">
+    <button-custom
+      type="button"
+      size="sm"
+      [matTooltip]="'Novo'"
+      [label]="'Novo'"
+      (clicked)="handleAction('new')"
+    >
+    </button-custom>
+  </section>
+  <section class="table--header-actions">
+    <button-custom
+      type="button"
+      size="sm"
+      [matTooltip]="'Selecionar todos os items da tabela'"
+      [label]="'Selecionar todos'"
+      (clicked)="toggleSelectAll()"
+    >
+    </button-custom>
+
+    <ng-container *ngFor="let action of getAvailableActions()">
+      <button-custom
+        type="button"
+        variant="transparent"
+        size="sm"
+        [label]="ACTIONS_GROUPS[action.type]"
+        [disabled]="action.disabled"
+        (clicked)="handleAction(action)"
+      >
+        <img
+          src="./icons/{{ action.icon }}"
+          [alt]="ACTIONS_GROUPS[action.type]"
+          button-icon
+        />
+      </button-custom>
+    </ng-container>
+  </section>
+</section>
 <section
   class="table--container"
+  [ngClass]="{ 'dynamic-width': !tableFullWidth }"
   [ngStyle]="{ width: tableFullWidth ? '100%' : 'max-content' }"
 >
-  <table
-    class="table"
-    [ngStyle]="{ width: tableFullWidth ? '100%' : 'max-content' }"
-  >
+  <table class="table">
     <thead>
       <tr>
         <th *ngIf="hasAction && actionsPosition === 'left'"></th>
@@ -56,6 +93,23 @@
 <ng-template #actionsRef let-row>
   <td *ngIf="hasAction">
     <div class="table--actions">
+      <ng-container *ngIf="!!tableSelectMultipleRows">
+        <input
+          type="checkbox"
+          [id]="'checkbox-' + row.id"
+          [name]="'checkbox'"
+          [style.display]="'none'"
+          [checked]="selectedRows.includes(row.id)"
+          (change)="toggleSelection(row.id)"
+        />
+
+        <label
+          [for]="'checkbox-' + row.id"
+          class="checkbox"
+          [ngClass]="{ 'chekbox-checked': selectedRows.includes(row.id) }"
+        ></label>
+      </ng-container>
+
       <ng-container *ngFor="let action of actions">
         <ng-container
           *ngIf="(!!action?.hidden && !action?.hidden(row)) || !action?.hidden"
@@ -70,7 +124,7 @@
             *ngIf="action.icon"
             type="button"
             variant="transparent"
-            (click)="action?.onClick(row)"
+            (clicked)="action?.onClick(row)"
           >
             <img [src]="'./icons/' + action.icon" alt="icone" button-icon />
           </button-custom>

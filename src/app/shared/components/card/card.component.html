@@ -20,8 +20,8 @@
   <span class="document-date">
     Previsão
     <strong class="document-date-due">
-      <strong>{{ init_date | date : "dd-MM-yyyy" }}</strong> →
-      <strong>{{ end_date | date : "dd-MM-yyyy" }}</strong>
+      <strong>{{ init_date | date : "dd-MM-yyyy" : "UTC" }}</strong> →
+      <strong>{{ end_date | date : "dd-MM-yyyy" : "UTC" }}</strong>
     </strong>
   </span>
   <button-custom type="button" label="Detalhes" (clicked)="navigate()"></button-custom>

@@ -36,6 +36,8 @@ import {
   ActionPlanReprovalStatus,
   ActionPlanStatus,
 } from '../../action-plan.types';
+import { DialogService } from '../../../../shared/components/dialog/dialog.service';
+import { ActionPlanDetailComponent } from '../../components/action-plan-detail/action-plan-detail.component';
 
 const cancelActionPlan = (name: string, type: 'item' | 'subitem') => {
   return `<p>
@@ -89,6 +91,7 @@ export class ActionPlanComponent {
   statusActionPlanService = inject(StatusActionPlanService);
   tableDataSourceService = inject(TableDataSourceService);
   actionPlanService = inject(ActionPlanService);
+  dialogCustomService = inject(DialogService);
   toastService = inject(ToastService);
   dialogService = inject(MatDialog);
   datePipe = inject(DatePipe);
@@ -131,11 +134,7 @@ export class ActionPlanComponent {
     },
     columns: [
       { key: 'name', header: 'Titulo', width: 'max-content' },
-      {
-        key: 'action_type',
-        header: 'Tipo',
-        width: 'max-content',
-      },
+
       {
         key: 'action_plan_status',
         header: 'Status',
@@ -155,16 +154,6 @@ export class ActionPlanComponent {
         header: 'Prioridade',
         width: 'max-content',
         loadComponent: ActionPriorityComponent,
-      },
-      {
-        key: 'target_type',
-        header: 'Tipo de Alvo',
-        width: 'max-content',
-      },
-      {
-        key: 'category',
-        header: 'Categoria',
-        width: 'max-content',
       },
       {
         key: 'start_date',
@@ -207,18 +196,60 @@ export class ActionPlanComponent {
     actions: [
       {
         icon: 'Check.svg',
+        hidden: (row: any) => {
+          return (
+            !!row.has_approval_flow &&
+            row?.approval_flow.approval_status.name_code != 'approved'
+          );
+        },
         onClick: (row: any) => {
           const statusCode: ActionPlanStatus = row.action_plan_status.name_code;
           const dialogComponent = ActionPlanApprovalStatus[statusCode];
 
           if (!dialogComponent) return;
 
+          let data = row;
+
+          if (statusCode != ActionPlanStatus.CRIACAO) {
+            data = {
+              ...row,
+              ...ActionPlanConfirmationDicts[statusCode],
+            };
+          }
+
           const dialogRef = this.dialogService.open(dialogComponent, {
-            data: row,
+            data,
+            panelClass:
+              ActionPlanStatus.EXECUCAO == statusCode
+                ? 'action-plan-dialog'
+                : '',
           });
 
           dialogRef.afterClosed().subscribe((result) => {
             if (!result) return;
+
+            if (statusCode != ActionPlanStatus.CRIACAO) {
+              this.actionPlanNextStatus(row)
+                .pipe(
+                  tap((response: any) => {
+                    this.toastService.addToast(
+                      'Plano de Ação',
+                      response.values.message
+                    );
+
+                    this.actionPlanStatus$ = this.statusActionPlanService
+                      .getActionStatus()
+                      .pipe(
+                        tap(() => {
+                          this.tableDataSourceService.reload();
+                        })
+                      );
+                  })
+                )
+                .subscribe();
+
+              return;
+            }
 
             this.actionPlanStatus$ = this.statusActionPlanService
               .getActionStatus()
@@ -232,8 +263,13 @@ export class ActionPlanComponent {
       },
       {
         icon: 'Close.svg',
+
         hidden: (row: any) => {
-          return row.action_plan_status.name_code == ActionPlanStatus.CRIACAO;
+          return (
+            row?.action_plan_status?.name_code == ActionPlanStatus.CRIACAO ||
+            (!!row.has_approval_flow &&
+              row?.approval_flow.approval_status.name_code != 'approved')
+          );
         },
         onClick: (row: any) => {
           const statusCode: ActionPlanStatus = row.action_plan_status.name_code;
@@ -264,7 +300,11 @@ export class ActionPlanComponent {
       {
         icon: 'Show.svg',
         onClick: (row: any) => {
-          console.log('Edit', row);
+          this.dialogCustomService.open(ActionPlanDetailComponent, {
+            data: {
+              action_plan: row,
+            },
+          });
         },
       },
     ],
@@ -332,5 +372,9 @@ export class ActionPlanComponent {
         })
       )
       .subscribe();
+  }
+
+  actionPlanNextStatus(row: any) {
+    return this.actionPlanService.advancedActionPlanStatus(row.id);
   }
 }

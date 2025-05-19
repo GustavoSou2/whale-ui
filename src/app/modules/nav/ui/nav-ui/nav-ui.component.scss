@@ -78,7 +78,8 @@
     .nav--content {
       background-color: white;
       border-radius: 12px 0 0 0;
-      height: 100%;
+      height: calc(100dvh - 64px);
+      overflow-y: auto;
     }
   }
 }

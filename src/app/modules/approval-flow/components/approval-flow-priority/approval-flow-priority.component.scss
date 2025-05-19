@@ -1,0 +1,19 @@
+.flow-priority {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  
+    .flow-priority--title {
+      color: var(--waterloo-800);
+      font-weight: 500;
+      font-family: "Figtree", system-ui;
+    }
+  
+    .flow-priority--circle {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background-color: var(--bg);
+    }
+  }
+  

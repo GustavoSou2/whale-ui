@@ -12,6 +12,7 @@ import {
   ChangeDetectorRef,
   Injector,
   NO_ERRORS_SCHEMA,
+  output,
 } from '@angular/core';
 import { ButtonComponent } from '../button/button.component';
 import { Observable, of } from 'rxjs';
@@ -27,6 +28,8 @@ import {
   DynamicIoDirective,
   DynamicModule,
 } from 'ng-dynamic-component';
+import { ActionPlanStatus } from '../../../modules/status-action-plan/services/status-action-plan/status-action-plan.service';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 export interface Column {
   key: string;
@@ -59,10 +62,26 @@ export interface TableSource<T> {
   actions?: Action[];
 }
 
+type ActionType = 'new' | 'aprovar' | 'reprovar' | 'deletar' | 'editar';
+
+const ACTIONS_GROUPS: Record<ActionType, string> = {
+  new: 'Novo',
+  aprovar: 'Aprovar',
+  reprovar: 'Reprovar',
+  deletar: 'Excluir',
+  editar: 'Editar',
+};
+
 @Component({
   selector: 'table-custom',
   standalone: true,
-  imports: [CommonModule, ButtonComponent, DynamicModule, DynamicIoDirective],
+  imports: [
+    CommonModule,
+    ButtonComponent,
+    DynamicModule,
+    DynamicIoDirective,
+    MatTooltipModule,
+  ],
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss',
   providers: [],
@@ -76,7 +95,12 @@ export class TableDataSource<T> implements AfterViewInit {
   private loader = this.loaderService.show();
   private baseUrl = `${environment.apiURL}/api`;
 
+  ACTIONS_GROUPS: any = ACTIONS_GROUPS;
+
   @Input() tableFullWidth = true;
+  @Input() tableHeaderNew = false;
+  @Input() tableHeaderActions = false;
+  @Input() tableSelectMultipleRows = false;
   @Input() set tableSource(source: TableSource<T | any>) {
     this.columns = source.columns;
     this.actions = source?.actions || [];
@@ -90,10 +114,13 @@ export class TableDataSource<T> implements AfterViewInit {
     }
   }
 
+  onTableSelectRows = output<any>();
+
   api?: TableSourceApi<T>;
   data: Observable<any[]> = this.tableDataService.data$;
   columns: Column[] = [];
   actions: Action[] = [];
+  selectedRows: number[] = [];
   actionsPosition: 'left' | 'right' = 'right';
 
   @ViewChild('vc', { read: ViewContainerRef })
@@ -207,5 +234,83 @@ export class TableDataSource<T> implements AfterViewInit {
         { provide: 'rowData', useValue: row },
       ],
     });
+  }
+
+  getAvailableActions(): any[] {
+    const data = this.tableDataService.data;
+
+    const unadvanvedStatusToDelete = [
+      ActionPlanStatus.CANCELADO,
+      ActionPlanStatus.ARQUIVADO,
+      ActionPlanStatus.ARQUIVADO,
+    ];
+
+    const selectedItems = data.filter((item: any) =>
+      this.selectedRows.includes(item.id)
+    );
+
+    const allEditables = selectedItems.every(
+      (item: any) => !unadvanvedStatusToDelete.includes(item.id)
+    );
+
+    const isEditable = selectedItems.length === 1;
+
+    return [
+      {
+        type: 'aprovar',
+        disabled: !allEditables,
+        icon: 'Check.svg',
+      },
+      {
+        type: 'reprovar',
+        disabled: !allEditables,
+        icon: 'Close.svg',
+      },
+      {
+        type: 'deletar',
+        disabled: !allEditables,
+        icon: 'Delete.svg',
+      },
+      {
+        type: 'editar',
+        disabled: !isEditable,
+        icon: 'Edit.svg',
+      },
+    ];
+  }
+
+  handleAction(action: ActionType) {
+    this.emitTableAction(action);
+  }
+
+  emitTableAction(action: ActionType) {
+    this.onTableSelectRows.emit({
+      action,
+      selectedRows: this.selectedRows,
+    });
+  }
+
+  get allSelected(): boolean {
+    const data = this.tableDataService.data;
+
+    return this.selectedRows.length === data.length;
+  }
+
+  toggleSelectAll() {
+    const data = this.tableDataService.data;
+
+    if (this.allSelected) {
+      this.selectedRows = [];
+    } else {
+      this.selectedRows = data.map((d: any) => d.id);
+    }
+  }
+
+  toggleSelection(id: number) {
+    if (this.selectedRows.includes(id)) {
+      this.selectedRows = this.selectedRows.filter((rowId) => rowId !== id);
+    } else {
+      this.selectedRows.push(id);
+    }
   }
 }

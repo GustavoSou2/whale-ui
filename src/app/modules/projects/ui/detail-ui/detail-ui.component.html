@@ -1,7 +1,6 @@
 <section id="detail">
   <section class="detail--container">
-    <section class="detail--hero">
-      <section class="detail--banner"></section>
+    <section class="detail--hero border">
       <section class="detail--info">
         <h1>{{ projectName }}</h1>
       </section>
@@ -12,14 +11,18 @@
               ><img src="./icons/Calendar.svg" alt="Calendario data inicio" />
               Data de início:</span
             >
-            <span class="data">{{ project?.init_date | date }}</span>
+            <span class="data">{{
+              project?.init_date | date : "dd/MM/yyyy" : "UTC"
+            }}</span>
           </div>
           <div class="detail--info__project_detail">
             <span class="label"
               ><img src="./icons/My week.svg" alt="Calendario data inicio" />
               Data de término:</span
             >
-            <span class="data">{{ project?.end_date | date }}</span>
+            <span class="data">{{
+              project?.end_date | date : "dd/MM/yyyy" : "UTC"
+            }}</span>
           </div>
           <div class="detail--info__project_detail">
             <span class="label"
@@ -81,8 +84,8 @@
         <h2>{{ item.name }}</h2>
         <p>{{ item.description }}</p>
         <span class="date">
-          {{ item.start_date | date }} →
-          {{ item.end_date | date }}
+          {{ item.start_date | date : "dd/MM/yyyy" : "UTC" }} →
+          {{ item.end_date | date : "dd/MM/yyyy" : "UTC" }}
         </span>
         <div class="detail--item__tags">
           <span class="tag tag--responsible">

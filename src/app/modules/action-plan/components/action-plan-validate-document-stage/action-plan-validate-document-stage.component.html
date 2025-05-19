@@ -1,0 +1,65 @@
+<section id="validate-document">
+  <h1>Validação de Documentos</h1>
+  <section>
+    <p>Validação de ARTs, contratos e validações obrigatórias</p>
+    <p>Total de documentos: {{ documentsFormArray.length }}</p>
+  </section>
+  <section>
+  </section>
+  <form [formGroup]="documentsForm">
+    <ng-container formArrayName="documents">
+      <section
+        class="validate-document--content-collapse"
+        *ngFor="
+          let documentControl of documentsFormArray.controls;
+          let i = index;
+          trackBy: trackByIndex
+        "
+        [formGroupName]="i"
+      >
+        @let document = documentControl.value; @let documentStatus =
+        validateDocumentStatus(document);
+        <section
+          class="collapse-header"
+          (click)="setDocumentFormGroupIsCollapsed(i)"
+        >
+          <section class="collapse-header--title">
+            <span
+              class="circle--required"
+              [matTooltip]="'Documento obrigatório'"
+              *ngIf="document.is_required"
+            ></span>
+            <h2>{{ document.name }}</h2>
+          </section>
+          <span class="tag--status" [ngStyle]="documentStatus.style">
+            <i [ngClass]="documentStatus.icon"></i>
+            {{ documentStatus.status }}
+          </span>
+          <p>{{ document.description }}</p>
+        </section>
+        <section class="collapse-body">
+          <uploader
+            accept=".pdf"
+            formControlName="document_attachment"
+            (change)="onSingleFileChange(i, $event)"
+          ></uploader>
+        </section>
+      </section>
+    </ng-container>
+  </form>
+  <section class="validate-document--actions">
+    <button-custom
+      type="button"
+      variant="transparent"
+      label="Cancelar"
+      (clicked)="onCancel()"
+    ></button-custom>
+    <button-custom
+      type="button"
+      label="Salvar"
+      [disabled]="!documentsForm.valid"
+      style="width: 120px"
+      (clicked)="onSubmit()"
+    ></button-custom>
+  </section>
+</section>

@@ -1,0 +1,50 @@
+<section id="validate-checklist">
+  <h1>Validação de Checklist</h1>
+  <section>
+    <p>Validação de Checklist</p>
+  </section>
+  <div *ngIf="checklistForm">
+    <form [formGroup]="checklistForm">
+      <ng-container formGroupName="checklist">
+        <div
+          *ngFor="let item of checklistFormArray.controls; let i = index"
+          [formGroupName]="i"
+          class="validate-checklist--item"
+          [ngClass]="{
+            'validate-checklist--item--done': item.value.is_checked
+          }"
+        >
+          <input
+            type="checkbox"
+            formControlName="is_checked"
+            [id]="'checklist-' + i"
+          />
+          <label [for]="'checklist-' + i" (clicked)="onEdit(i, true)">
+            <label class="block font-bold mb-1">{{ item.value.name }}</label>
+            <p class="text-sm text-gray-500 mb-2">
+              {{ item.value.description }}
+            </p>
+            @if(item.value.is_required) {
+            <small>Obrigatório</small>
+            }
+          </label>
+        </div>
+      </ng-container>
+    </form>
+  </div>
+  <section class="validate-checklist--actions">
+    <button-custom
+      type="button"
+      variant="transparent"
+      label="Cancelar"
+      (clicked)="onCancel()"
+    ></button-custom>
+    <button-custom
+      type="button"
+      label="Salvar"
+      [disabled]="!checklistForm.valid"
+      style="width: 120px"
+      (clicked)="onSubmit()"
+    ></button-custom>
+  </section>
+</section>

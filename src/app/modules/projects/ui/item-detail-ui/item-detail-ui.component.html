@@ -3,8 +3,8 @@
     <h2>{{ item.name }}</h2>
     <p>{{ item.description }}</p>
     <span class="date">
-      {{ item.start_date | date }} →
-      {{ item.end_date | date }}
+      {{ item.start_date | date : "dd/MM/yyyy" : "UTC" }} →
+      {{ item.end_date | date : "dd/MM/yyyy" : "UTC" }}
     </span>
     <div class="detail--item__tags">
       <span class="tag tag--responsible">
@@ -36,11 +36,11 @@
   <section class="detail--item__budget">
     <div class="detail--item__budgets detail--item__budgets__actual_cost">
       <small>Gasto atual:</small>
-      <h2>{{ item.actual_cost | currency : "R$"  }}</h2>
+      <h2>{{ actualCost | currency : "R$" }}</h2>
     </div>
     <div class="detail--item__budgets detail--item__budgets__actual_cost">
       <small>Gasto estimado atual:</small>
-      <h2>{{ actualCost | currency : "R$" }}</h2>
+      <h2>{{ estimatedCost | currency : "R$" }}</h2>
     </div>
     <div class="detail--item__budgets detail--item__budgets__budget">
       <small>Orçamento:</small>

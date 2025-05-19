@@ -1,0 +1,10 @@
+<span
+  class="approval-flow-status--tag"
+  [ngStyle]="{
+    backgroundColor: status?.color,
+    color: getTextColor(status?.color)
+  }"
+  [matTooltip]="status?.name"
+>
+  {{ status?.name }}
+</span>

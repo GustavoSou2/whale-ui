@@ -11,7 +11,7 @@ button {
   transition: 0.3s ease-in-out;
 
   &.disabled {
-    background-color: var(--waterloo-400);
+    background-color: var(--waterloo-200);
     cursor: not-allowed;
   }
 }
@@ -38,6 +38,16 @@ button {
   &:hover {
     opacity: 0.6;
   }
+}
+
+.button-custom--success {
+  background-color: #10ac84;
+  color: white;
+}
+
+.button-custom--disabled {
+  background-color: var(--waterloo-200);
+  color: var(--waterloo-600);
 }
 
 .button-custom--sm {

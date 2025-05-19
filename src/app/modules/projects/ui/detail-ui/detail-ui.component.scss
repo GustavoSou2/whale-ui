@@ -5,6 +5,16 @@
   padding: 2rem 0;
   overflow-y: auto;
 
+  .detail--hero {
+    width: 100%;
+    background-color: white;
+    padding: 1rem;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  } 
+
   .detail--container {
     width: 70%;
     height: 100%;
@@ -12,15 +22,6 @@
     display: flex;
     margin: 0 auto;
     flex-direction: column;
-
-    .detail--banner {
-      width: 100%;
-      height: 30px;
-      border-radius: 24px;
-      display: flex;
-      align-items: flex-end;
-      background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%);
-    }
 
     .detail--info {
       width: 100%;
@@ -33,9 +34,9 @@
 
     .detail--info-grid {
       width: 100%;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      grid-gap: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
 
       .detail--info__project_detail {
         display: grid;
@@ -46,7 +47,7 @@
           display: grid;
           align-items: center;
           grid-template-columns: 30px 1fr;
-          font-size: 1rem;
+          font-size: 0.9rem;
           color: var(--waterloo-800);
 
           img {
@@ -55,7 +56,7 @@
         }
 
         .data {
-          font-size: 1rem;
+          font-size: 0.9rem;
           color: var(--waterloo-600);
 
           &.budget {

@@ -1,0 +1,51 @@
+<section id="validate-budget">
+  <h2>Validar orçamento</h2>
+  <div class="validate-budget--estimated-cost">
+    <h2>Gasto Estimado:</h2>
+    <p class="estimated-cost">
+      {{ actionPlan.estimated_cost | currency : "R$" }}
+    </p>
+  </div>
+  <form [formGroup]="validateBudgetForm">
+    <input-custom
+      type="currency"
+      placeholder="R$ 0,00"
+      label="Custo real"
+      name="actual_cost"
+      formControlName="actual_cost"
+      required
+    ></input-custom>
+    <label for="has-nf">
+      <input type="checkbox" id="has-nf" formControlName="has_nf" />
+      Não possui NF
+    </label>
+    <uploader
+      accept=".pdf"
+      formControlName="nf_attachment"
+      (change)="onSingleFileChange($event)"
+      *ngIf="!hasNF"
+    ></uploader>
+    <textarea-custom
+      placeholder="Justifique o custo real"
+      name="reason_not_nf"
+      label="Justificativa"
+      formControlName="reason_not_nf"
+      *ngIf="!!hasNF"
+    ></textarea-custom>
+    <section class="validate-budget--actions">
+      <button-custom
+        type="button"
+        label="Aprovar"
+        variant="primary"
+        style="min-width: 200px"
+        (clicked)="onApprove()"
+      ></button-custom>
+      <button-custom
+        type="button"
+        variant="transparent"
+        label="Cancelar"
+        (clicked)="onCancel()"
+      ></button-custom>
+    </section>
+  </form>
+</section>

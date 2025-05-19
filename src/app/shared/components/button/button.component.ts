@@ -1,5 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, input, output, signal } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  input,
+  output,
+  signal,
+} from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'button-custom',
@@ -11,19 +19,28 @@ import { Component, EventEmitter, input, output, signal } from '@angular/core';
 export class ButtonComponent {
   label = input('');
   type = input<'button' | 'submit' | 'reset'>('button');
-  disabled = input<boolean>(false);
+  @Input() set disabled(value: boolean) {
+    this.isDisabled.next(value);
+  }
   icon = input('');
   iconPosition = input<'left' | 'right'>('left');
   size = input<'sm' | 'md' | 'lg'>('md');
-  variant = input<'primary' | 'secondary' | 'danger' | 'transparent'>(
+  variant = input<'primary' | 'secondary' | 'danger' | 'transparent' | 'success' | 'disabled'>(
     'primary'
   );
   clicked = output<any>();
 
   isLoading = signal<boolean>(false);
 
+  private isDisabled = new BehaviorSubject(false);
+  isDisabled$ = this.isDisabled.asObservable();
+
+  get isDisabledButton() {
+    return this.isDisabled.getValue();
+  }
+
   handleClick(event: Event) {
-    if (this.disabled() || this.isLoading()) return;
+    if (this.isDisabledButton || this.isLoading()) return;
     this.clicked.emit(event);
 
     setTimeout(() => this.isLoading.set(false), 1000);
@@ -31,7 +48,7 @@ export class ButtonComponent {
 
   get buttonClass() {
     return `button-custom button-custom--${this.variant()} ${
-      this.disabled() ? 'disabled' : ''
+      this.isDisabledButton ? 'disabled' : ''
     } button-custom--${this.size()}`;
   }
 

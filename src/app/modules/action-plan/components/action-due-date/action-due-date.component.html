@@ -10,5 +10,5 @@
   <mat-icon *ngIf="isLate" color="warn"> error_outline </mat-icon>
   }
 
-  {{ date | date : "shortDate" }}
+  {{ date | date : "shortDate" : "UTC" }}
 </span>

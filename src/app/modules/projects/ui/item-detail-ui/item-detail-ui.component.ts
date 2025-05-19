@@ -34,6 +34,14 @@ export class ItemDetailUiComponent {
   get actualCost() {
     return (
       this.subitems?.reduce((acc: number, subitem: any) => {
+        return acc + +subitem.actual_cost;
+      }, 0) || 0
+    );
+  }
+  
+  get estimatedCost() {
+    return (
+      this.subitems?.reduce((acc: number, subitem: any) => {
         return acc + +subitem.estimated_cost;
       }, 0) || 0
     );

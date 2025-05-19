@@ -63,7 +63,7 @@ export class ProjectsComponent {
         key: 'description',
         header: 'Descrição',
         onFormatter: (col: any, row: any) => {
-          return col.length > 20 ? `${col.slice(0, 35)}...` : col;
+          return col?.length > 20 ? `${col.slice(0, 35)}...` : col;
         },
       },
       {
