@@ -175,6 +175,16 @@ export class SelectComponent implements ControlValueAccessor {
   }
 
   fetchData() {
+    const sourceData = this.source.data;
+
+    if (sourceData) {
+      this.data = sourceData;
+      this.filteredData = sourceData;
+      this.isLoading = false;
+
+      return;
+    }
+
     const { method, url, onFormatterResponse, params } = this.source.api!;
     this.isLoading = true;
 
@@ -271,6 +281,22 @@ export class SelectComponent implements ControlValueAccessor {
   }
 
   private fetchDataAndSetSelectedDisplay(value: any) {
+    if (this.source.data) {
+      this.data = this.source.data;
+      this.filteredData = this.source.data;
+      this.isLoading = false;
+
+      const selectedItem = this.data.find(
+        (item) => item[this.source.keys.value] == value
+      );
+
+      if (selectedItem) {
+        this.selectedDisplay = this.display(selectedItem);
+      }
+
+      return;
+    }
+
     const { method, url, onFormatterResponse, params } = this.source.api!;
     this.isLoading = true;
 

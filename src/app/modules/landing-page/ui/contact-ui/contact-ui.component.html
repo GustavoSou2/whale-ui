@@ -5,42 +5,59 @@
     para ajudar e construir soluções com você.
   </p>
   <form class="contact-form" [formGroup]="contact" (ngSubmit)="onSubmit()">
-    <div class="form-left">
-      <input
-        type="text"
-        formControlName="name"
-        name="name"
-        placeholder="Nome"
-        required
-      />
-      <input
-        type="text"
-        formControlName="phone"
-        name="text"
-        phoneMask
-        placeholder="Telefone"
-        required
-      />
-      <input
-        type="email"
-        formControlName="email"
-        name="email"
-        placeholder="E-mail"
-        required
-      />
-    </div>
-    <div class="form-right">
-      <textarea
-        formControlName="message"
-        name="message"
-        placeholder="Mensagem"
-        required
-      ></textarea>
-      <button-custom
-        type="submit"
-        label="Enviar"
-        style="width: 100%"
-      ></button-custom>
-    </div>
+    <input-custom
+      type="text"
+      placeholder="Digite seu nome"
+      name="name"
+      label="Nome"
+      formControlName="name"
+      required
+    ></input-custom>
+    <input-custom
+      type="phone"
+      label="Telefone"
+      placeholder="(00) 00000-0000"
+      name="phone"
+      formControlName="phone"
+      required
+    ></input-custom>
+    <input-custom
+      type="email"
+      placeholder="exemlo@gmail.com"
+      name="email"
+      label="E-mail"
+      formControlName="email"
+      required
+    ></input-custom>
+    <select-custom
+      [label]="'Onde você nos conheceu?'"
+      [source]="{
+        data: [
+          { label: 'Google', value: 'google' },
+          { label: 'Facebook', value: 'facebook' },
+          { label: 'Instagram', value: 'instagram' },
+          { label: 'LinkedIn', value: 'linkedin' },
+          { label: 'Indicação', value: 'indication' },
+          { label: 'Outros', value: 'others' }
+        ],
+        keys: {
+          display: 'label',
+          value: 'value',
+        }
+      }"
+      formControlName="origin"
+    ></select-custom>
+    <textarea-custom
+      placeholder="Descreva sua mensagem"
+      name="message"
+      label="Mensagem"
+      formControlName="message"
+    ></textarea-custom>
+    <button-custom
+      type="submit"
+      label="Enviar"
+      [disabled]="!contact.valid"
+      style="width: 100%"
+    ></button-custom>
   </form>
 </div>

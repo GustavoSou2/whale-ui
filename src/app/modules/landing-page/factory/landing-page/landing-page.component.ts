@@ -23,8 +23,6 @@ export class LandingPageComponent {
   openDialogEnded() {
     const dialogRef = this.dialogService.open(BetaEndedUiComponent);
 
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log(`Dialog result: ${result}`);
-    });
+    dialogRef.afterClosed().subscribe((result) => {});
   }
 }

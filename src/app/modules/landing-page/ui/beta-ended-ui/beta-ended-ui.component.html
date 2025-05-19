@@ -5,21 +5,39 @@
     antecipado no lançamento oficial!
   </p>
 
-  <form class="lead-form" [formGroup]="betaEndedForm" (ngSubmit)="onSubmit()">
-    <input
+  <form class="lead-form" [formGroup]="betaEndedForm">
+    <input-custom
       type="text"
-      formControlName="name"
+      placeholder="Digite seu nome"
       name="name"
-      placeholder="Seu nome"
+      label="Nome"
+      formControlName="name"
       required
-    />
-    <input
+    ></input-custom>
+
+    <input-custom
       type="email"
-      formControlName="email"
+      placeholder="exemlo@gmail.com"
       name="email"
-      placeholder="Seu e-mail"
+      label="E-mail"
+      formControlName="email"
       required
-    />
-    <button type="submit" [disabled]="!betaEndedForm.valid">Quero ser avisado</button>
+    ></input-custom>
   </form>
+  <section class="button-container">
+    <button-custom
+      type="button"
+      label="Enviar"
+      (clicked)="onSubmit()"
+      [disabled]="!betaEndedForm.valid"
+      style="width: 100%"
+    ></button-custom>
+    <button-custom
+      type="button"
+      label="Fechar"
+      variant="transparent"
+      (clicked)="onClose()"
+      style="width: 100%"
+    ></button-custom>
+  </section>
 </div>
