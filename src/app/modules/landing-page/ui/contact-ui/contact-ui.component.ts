@@ -14,6 +14,7 @@ import { TextareaCustomComponent } from '../../../../shared/components/textarea-
 import { SelectComponent } from '../../../../shared/components/select/select.component';
 import { catchError, tap, throwError } from 'rxjs';
 import { ToastService } from '../../../../shared/components/toast/toast.service';
+import { LoaderService } from '../../../../shared/components/loader/loader.service';
 
 @Component({
   selector: 'contact-ui',
@@ -35,6 +36,7 @@ export class ContactUiComponent {
   fb = inject(FormBuilder);
   contactService = inject(ContactService);
   toastService = inject(ToastService);
+  loader = inject(LoaderService); 
 
   contact = this.fb.group({
     name: ['', [Validators.required, Validators.minLength(3)]],
@@ -46,15 +48,17 @@ export class ContactUiComponent {
 
   onSubmit() {
     const contactFormValue = this.contact.value;
-    
+    const loaderRef = this.loader.show();
     this.contactService
       .sendContactForm(<any>contactFormValue)
       .pipe(
         tap(() => {
+          loaderRef.hide();
           this.toastService.addToast('Sucesso', 'Email enviado com sucesso!');
           this.contact.reset();
         }),
         catchError((error) => {
+          loaderRef.hide();
           this.toastService.addToast(
             'Erro',
             'Ocorreu um erro ao enviar o email.'

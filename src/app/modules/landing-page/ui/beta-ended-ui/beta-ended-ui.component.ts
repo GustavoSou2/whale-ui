@@ -12,6 +12,7 @@ import { ButtonComponent } from '../../../../shared/components/button/button.com
 import { PreLaunchService } from '../../services/pre-launch/pre-launch.service';
 import { catchError, tap, throwError } from 'rxjs';
 import { ToastService } from '../../../../shared/components/toast/toast.service';
+import { LoaderService } from '../../../../shared/components/loader/loader.service';
 
 @Component({
   selector: 'app-beta-ended-ui',
@@ -30,6 +31,7 @@ import { ToastService } from '../../../../shared/components/toast/toast.service'
 export class BetaEndedUiComponent {
   dialogRef = inject(MatDialogRef<BetaEndedUiComponent>);
   fb = inject(FormBuilder);
+  loader = inject(LoaderService);
   toastService = inject(ToastService);
   preLaunchService = inject(PreLaunchService);
 
@@ -40,7 +42,7 @@ export class BetaEndedUiComponent {
 
   onSubmit() {
     const betaEndedFormValue = this.betaEndedForm.value;
-
+    const loaderRef = this.loader.show();
     this.preLaunchService
       .sendPreLaunch(<any>betaEndedFormValue)
       .pipe(
@@ -49,14 +51,18 @@ export class BetaEndedUiComponent {
             'Sucesso',
             'Cadastro na lista de lançamento realizado com sucesso!'
           );
+          loaderRef.hide();
           this.dialogRef.close(this.betaEndedForm.value);
           this.betaEndedForm.reset();
           this.dialogRef.close(this.betaEndedForm.value);
         }),
         catchError((error) => {
+          loaderRef.hide();
           this.toastService.addToast(
             'Erro',
-            'Ocorreu um erro ao enviar o email.'
+            error.error.message.includes('Email já cadastrado')
+              ? 'Este email já foi cadastrado na nossa lista de espera!'
+              : 'Ocorreu um erro ao enviar o email.'
           );
           return throwError(() => error);
         })
