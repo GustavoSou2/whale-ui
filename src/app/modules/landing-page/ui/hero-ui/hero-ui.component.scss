@@ -194,6 +194,43 @@
       width: 80%;
     }
 
+    .hero--img {
+      width: 90dvw;
+
+      &::before {
+        content: "";
+        width: 250px;
+        height: 250px;
+      }
+
+      .hero-card {
+        &--1 {
+          top: 10%;
+          left: 10%;
+        }
+        &--2 {
+          top: 20%;
+          right: 10%;
+        }
+        &--3 {
+          right: 10%;
+          top: 48%;
+        }
+        &--4 {
+          bottom: 20%;
+          left: 10%;
+        }
+        &--5 {
+          bottom: 10%;
+          right: 10%;
+        }
+        &--6 {
+          top: 40%;
+          left: 10%;
+        }
+      }
+    }
+
     .hero--computer {
       width: 85%;
       position: relative;
