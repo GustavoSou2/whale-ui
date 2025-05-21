@@ -15,4 +15,5 @@ import { CommonModule } from '@angular/common';
 })
 export class ApprovalFlowUiComponent {
   @Input() tableSource!: TableSource<any>;
+  @Input() stats!: any[];
 }

@@ -1,15 +1,13 @@
 #dialog {
   width: 45dvw;
-  height: 98dvh;
+  height: 100dvh;
   position: fixed;
   z-index: 10;
   right: -100dvw;
   background: white;
   top: 50%;
   transform: translateY(-50%);
-  border-radius: 6px;
   border: 1px solid var(--big-stone-100);
-  box-shadow: 0 0.3rem 0.9rem #2e2f3820;
   padding: 1rem;
   transition: 500ms ease-in-out;
 

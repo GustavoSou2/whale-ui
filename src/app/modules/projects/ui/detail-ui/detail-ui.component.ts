@@ -14,19 +14,19 @@ import { CATEGORY_DICTIONARY } from '../../../../core/dictionaries/category.dict
 import { ItemDetailComponent } from '../../factory/item-detail/item-detail.component';
 import { DialogService } from '../../../../shared/components/dialog/dialog.service';
 import { CommentsComponent } from '../../../../shared/components/comments/comments.component';
-import { animate, state, style, transition, trigger } from '@angular/animations';
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
+import { CollaboratorListComponent } from '../../components/collaborator-list/collaborator-list.component';
 
 @Component({
   selector: 'detail-ui',
   standalone: true,
-  imports: [
-    CommonModule,
-    TableDataSource,
-    AvatarComponent,
-    NgxChartsModule,
-    FormsModule,
-    CommentsComponent,
-  ],
+  imports: [CommonModule, NgxChartsModule, FormsModule, ButtonComponent],
   templateUrl: './detail-ui.component.html',
   styleUrl: './detail-ui.component.scss',
   animations: [
@@ -35,16 +35,51 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
       state('*', style({ height: '*' })),
       transition('void <=> *', [animate('300ms ease-in-out')]), // Animação suave de 300ms
     ]),
+    trigger('collapseAnimation', [
+      state('open', style({ height: '*', opacity: 1 })),
+      state('closed', style({ height: '0px', opacity: 0, overflow: 'hidden' })),
+      transition('closed <=> open', animate('300ms ease-in-out')),
+    ]),
   ],
 })
 export class DetailUiComponent {
-  @Input() project: any;
-  @Input() tableSource!: any;
-  @Input() items!: any;
+  @Input('project') set _project(data: any) {
+    let estimated = 0;
+    let actualEstimated = 0;
+    let actual = 0;
 
+    this.project = data;
+
+    for (const item of data.items) {
+      actual += parseFloat(item.actual_cost || 0);
+
+      for (const subitem of item.subitems || []) {
+        estimated += parseFloat(subitem.estimated_cost || 0);
+        actualEstimated += parseFloat(subitem.actual_cost || 0);
+      }
+    }
+
+    this.totalEstimated = estimated;
+    this.totalActualEstimated = actualEstimated;
+    this.totalActual = actual;
+  }
+  @Input() tableSource!: any;
+  @Input() set items(itemAgroupedByStatus: any) {
+    this.itemAgroupedByStatus = itemAgroupedByStatus;
+  }
   @Input() subItemTemplate!: TemplateRef<any>;
 
   dialogCustomService = inject(DialogService);
+
+  itemAgroupedByStatus: any = [];
+  totalItems: number = 0;
+  completedItems: number = 0;
+  progressPercentage: number = 0;
+  totalEstimated = 0;
+  totalActual = 0;
+  totalActualEstimated = 0;
+
+  project: any = {};
 
   get projectName() {
     return this.project?.name ?? '';
@@ -82,5 +117,50 @@ export class DetailUiComponent {
       },
     });
   }
-}
 
+  calculateProgress(): void {
+    let total = 0;
+    let completed = 0;
+
+    this.itemAgroupedByStatus.forEach((group: any) => {
+      if (group.items && Array.isArray(group.items)) {
+        total += group.items.length;
+        completed += group.items.filter(
+          (item: any) => item.status === 'completed'
+        ).length;
+      }
+    });
+
+    this.totalItems = total;
+    this.completedItems = completed;
+    this.progressPercentage =
+      total > 0 ? Math.round((completed / total) * 100) : 0;
+  }
+
+  actualCost(item: any) {
+    return (
+      item.subitems?.reduce((acc: number, subitem: any) => {
+        return acc + +subitem.actual_cost;
+      }, 0) || 0
+    );
+  }
+
+  estimatedCost(item: any) {
+    return (
+      item.subitems?.reduce((acc: number, subitem: any) => {
+        return acc + +subitem.estimated_cost;
+      }, 0) || 0
+    );
+  }
+
+  calculatePercentage(subitems: any[] = []) {
+    const completed = subitems.filter((item) => item.status === 'completed');
+    return Math.round((completed.length / subitems.length) * 100);
+  }
+
+  totalSubitems(items: any) {
+    return items.reduce((acc: number, item: any) => {
+      return acc + (item.subitems ? item.subitems.length : 0);
+    }, 0);
+  }
+}

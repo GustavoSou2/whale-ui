@@ -8,7 +8,7 @@ import { CardBudgetUiComponent } from '../../components/card-budget-ui/card-budg
 import { MatDialog } from '@angular/material/dialog';
 import { BudgetUpsertDialogComponent } from '../../components/budget-upsert-dialog/budget-upsert-dialog.component';
 import { BudgetService } from '../../services/budget/budget.service';
-import { catchError, forkJoin, tap, throwError } from 'rxjs';
+import { catchError, forkJoin, map, tap, throwError } from 'rxjs';
 import { LoaderService } from '../../../../shared/components/loader/loader.service';
 import { ItemFormComponent } from '../item-form/item-form.component';
 import { TableSource } from '../../../../shared/components/table/table.component';
@@ -21,6 +21,9 @@ import { SubItemsService } from '../../services/sub-items/sub-items.service';
 import { DialogService } from '../../../../shared/components/dialog/dialog.service';
 import { ItemDetailComponent } from '../item-detail/item-detail.component';
 import { InputCustomComponent } from '../../../../shared/components/input/input.component';
+import { CollaboratorComponent } from '../../../collaborator/factory/collaborator/collaborator.component';
+import { CollaboratorListComponent } from '../../components/collaborator-list/collaborator-list.component';
+import { ProjectStatsComponent } from '../../components/project-stats/project-stats.component';
 
 export const ITEM_STATUS_DICTIONARY: Record<string, string> = {
   blocked: 'Bloqueado',
@@ -48,12 +51,14 @@ export const ITEMS_CATEGORIES_DICTIONARY: Record<string, string> = {
     ButtonComponent,
     CardBudgetUiComponent,
     InputCustomComponent,
+    CollaboratorListComponent,
+    ProjectStatsComponent,
   ],
   template: `
-    @let project = project$() | async;
+    @let project = project$() | async; @let items = items$ | async;
     <detail-ui
       [project]="project"
-      [items]="items$ | async"
+      [items]="items"
       [subItemTemplate]="templateRefItemBudget"
     >
       <ng-container
@@ -64,6 +69,14 @@ export const ITEMS_CATEGORIES_DICTIONARY: Record<string, string> = {
         [ngTemplateOutlet]="templateRefProjectDetailBudget"
         project-detail-budget
       ></ng-container>
+
+      <ng-container collaborators-list>
+        <collaborator-list [data]="items!"></collaborator-list>
+      </ng-container>
+
+      <ng-container project-stats>
+        <project-stats [data]="items!"></project-stats>
+      </ng-container>
     </detail-ui>
 
     <ng-template #templateRefProjectDetailActions>
@@ -72,6 +85,7 @@ export const ITEMS_CATEGORIES_DICTIONARY: Record<string, string> = {
         label="Adicionar um item"
         icon="fa-solid fas fa-plus plus"
         iconPosition="right"
+        size="sm"
         (click)="newItemDialog()"
       ></button-custom>
       <input-custom
@@ -125,7 +139,26 @@ export class DetailComponent {
   projectId = computed(() => this.route.snapshot.paramMap.get('id'));
   project$ = computed(() => this.projectsService.getProject(this.projectId()!));
 
-  items$ = this.itemService.findAll(this.projectId()!);
+  items$ = this.getItemsByProject();
+
+  getItemsByProject() {
+    const projectId = this.projectId();
+    const toastrRef = this.loaderService.show();
+
+    return this.itemService.findAll(projectId!).pipe(
+      map((_) => _.map((item) => ({ ...item, isOpen: false }))),
+      tap((response) => {
+        toastrRef.hide();
+      }),
+      catchError(({ error }) => {
+        this.toastService.addToast(
+          'error',
+          `Erro ao buscar itens: ${error.message}`
+        );
+        return throwError(() => error);
+      })
+    );
+  }
 
   newItemDialog() {
     const projectId = this.projectId();

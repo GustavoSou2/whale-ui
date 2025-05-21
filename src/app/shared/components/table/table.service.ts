@@ -16,6 +16,10 @@ export class TableDataSourceService<T> {
     return this.stateSubject;
   }
 
+  setState(state: boolean): void {
+    this.stateSubject.next(state);
+  }
+
   setData(data: T[]): void {
     this.dataSubject.next(data);
   }
@@ -34,6 +38,6 @@ export class TableDataSourceService<T> {
   }
 
   reload() {
-    this.stateSubject.next(!this.stateSubject.value);
+    this.stateSubject.next(true);
   }
 }

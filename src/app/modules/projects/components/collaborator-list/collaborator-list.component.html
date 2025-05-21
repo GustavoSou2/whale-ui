@@ -1,0 +1,20 @@
+<div class="collaborator-list">
+  <h2>Colaboradores</h2>
+
+  <ng-container *ngIf="collaborators().length; else noData">
+    <div class="collaborator-card" *ngFor="let user of collaborators()">
+      <div class="user-info">
+        <div class="username">{{ user.username }}</div>
+        <div class="email">{{ user.email }}</div>
+      </div>
+      <div class="counts">
+        <div>{{ user.itemCount }}<span>Itens</span></div>
+        <div>{{ user.subitemCount }}<span>Subitens</span></div>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-template #noData>
+    <p>Nenhum colaborador encontrado.</p>
+  </ng-template>
+</div>

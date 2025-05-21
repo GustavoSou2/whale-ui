@@ -9,6 +9,39 @@ import { Component } from '@angular/core';
   styleUrl: './services-ui.component.scss',
 })
 export class ServicesUiComponent {
+  services = [
+    {
+      name: 'Projetos',
+      description:
+        'Centralize todas as informações dos seus projetos em um só lugar e descubra como gerenciar com mais organização, controle e agilidade.',
+      img: './landing/Projetos.png',
+    },
+    {
+      name: 'Gerenciamento de Obras',
+      description:
+        'Visualize o andamento da obra, identifique gargalos e mantenha tudo sob controle com ferramentas práticas pensadas para o dia a dia da construção.',
+      img: './landing/gerenciamento de projeto.png',
+    },
+    {
+      name: 'Plano de Ação',
+      description:
+        'Saia do papel e coloque cada etapa em movimento com planos de ação automatizados, estruturados para acelerar a execução e reduzir erros.',
+      img: './landing/plano de ação.png',
+    },
+    {
+      name: 'Orçamentos Inteligentes',
+      description:
+        'Crie orçamentos detalhados com validações automáticas, evitando desperdícios e garantindo que tudo esteja dentro das normas desde o início.',
+      img: './landing/orçamentos.png',
+    },
+    {
+      name: 'Fluxo de aprovação',
+      description:
+        'Controle e registre aprovações em cada etapa da obra, garantindo transparência, agilidade nas decisões e conformidade com o planejamento.',
+      img: './landing/fluxo de aprovação.png',
+    },
+  ];
+
   metrics = [
     {
       value: '+400',

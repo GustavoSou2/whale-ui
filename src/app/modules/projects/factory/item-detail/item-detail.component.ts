@@ -37,15 +37,7 @@ import {
 import { ToastService } from '../../../../shared/components/toast/toast.service';
 import { Router } from '@angular/router';
 import { LoaderService } from '../../../../shared/components/loader/loader.service';
-
-const initActionPlan = (name: string, type: 'item' | 'subitem') => {
-  return `<p>
-    O <strong>plano de ação</strong> é um conjunto estruturado de etapas, tarefas e validações que visam garantir o cumprimento de requisitos técnicos, legais e operacionais dentro da obra. Ele permite o <strong>acompanhamento detalhado</strong> do progresso, com responsáveis designados, prazos definidos e status personalizados para cada fase do processo.
-  </p><p>
-    Neste caso, você está prestes a iniciar o plano de ação para o seguinte elemento:<br>
-    Referente ao ${type}: <strong>${name}</strong><br>
-  </p><p><strong>Deseja realmente iniciar o plano de ação para este item/subitem?</strong></p>`;
-};
+import { SubitemCardComponent } from '../../components/subitem-card/subitem-card.component';
 
 @Component({
   selector: 'app-item-detail',
@@ -58,7 +50,7 @@ const initActionPlan = (name: string, type: 'item' | 'subitem') => {
     TableDataSource,
   ],
   template: `
-    <item-detail-ui [item]="data?.item" [subitems]="subItems$ | async">
+    <item-detail-ui [item]="item" [subitems]="subItems$ | async">
       <ng-container
         [ngTemplateOutlet]="itemActionsRef"
         item-actions
@@ -78,12 +70,12 @@ const initActionPlan = (name: string, type: 'item' | 'subitem') => {
         label="Adicionar um subitem"
         size="sm"
         (clicked)="newSubItem()"
-        style="width: 280px; margin-top: 2rem"
+        style="width: 280px"
       ></button-custom>
     </ng-template>
 
     <ng-template #commentsRef>
-      <comments [bgDetail]="'white'"></comments>
+      <!-- <comments [bgDetail]="'white'"></comments> -->
     </ng-template>
 
     <ng-template #tableSubitemsRef>
@@ -92,7 +84,7 @@ const initActionPlan = (name: string, type: 'item' | 'subitem') => {
         [tableFullWidth]="false"
         [tableSource]=" {
           api: {
-            url: 'sub-item/item/' + data?.item.id,
+            url: 'sub-item/item/' + item.id,
             method: 'GET',
           },
           columns: columns,
@@ -104,7 +96,15 @@ const initActionPlan = (name: string, type: 'item' | 'subitem') => {
   providers: [SubItemsService, DatePipe, ActionPlanService],
 })
 export class ItemDetailComponent implements AfterViewInit {
-  @Input() data!: any;
+  @Input() set data(value: any) {
+    this.selfData = value;
+    this.subItems$ = this.getSubitemByItemBy(value.item.id);
+  }
+
+  selfData: any;
+  get item() {
+    return this.selfData?.item;
+  }
 
   private router = inject(Router);
   private subItemsService = inject(SubItemsService);
@@ -117,6 +117,17 @@ export class ItemDetailComponent implements AfterViewInit {
 
   private isLoading = new BehaviorSubject<boolean>(true);
   isLoading$ = this.isLoading.asObservable();
+
+  getSubitemByItemBy(itemId: any) {
+    return this.subItemsService.findAll(itemId).pipe(
+      map((res: any) =>
+        res.map((item: any) => ({ ...item, isCollapsed: false }))
+      ),
+      tap(() => {
+        this.isLoading.next(false);
+      })
+    );
+  }
 
   columns = [
     { key: 'name', header: 'Titulo', width: 'max-content' },
@@ -218,76 +229,7 @@ export class ItemDetailComponent implements AfterViewInit {
 
         return subitemHasActionPlan;
       },
-      onClick: (row: any) => {
-        const dialogRef = this.confirmationDialogService.open({
-          title: 'Iniciar Plano de Ação',
-          messageHTML: initActionPlan(row.name, 'subitem'),
-          cancelButton: {
-            text: 'Não',
-            color: 'transparent',
-          },
-          confirmButton: {
-            text: 'Iniciar plano de ação',
-            color: 'primary',
-          },
-        });
-
-        dialogRef.afterClosed().subscribe((result) => {
-          if (!!result) {
-            this.actionPlanService
-              .createActionPlan({
-                project_id: this.data?.item.project_id,
-                responsible_user_id: row.responsible_user_id,
-                action_type: ActionPlanType.EXECUTION,
-                priority: ActionPlanPriority.LOW,
-                name: `[${row.id}${this.datePipe.transform(
-                  new Date(),
-                  'HHmmss'
-                )}] Plano de Ação - ${row.name}`,
-                description: row.description,
-                targets: [
-                  {
-                    target_id: row.id,
-                    target_type: 'subitem',
-                  },
-                ],
-              })
-              .pipe(
-                tap((actionPlan) => {
-                  const loader = this.loaderService.show();
-
-                  this.toastService.addToast(
-                    'success',
-                    'Plano de ação iniciado com sucesso'
-                  );
-
-                  this.router
-                    .navigateByUrl('/', { skipLocationChange: true })
-                    .then(() => {
-                      this.router
-                        .navigate([window.location.pathname])
-                        .then(() => {
-                          this.toastService.addToast(
-                            'success',
-                            'Item criado com sucesso'
-                          );
-
-                          loader.hide();
-                        });
-                    });
-                }),
-                catchError((error) => {
-                  this.toastService.addToast(
-                    'success',
-                    `Erro ao iniciar o plano de ação: ${error.error.message}`
-                  );
-                  return throwError(() => error);
-                })
-              )
-              .subscribe();
-          }
-        });
-      },
+      onClick: (row: any) => {},
     },
     {
       icon: 'Table.svg',
@@ -359,13 +301,6 @@ export class ItemDetailComponent implements AfterViewInit {
   newSubItem() {}
 
   ngAfterViewInit(): void {
-    this.subItems$ = this.subItemsService.findAll(this.data?.item.id).pipe(
-      map((res: any) =>
-        res.map((item: any) => ({ ...item, isCollapsed: false }))
-      ),
-      tap(() => {
-        this.isLoading.next(false);
-      })
-    );
+    // this.subItems$ = this.getSubitemByItemBy(this.data?.item.id)
   }
 }

@@ -30,7 +30,7 @@ export const ApprovalFlowType = {
     ButtonComponent,
     InputCustomComponent,
   ],
-  template: ` <approval-flow-ui [tableSource]="tableSource">
+  template: ` <approval-flow-ui [tableSource]="tableSource" [stats]="stats">
       <ng-container
         *ngTemplateOutlet="approvalFlowHeader"
         approval-header
@@ -53,10 +53,67 @@ export class ApprovalFlowComponent {
   approvalFlowService = inject(ApprovalFlowService);
   tableDataSource = inject(TableDataSourceService);
 
+  stats: any = [];
+
+  approvalFlowStats: any = {
+    approved: 0,
+    pending: 0,
+    rejected: 0,
+    late: 0,
+  };
+
+  approvalStatus: any = {
+    approved: {
+      name: 'Aprovado',
+      name_code: 'approved',
+      color: '#A8E6CF',
+      icon: 'fa-solid fa-check',
+    },
+    rejected: {
+      name: 'Rejeitado',
+      name_code: 'rejected',
+      color: '#FF8B94',
+      icon: 'fa-solid fa-xmark',
+    },
+    late: {
+      name: 'Atrasado',
+      name_code: 'late',
+      color: '#FFD3B6',
+      icon: 'fa-solid fa-clock',
+    },
+
+    pending: {
+      name: 'Pendente',
+      name_code: 'pending',
+      color: '#D3E0EA',
+      icon: 'fa-solid fa-hourglass',
+    },
+  };
+
   tableSource: TableSource<any> = {
     api: {
       url: 'approval-flow',
       method: 'GET',
+      onFormatterResponse: (response: any) => {
+        const statusarray = Object.keys(this.approvalFlowStats);
+
+        this.stats = [];
+        console.log(statusarray);
+
+        statusarray.forEach((status: any) => {
+          this.stats.push({
+            ...this.approvalStatus[status],
+            count:
+              response.filter(
+                (item: any) => item.approval_status.name_code == status
+              ).length || 0,
+          });
+        });
+
+        console.log(this.stats);
+
+        return response;
+      },
     },
     columns: [
       {

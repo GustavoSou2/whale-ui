@@ -212,7 +212,7 @@ export class ExecutionReportsComponent {
         ...reportFormValue,
         start_date: new Date(reportFormValue.start_date),
         end_date: new Date(reportFormValue.end_date),
-        action_plan_target_id: this.actionPlan.id,
+        action_plan_target_id: this.actionPlan.target_id,
       })
       .pipe(
         tap((executionReport: any) => {
@@ -234,6 +234,7 @@ export class ExecutionReportsComponent {
   }
 
   switchTemplateToShow(templateRef: TemplateRef<any>, context: any) {
+
     this.templateConfig.set({ templateRef, context });
   }
 

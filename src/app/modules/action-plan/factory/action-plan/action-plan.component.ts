@@ -198,8 +198,9 @@ export class ActionPlanComponent {
         icon: 'Check.svg',
         hidden: (row: any) => {
           return (
-            !!row.has_approval_flow &&
-            row?.approval_flow.approval_status.name_code != 'approved'
+            (!!row.has_approval_flow &&
+              row?.approval_flow.approval_status.name_code != 'approved') ||
+            row.action_plan_status.name_code == ActionPlanStatus.CONCLUSAO
           );
         },
         onClick: (row: any) => {
@@ -268,7 +269,8 @@ export class ActionPlanComponent {
           return (
             row?.action_plan_status?.name_code == ActionPlanStatus.CRIACAO ||
             (!!row.has_approval_flow &&
-              row?.approval_flow.approval_status.name_code != 'approved')
+              row?.approval_flow.approval_status.name_code != 'approved') ||
+            row.action_plan_status.name_code == ActionPlanStatus.CONCLUSAO
           );
         },
         onClick: (row: any) => {

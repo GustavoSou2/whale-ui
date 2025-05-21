@@ -9,11 +9,12 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
+import { SubitemCardComponent } from '../../components/subitem-card/subitem-card.component';
 
 @Component({
   selector: 'item-detail-ui',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, SubitemCardComponent],
   templateUrl: './item-detail-ui.component.html',
   styleUrl: './item-detail-ui.component.scss',
   animations: [
@@ -38,7 +39,7 @@ export class ItemDetailUiComponent {
       }, 0) || 0
     );
   }
-  
+
   get estimatedCost() {
     return (
       this.subitems?.reduce((acc: number, subitem: any) => {

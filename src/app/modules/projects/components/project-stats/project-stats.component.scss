@@ -1,0 +1,24 @@
+.project-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+
+  .stat-card {
+    background-color: white;
+    border-radius: 8px;
+    padding: 1rem;
+    border: 1px solid var(--big-stone-100);
+
+    .label {
+      font-size: 0.95rem;
+      color: var(--waterloo-400);
+      margin-bottom: 0.5rem;
+    }
+
+    .value {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: var(--waterloo-900);
+    }
+  }
+}

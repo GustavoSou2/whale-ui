@@ -7,7 +7,18 @@
 </layout>
 
 <ng-template #layoutHeader>
-  <ng-content select="[approval-header]"></ng-content>
+  <section class="approval-flow--header">
+    <section class="approval--header-stats">
+      <div class="approval-stats--card" *ngFor="let metrics of stats" style="--card-color: {{ metrics.color }}40; --card-icon-color: {{ metrics.color }}">
+        <h2>{{ metrics.name }}</h2>
+        <p>{{ metrics.count }}</p>
+        <i [class]="metrics.icon" class="icon"></i>
+      </div>
+    </section>
+    <section class="approval--header-search">
+      <ng-content select="[approval-header]"></ng-content>
+    </section>
+  </section>
 </ng-template>
 <ng-template #table>
   <table-custom

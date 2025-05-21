@@ -11,4 +11,20 @@ export const STATUS_DICTIONARY: Record<string, any> = {
     label: 'Concluído',
     color: '#10ac84',
   },
+  unlocked: {
+    label: 'Desbloqueado',
+    color: '#00a8ff',
+  }, 
+  blocked: {
+    label: 'Bloqueado',
+    color: '#e84118',
+  },
+  archived: {
+    label: 'Arquivado',
+    color: '#576574',
+  },
+  cancel: {
+    label: 'Cancelado',
+    color: '#e84118',
+  },
 };

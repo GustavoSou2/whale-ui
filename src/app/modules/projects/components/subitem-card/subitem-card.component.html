@@ -1,0 +1,132 @@
+<div class="task-list">
+  <div class="task-card" *ngFor="let task of subitems">
+    <div class="header-action">
+      @if(validateIsSubitemHasActionPlan(task)) {
+      <div class="task-action-plan">
+        <h2>{{ getActionPlanBySubitem(task).name }}</h2>
+        <button-custom
+          type="button"
+          variant="transparent"
+          size="sm"
+          label="Ir até a ação"
+          style="width: max-content"
+        >
+          <img src="./icons/API.svg" alt="Arrow" button-icon />
+        </button-custom>
+        <div class="detail--info">
+          Status da ação:
+          <span
+            class="tag tag--status"
+            [ngStyle]="{
+              backgroundColor: getActionPlanStatusBySubitem(task).color,
+              color: getActionPlanStatusBySubitem(task).text_color
+            }"
+          >
+            {{ getActionPlanStatusBySubitem(task).name }}
+          </span>
+        </div>
+      </div>
+      } @else {
+      <button-custom
+        type="button"
+        variant="disabled"
+        size="sm"
+        label="Iniciar ação"
+        style="width: max-content"
+      >
+        <img src="./icons/Play.svg" alt="Play" button-icon />
+      </button-custom>
+      }
+    </div>
+    <div class="header">
+      <div class="title">
+        <h2>{{ task.name }}</h2>
+      </div>
+      <div class="date">
+        {{ task.start_date | date : "MMM dd, yyyy" : "UTC" }} →
+        {{ task.end_date | date : "MMM dd, yyyy" : "UTC" }}
+      </div>
+
+      <div class="detail--info-group">
+        <button-custom
+          type="button"
+          [variant]="
+            validateIsSubitemCanBeCompleted(task) ? 'success' : 'disabled'
+          "
+          size="sm"
+          label="Concluir subitem"
+          [disabled]="!validateIsSubitemCanBeCompleted(task)"
+          (click)="completeSubitem(task)"
+          style="width: max-content"
+        >
+          <img src="./icons/Check.svg" alt="Check" button-icon />
+        </button-custom>
+        <div class="detail--info">
+          Responsável:
+          <span class="tag tag--responsible">
+            <img src="./icons/Mention.svg" alt="Check" />
+            {{ task.users?.username }}
+          </span>
+        </div>
+
+        <div class="detail--info">
+          Status:
+          <span
+            class="tag tag--status"
+            [ngStyle]="{
+              backgroundColor: STATUS_DICTIONARY[task.status].color + '30',
+              color: STATUS_DICTIONARY[task.status].color
+            }"
+          >
+            {{ STATUS_DICTIONARY[task.status].label }}
+          </span>
+        </div>
+      </div>
+      <div class="description-caption">
+        <div class="detail--info">
+          Categoria:
+          <span
+            class="tag tag--category"
+            [ngStyle]="{
+              backgroundColor: CATEGORY_DICTIONARY[task.category].color + '30',
+              color: CATEGORY_DICTIONARY[task.category].color
+            }"
+          >
+            {{ CATEGORY_DICTIONARY[task.category].label }}
+          </span>
+        </div>
+        <div class="detail--info">
+          Quantidade:
+          <span class="tag">{{ task.quantity }} {{ task.unit }}</span>
+        </div>
+        <div class="detail--info">
+          Descrição:
+          <p>{{ task.description }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="details">
+      <div class="item">
+        Custo Previsto: <span>{{ task.estimated_cost | currency : "R$" }}</span>
+      </div>
+      <div class="item">
+        Custo Real <span> {{ task.actual_cost | currency : "R$" }}</span>
+      </div>
+      <div
+        class="item"
+        [ngClass]="{
+          'over-budget': isOverBudget(task),
+          'under-budget': !isOverBudget(task)
+        }"
+      >
+        Desvio
+        <span
+          >{{ getCostDifference(task) | currency : "R$" }} ({{
+            getCostPercentageDiff(task) | number : "1.1-1"
+          }}%)</span
+        >
+      </div>
+    </div>
+  </div>
+</div>

@@ -107,6 +107,8 @@ export class TableDataSource<T> implements AfterViewInit {
     this.actionsPosition = source?.actionsPosition || 'right';
     this.api = source.api;
 
+    this.tableDataService.setData([]);
+
     if (source.api) {
       this.loadDataFromApi(source.api);
     } else if (source?.data) {
@@ -132,16 +134,19 @@ export class TableDataSource<T> implements AfterViewInit {
   @ViewChild('vcCell', { read: ViewContainerRef })
   viewContainerCellRefs!: QueryList<ViewContainerRef>;
 
-  constructor() {}
+  constructor() {
+    this.tableDataService.setState(false);
+  }
 
   ngAfterViewInit() {
-    this.tableDataService.listener.subscribe(() => {
-      this.loadDataFromApi(this.api!);
+    this.tableDataService.listener.subscribe((state) => {
+      if (!!state) this.loadDataFromApi(this.api!);
     });
   }
 
   loadDataFromApi(apiConfig: TableSourceApi<T>) {
     const { method, url, onFormatterResponse, params } = apiConfig;
+    console.log('API URL:', url);
 
     const loader = this.loaderService.show();
 

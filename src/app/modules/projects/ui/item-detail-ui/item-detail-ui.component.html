@@ -1,36 +1,56 @@
 <section id="item--detail">
   <section class="detail--item__info">
     <h2>{{ item.name }}</h2>
-    <p>{{ item.description }}</p>
-    <span class="date">
-      {{ item.start_date | date : "dd/MM/yyyy" : "UTC" }} →
-      {{ item.end_date | date : "dd/MM/yyyy" : "UTC" }}
-    </span>
+
     <div class="detail--item__tags">
-      <span class="tag tag--responsible">
-        <img src="./icons/Mention.svg" alt="Check" />
-        {{ item.users?.username }}
-      </span>
+      <div class="detail--info">
+        <div>
+          <img src="./icons/Calendar.svg" alt="Calendario data inicio" />Data
+        </div>
+        <span class="date">
+          {{ item.start_date | date : "MMM dd, yyyy" : "UTC" }} →
+          {{ item.end_date | date : "MMM dd,yyyy" : "UTC" }}
+        </span>
+      </div>
+      <div class="detail--info">
+        <div><img src="./icons/Info.svg" alt="Responsável" />Responsável</div>
+        <span class="tag tag--responsible">
+          <img src="./icons/Mention.svg" alt="Check" />
+          {{ item.users?.username }}
+        </span>
+      </div>
+    </div>
 
-      <span
-        class="tag tag--category"
-        [ngStyle]="{
-          backgroundColor: CATEGORY_DICTIONARY[item.category].color + '30',
-          color: CATEGORY_DICTIONARY[item.category].color
-        }"
-      >
-        {{ CATEGORY_DICTIONARY[item.category].label }}
-      </span>
+    <div class="description-caption">
+      <div class="detail--info">
+        Status
+        <span
+          class="tag tag--status"
+          [ngStyle]="{
+            backgroundColor: STATUS_DICTIONARY[item.status].color + '30',
+            color: STATUS_DICTIONARY[item.status].color
+          }"
+        >
+          {{ STATUS_DICTIONARY[item.status].label }}
+        </span>
+      </div>
 
-      <span
-        class="tag tag--status"
-        [ngStyle]="{
-          backgroundColor: STATUS_DICTIONARY[item.status].color + '30',
-          color: STATUS_DICTIONARY[item.status].color
-        }"
-      >
-        {{ STATUS_DICTIONARY[item.status].label }}
-      </span>
+      <div class="detail--info">
+        Categoria
+        <span
+          class="tag tag--category"
+          [ngStyle]="{
+            backgroundColor: CATEGORY_DICTIONARY[item.category].color + '30',
+            color: CATEGORY_DICTIONARY[item.category].color
+          }"
+        >
+          {{ CATEGORY_DICTIONARY[item.category].label }}
+        </span>
+      </div>
+      <div class="detail--info">
+        Descrição
+        <p class="description">{{ item.description }}</p>
+      </div>
     </div>
   </section>
   <section class="detail--item__budget">
@@ -47,17 +67,12 @@
       <h2>{{ item.budget | currency : "R$" }}</h2>
     </div>
   </section>
-  <section class="detail--item__actions">
-    <ng-content select="[item-actions]"></ng-content>
-  </section>
   <section class="detail--item__subitems">
     <h3>Subitens</h3>
-    <section class="detail--item__subitems-table">
-      <ng-content select="[item-subitems]"></ng-content>
-    </section>
+    <ng-content select="[item-actions]"></ng-content>
+    <subitem-list [subitems]="subitems"></subitem-list>
   </section>
   <section class="detail--item__comments">
-    <h2>Comentários</h2>
     <ng-content select="[item-comments]"></ng-content>
   </section>
 </section>

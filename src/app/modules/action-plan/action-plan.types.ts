@@ -15,7 +15,7 @@ export enum ActionPlanStatus {
   CHECKLIST_EXECUCAO = 'checklist_execucao',
   APROVACAO_FINAL = 'aprovacao_final',
   EXECUCAO = 'execucao',
-  REVISAO_CONCLUSAO = 'revisao_conclusao',
+  CONCLUSAO = 'conclusao',
   ARQUIVADO = 'arquivado',
   CANCELADO = 'cancelado',
 }
@@ -44,7 +44,7 @@ export const ActionPlanApprovalStatus: Record<ActionPlanStatus, Type<any>> = {
   [ActionPlanStatus.CHECKLIST_EXECUCAO]: ActionPlanValidateChecklistComponent,
   [ActionPlanStatus.APROVACAO_FINAL]: ConfirmationDialogComponent,
   [ActionPlanStatus.EXECUCAO]: ExecutionReportsComponent,
-  [ActionPlanStatus.REVISAO_CONCLUSAO]: ConfirmationDialogComponent,
+  [ActionPlanStatus.CONCLUSAO]: ConfirmationDialogComponent,
   [ActionPlanStatus.ARQUIVADO]: ConfirmationDialogComponent,
   [ActionPlanStatus.CANCELADO]: ConfirmationDialogComponent,
 };
@@ -57,7 +57,7 @@ export const ActionPlanReprovalStatus: Record<ActionPlanStatus, Type<any>> = {
   [ActionPlanStatus.CHECKLIST_EXECUCAO]: ConfirmationDialogComponent,
   [ActionPlanStatus.APROVACAO_FINAL]: ConfirmationDialogComponent,
   [ActionPlanStatus.EXECUCAO]: ConfirmationDialogComponent,
-  [ActionPlanStatus.REVISAO_CONCLUSAO]: ConfirmationDialogComponent,
+  [ActionPlanStatus.CONCLUSAO]: ConfirmationDialogComponent,
   [ActionPlanStatus.ARQUIVADO]: ConfirmationDialogComponent,
   [ActionPlanStatus.CANCELADO]: ConfirmationDialogComponent,
 };
@@ -88,7 +88,7 @@ export const ActionPlanConfirmationDicts: Record<ActionPlanStatus, any> = {
     'Plano de Ação',
     'Deseja realmente aprovar o plano de ação?'
   ),
-  [ActionPlanStatus.REVISAO_CONCLUSAO]: createConfirmationContent(
+  [ActionPlanStatus.CONCLUSAO]: createConfirmationContent(
     'Plano de Ação',
     'Deseja realmente aprovar o plano de ação?'
   ),

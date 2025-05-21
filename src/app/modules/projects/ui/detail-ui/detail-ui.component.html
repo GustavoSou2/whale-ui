@@ -1,34 +1,67 @@
 <section id="detail">
   <section class="detail--container">
-    <section class="detail--hero border">
+    <section class="detail--hero">
       <section class="detail--info">
         <h1>{{ projectName }}</h1>
+        <span
+          class="status"
+          style="--card-status-color: {{ project?.project_status.color }}"
+          >{{ project?.project_status.name }}</span
+        >
       </section>
       <section class="detail--info-grid">
+        <div class="budget-summary">
+          <div class="card border">
+            <span>Orçamento Total</span>
+            <p>{{ project?.budget | currency : "R$ " }}</p>
+          </div>
+          <div class="card border">
+            <span>Gasto Real</span>
+            <p>{{ totalActual | currency : "R$ " }}</p>
+          </div>
+          <div class="card border">
+            <span>Gasto Estimado</span>
+            <p>{{ totalEstimated | currency : "R$ " }}</p>
+          </div>
+          <div class="card border">
+            <span>Gasto Real Estimado</span>
+            <p>{{ totalActualEstimated | currency : "R$ " }}</p>
+          </div>
+        </div>
+      </section>
+    </section>
+    <section class="detail-project--body">
+      <section class="detail--content detail--content__container">
+        <ng-container *ngTemplateOutlet="itemsTemplateRef"></ng-container>
+        <!-- <comments></comments> -->
+      </section>
+      <section class="detail--actions detail--content__container">
         <section class="detail--info-grid-item">
           <div class="detail--info__project_detail">
             <span class="label"
+              ><img src="./icons/Info.svg" alt="Responsável" />Responsável</span
+            >
+            <span class="data">{{ project?.users?.username }}</span>
+          </div>
+          <div class="detail--info__project_detail">
+            <span class="label"
               ><img src="./icons/Calendar.svg" alt="Calendario data inicio" />
-              Data de início:</span
+              Data de início</span
             >
             <span class="data">{{
-              project?.init_date | date : "dd/MM/yyyy" : "UTC"
+              project?.init_date | date : "MMM dd, yyyy" : "UTC"
             }}</span>
           </div>
           <div class="detail--info__project_detail">
             <span class="label"
               ><img src="./icons/My week.svg" alt="Calendario data inicio" />
-              Data de término:</span
+              Data de término</span
             >
             <span class="data">{{
-              project?.end_date | date : "dd/MM/yyyy" : "UTC"
+              project?.end_date | date : "MMM dd, yyyy" : "UTC"
             }}</span>
           </div>
-          <div class="detail--info__project_detail">
-            <span class="label"
-              ><img src="./icons/Upgrade.svg" alt="Calendario data inicio" />
-              Orçamento:</span
-            >
+          <!-- <div class="detail--info__project_detail">
             @if (!project?.budget) {
             <ng-content select="[project-detail-budget]"></ng-content>
             } @else {
@@ -36,24 +69,32 @@
               project?.budget | currency : "R$"
             }}</span>
             }
-          </div>
+            <span class="label"
+              ><img src="./icons/Upgrade.svg" alt="Calendario data inicio" />
+              Orçamento:</span
+            >
+          </div> -->
           <div class="detail--info__project_detail">
             <span class="label"
-              ><img src="./icons/Person.svg" alt="Client" /> Cliente:</span
+              ><img src="./icons/Person.svg" alt="Client" /> Cliente</span
             >
             <span class="data">{{ project?.clients?.name }}</span>
           </div>
-          <div class="detail--info__project_detail">
-            <span class="label"
-              ><img
-                src="./icons/Info.svg"
-                alt="Responsável"
-              />Responsável:</span
-            >
-            <span class="data">{{ project?.users?.username }}</span>
-          </div>
         </section>
-        <section class="detail--info-grid-item">
+        <div class="progress-wrapper">
+          <h2>Progresso:</h2>
+
+          <div class="progress-bar">
+            <div
+              class="progress-fill"
+              [style.width.%]="progressPercentage"
+              [attr.aria-valuenow]="progressPercentage"
+              aria-valuemin="0"
+              aria-valuemax="100"
+            ></div>
+          </div>
+        </div>
+        <section>
           <h2>Descrição</h2>
           <p class="description" [@toggleDescription]>
             {{ showFullDescription ? project?.description : shortDescription }}
@@ -65,77 +106,90 @@
             </button>
           </p>
         </section>
+        <ng-content select="[collaborators-list]"></ng-content>
       </section>
-    </section>
-    <section class="detail--actions">
-      <ng-content select="[project-detail-actions]"></ng-content>
-    </section>
-    <section class="detail--content">
-      <ng-container *ngTemplateOutlet="itemsTemplateRef"></ng-container>
-      <comments></comments>
     </section>
   </section>
 </section>
 
 <ng-template #itemsTemplateRef>
-  <section class="detail--items__container">
-    <section class="detail--item" *ngFor="let item of items">
-      <section class="detail--item__info">
-        <h2>{{ item.name }}</h2>
-        <p>{{ item.description }}</p>
-        <span class="date">
-          {{ item.start_date | date : "dd/MM/yyyy" : "UTC" }} →
-          {{ item.end_date | date : "dd/MM/yyyy" : "UTC" }}
-        </span>
-        <div class="detail--item__tags">
-          <span class="tag tag--responsible">
-            <img src="./icons/Mention.svg" alt="Check" />
-            {{ item.users?.username }}
-          </span>
+  <section class="detail--items-action">
+    <ng-content select="[project-detail-actions]"></ng-content>
+  </section>
 
-          <span
-            class="tag tag--category"
-            [ngStyle]="{
-              backgroundColor: CATEGORY_DICTIONARY[item.category].color + '30',
-              color: CATEGORY_DICTIONARY[item.category].color
-            }"
-          >
-            {{ CATEGORY_DICTIONARY[item.category].label }}
-          </span>
-
-          <span
-            class="tag tag--status"
-            [ngStyle]="{
-              backgroundColor: STATUS_DICTIONARY[item.status].color + '30',
-              color: STATUS_DICTIONARY[item.status].color
-            }"
-          >
-            {{ STATUS_DICTIONARY[item.status].label }}
+  <section class="detail-status--list">
+    <section class="detail--status" *ngFor="let status of itemAgroupedByStatus">
+      <section
+        class="detail--status-header"
+        style="--card-status-color: {{
+          STATUS_DICTIONARY[status.status].color
+        }}"
+      >
+        <div class="detail--status-header-title">
+          <h2>{{ STATUS_DICTIONARY[status.status].label }}</h2>
+          <span class="status-count">
+            {{ status.items.length }}
+            {{ status.items.length > 1 ? "itens" : "item" }} /
+            {{ totalSubitems(status.items) }}
+            {{ totalSubitems(status.items) > 1 ? "subitems" : "subitem" }}
           </span>
         </div>
       </section>
-      <section class="detail--item__tap">
-        <section class="detail--item__actions">
-          <ng-container
-            *ngTemplateOutlet="subItemTemplate; context: { $implicit: item.id }"
-          ></ng-container>
-
-          <div
-            class="detail--item__button"
+      <section class="detail--status-body">
+        <section class="detail--status-body-list">
+          <section
+            class="detail--item"
+            *ngFor="let item of status.items"
             (click)="openItemDetailDialog(item)"
           >
-            <img src="./icons/Workspace.svg" alt="Check" />
-          </div>
-        </section>
+            <div class="detail--item__info-title">
+              <h2>{{ item.name }}</h2>
+              <span class="date">
+                {{ item.start_date | date : "MMM dd, yyyy" : "UTC" }} →
+                {{ item.end_date | date : "MMM dd,yyyy" : "UTC" }}
+              </span>
+            </div>
 
-        <section class="detail--item__budgets">
-          <span class="detail--item__budgets__actual_cost">
-            {{ item.actual_cost | currency : "R$" }}
-          </span>
-          <span>/</span>
-          <span class="detail--item__budgets__budget">
-            {{ item.budget | currency : "R$" }}
-          </span>
+            <div class="detail--item__tags">
+              <span class="tag tag--responsible">
+                <img src="./icons/Mention.svg" alt="Check" />
+                {{ item.users?.username }}
+              </span>
+
+              <span
+                class="tag tag--category"
+                [ngStyle]="{
+                  backgroundColor:
+                    CATEGORY_DICTIONARY[item.category].color + '30',
+                  color: CATEGORY_DICTIONARY[item.category].color
+                }"
+              >
+                {{ CATEGORY_DICTIONARY[item.category].label }}
+              </span>
+            </div>
+
+            <p class="description">{{ item.description }}</p>
+
+            <div class="progress-wrapper">
+              <h2>Progresso:</h2>
+
+              <div class="progress-bar">
+                <div
+                  class="progress-fill"
+                  [style.width.%]="calculatePercentage(item?.subitems)"
+                  [attr.aria-valuenow]="calculatePercentage(item?.subitems)"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                ></div>
+              </div>
+            </div>
+            <ng-container
+              *ngTemplateOutlet="
+                subItemTemplate;
+                context: { $implicit: item.id }
+              "
+            ></ng-container>
+          </section>
         </section>
       </section>
     </section>

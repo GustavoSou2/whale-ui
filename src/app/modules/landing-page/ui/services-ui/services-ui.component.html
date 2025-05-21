@@ -5,6 +5,16 @@
     pensada para maximizar resultados na construção civil.
   </p>
 
+  <div class="services">
+    <div *ngFor="let service of services" class="service-card">
+      <img [src]="service.img" [alt]="service.name" />
+      <div class="service-description">
+        <span class="service-value">{{ service.name }}</span>
+        <p class="service-label">{{ service.description }}</p>
+      </div>
+    </div>
+  </div>
+
   <div class="metrics-container">
     <div *ngFor="let metric of metrics" class="metric-card">
       <h3 class="metric-value">{{ metric.value }}</h3>

@@ -17,4 +17,8 @@ export class SubItemsService {
   updateSubItem(id: number, item: any) {
     return this.apiService.patch(`sub-item/${id}`, item);
   }
+
+  completeSubitem(id: number) {
+    return this.apiService.post(`sub-item/${id}/complete`, {});
+  }
 }
