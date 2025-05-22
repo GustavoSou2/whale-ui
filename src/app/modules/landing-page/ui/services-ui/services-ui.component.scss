@@ -22,6 +22,7 @@
 .services {
   display: flex;
   flex-direction: column;
+  margin-top: 1rem;
 
   .service-card {
     border-radius: 6px;
@@ -42,6 +43,7 @@
       flex-direction: column;
       padding: 2rem;
       text-align: left;
+      justify-content: center;
 
       span {
         font-size: 1.5rem;
@@ -51,7 +53,7 @@
 
       p {
         font-size: 1rem;
-        width: 100%;
+        width: 100% !important;
         text-align: left;
         font-family: "Poppins", sans-serif;
         color: var(--waterloo-600);
@@ -118,15 +120,24 @@
   }
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 1024px) {
+  p {
+    width: 90dvw !important;
+  }
+
   .service-card {
     width: 90dvw;
-    display: flex;
+    max-width: 420px;
+    display: flex !important;
+    margin: 0 auto;
+    flex-direction: column;
 
     img {
       width: 100%;
+
       height: auto;
       object-fit: cover;
+      margin: 0 auto;
     }
 
     .service-description {
@@ -134,6 +145,7 @@
       flex-direction: column;
       padding: 1rem;
       text-align: left;
+      justify-content: center;
 
       span {
         font-size: 1.5rem;

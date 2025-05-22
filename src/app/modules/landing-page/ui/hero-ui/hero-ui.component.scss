@@ -78,14 +78,14 @@
       }
       &--3 {
         right: -20%;
-        top: 48%;
+        top: 55%;
       }
       &--4 {
         bottom: 20%;
         left: -10%;
       }
       &--5 {
-        bottom: 10%;
+        bottom: 5%;
         right: -10%;
       }
       &--6 {
@@ -205,28 +205,22 @@
 
       .hero-card {
         &--1 {
-          top: 10%;
-          left: 10%;
+          left: -10px;
         }
         &--2 {
-          top: 20%;
-          right: 10%;
+          right: -10px;
         }
         &--3 {
-          right: 10%;
-          top: 48%;
+          right: -10px;
         }
         &--4 {
-          bottom: 20%;
-          left: 10%;
+          left: -10px;
         }
         &--5 {
-          bottom: 10%;
-          right: 10%;
+          right: -10px;
         }
         &--6 {
-          top: 40%;
-          left: 10%;
+          left: -10px;
         }
       }
     }

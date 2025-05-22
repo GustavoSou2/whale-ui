@@ -19,3 +19,11 @@
     gap: 1rem;
   }
 }
+
+@media only screen and (max-width: 768px) {
+  #cta {
+    p {
+      width: 90dvw !important;
+    }
+  }
+}
