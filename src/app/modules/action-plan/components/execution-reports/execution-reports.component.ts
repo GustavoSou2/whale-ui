@@ -81,9 +81,13 @@ function calculateProgress(start: Date, end: Date, current: Date): number {
   const totalDuration = endTime - startTime;
   const elapsed = currentTime - startTime;
 
+  if (totalDuration === 0) {
+    return currentTime === startTime ? 100 : 0;
+  }
+
   const progress = (elapsed / totalDuration) * 100;
 
-  return +Math.min(Math.max(progress, 0), 100).toFixed(2); // Clamp entre 0 e 100
+  return +Math.min(Math.max(progress, 0), 100).toFixed(2);
 }
 
 @Component({
@@ -135,6 +139,7 @@ export class ExecutionReportsComponent {
   executionReportDetailRef!: TemplateRef<any>;
 
   templateConfig = signal<any>(null);
+  allHistoryHasCompleted = signal(false);
 
   reportForm: FormGroup = this.fb.group({
     name: ['', Validators.required],
@@ -153,7 +158,9 @@ export class ExecutionReportsComponent {
     document_attachment: [{}],
   });
 
-  executionReportsMenu: ExecutionReportMenu[] = [];
+  executionReportsMenu: FormGroup = this.fb.group({
+    reports: this.fb.array([]),
+  });
 
   isShowExecutionHistoryForm = signal(false);
 
@@ -170,15 +177,27 @@ export class ExecutionReportsComponent {
         report.execution_history
       );
 
-      this.executionReportsMenu.push({
+      const reportControl = {
         id: report.id,
         name: report.name,
         progress: report.progress,
         icon: 'fa-solid fa-arrow-trend-up',
         templateRef: this.executionReportDetailRef,
         context: { report },
-      });
+      };
+
+      const reportFormControl = this.fb.group(reportControl);
+
+      const reportsFormArray = this.executionReportsMenu.get(
+        'reports'
+      ) as FormArray;
+
+      reportsFormArray.push(reportFormControl);
     });
+  }
+
+  get reportsFormArray() {
+    return this.executionReportsMenu.get('reports') as FormArray;
   }
 
   onSingleFileChange(event: Event) {
@@ -197,10 +216,11 @@ export class ExecutionReportsComponent {
   }
 
   get allExecutionReportsIsCompleted() {
+    const reports = this.reportsFormArray.value;
+
     return (
-      this.executionReportsMenu.every(
-        (report: any) => +report.progress === 100
-      ) && this.executionReportsMenu.length > 0
+      reports.every((report: any) => +report.progress === 100) &&
+      reports.length > 0
     );
   }
 
@@ -215,26 +235,32 @@ export class ExecutionReportsComponent {
         action_plan_target_id: this.actionPlan.target_id,
       })
       .pipe(
-        tap((executionReport: any) => {
+        tap(({ values: executionReport }: any) => {
           this.reportForm.reset();
           this.tableDataSourceService.reload();
+
+          const reportsFormArray = this.reportsFormArray;
+
           console.log(executionReport);
 
-          this.executionReportsMenu.push({
+          const newReport = {
             id: executionReport.id,
             name: executionReport.name,
             progress: executionReport.progress,
             icon: 'fa-solid fa-arrow-trend-up',
             templateRef: this.executionReportDetailRef,
-            context: { executionReport },
-          });
+            context: { report: { ...executionReport, execution_history: [] } },
+          };
+
+          const newReportGroup = this.fb.group(newReport);
+
+          reportsFormArray.push(newReportGroup);
         })
       )
       .subscribe();
   }
 
   switchTemplateToShow(templateRef: TemplateRef<any>, context: any) {
-
     this.templateConfig.set({ templateRef, context });
   }
 
@@ -262,11 +288,28 @@ export class ExecutionReportsComponent {
     this.executionHistoryService
       .createExecutionHistory(executionHistory)
       .pipe(
-        tap((executionHistory) => {
+        tap(({ values: executionHistory }: any) => {
           this.executionHistoryForm.reset();
           this.tableDataSourceService.reload();
 
           report.execution_history.push(executionHistory);
+
+          const reportsFormArray = this.reportsFormArray;
+
+          const reportIndexOf = reportsFormArray.value.findIndex(
+            (r: any) => r.id === report.id
+          );
+
+          const resportNewProgress = this.getExecutionReportProgress(
+            report.execution_history
+          );
+
+          console.log(reportsFormArray);
+          console.log(reportIndexOf);
+
+          reportsFormArray.at(reportIndexOf)?.patchValue({
+            progress: resportNewProgress,
+          });
         })
       )
       .subscribe();

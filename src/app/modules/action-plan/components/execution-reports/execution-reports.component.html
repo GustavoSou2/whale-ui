@@ -1,6 +1,9 @@
 <section id="execution-reports">
   <h1>Relatório de Execução</h1>
-  <small class="execution-reports--warning">O plano de ação deve conter no mínimo um relatório para ser executado e concluido.</small>
+  <small class="execution-reports--warning"
+    >O plano de ação deve conter no mínimo um relatório para ser executado e
+    concluido.</small
+  >
   <section class="execution-reports--detail">
     <h2>{{ actionPlan.name }}</h2>
     <div class="action-plan--dates">
@@ -27,19 +30,25 @@
           ></button-custom>
         </section>
 
-        <section class="menu-action--reports">
+        <section
+          class="menu-action--reports"
+          [formGroup]="executionReportsMenu"
+        >
           <h3>Relatórios</h3>
-          <button-custom
-            *ngFor="let menu of executionReportsMenu"
-            type="button"
-            [label]="menu.name"
-            [variant]="menu.progress == 100 ? 'success' : 'transparent'"
-            [icon]="menu.icon"
-            
-            (clicked)="
-              switchTemplateToShow(executionReportDetailRef, menu.context)
-            "
-          ></button-custom>
+          <ng-container formArrayName="reports">
+            <ng-container *ngFor="let reportGroup of reportsFormArray.controls">
+              @let menu = reportGroup.value;
+              <button-custom
+                type="button"
+                [label]="menu.name"
+                [variant]="menu.progress == 100 ? 'success' : 'transparent'"
+                [icon]="menu.icon"
+                (clicked)="
+                  switchTemplateToShow(executionReportDetailRef, menu.context)
+                "
+              ></button-custom>
+            </ng-container>
+          </ng-container>
         </section>
       </section>
 
@@ -96,7 +105,7 @@
   </section>
   <section class="execution-report--history">
     <h2>Histórico</h2>
-
+ng 
     <section class="execution-report--new-history">
       <section class="execution-report--actions">
         <button-custom
@@ -105,13 +114,13 @@
           icon="fa-solid fa-plus"
           (clicked)="toggleExecutionHistoryFormState()"
         ></button-custom>
-        <button-custom
+        <!-- <button-custom
           type="button"
           label="Solicitar reajuste de data"
           icon="fa-solid fa-calendar-days"
           variant="transparent"
           (clicked)="toggleExecutionHistoryFormState()"
-        ></button-custom>
+        ></button-custom> -->
       </section>
       <form
         [formGroup]="executionHistoryForm"
