@@ -1,0 +1,40 @@
+<div class="dialog-container">
+  <h1>Detalhes do Colaborador</h1>
+  <small>Informações essenciais do colaborador.</small>
+  <div class="dialog--grid">
+    <div class="user-name--circle">
+      <span class="user-name--initials">{{
+        (data.username ? data.username.substring(0, 1) : "") | uppercase
+      }}</span>
+    </div>
+    <div class="dialog--row">
+      <div class="info-group">
+        <label>Nome completo</label>
+        <p>{{ data.username }}</p>
+      </div>
+
+      <div class="info-group">
+        <label>E-mail</label>
+        <p>{{ data.email }}</p>
+      </div>
+
+      <div class="info-group">
+        <label>Função</label>
+        <p>{{ data.role?.name || "Não definido" }}</p>
+      </div>
+
+      <div class="info-group">
+        <label>Data de cadastro</label>
+        <p>{{ data.created_at | date : "dd/MM/yyyy HH:mm" }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="dialog--foter">
+    <button-custom
+      type="button"
+      label="Fechar"
+      variant="transparent"
+      (clicked)="onClose()"
+    ></button-custom>
+  </div>
+</div>

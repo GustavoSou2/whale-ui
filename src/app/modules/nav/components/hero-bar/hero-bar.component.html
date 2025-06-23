@@ -1,0 +1,18 @@
+@let hero = heroBar$ | async;
+<section id="hero">
+  @if (!!hero) {
+  <ndc-dynamic
+    [ndcDynamicComponent]="hero.component"
+    [ndcDynamicInputs]="hero.data"
+    class="hero-content"
+  ></ndc-dynamic>
+  } @else {
+  <section class="hero-default">
+    <h1 class="hero--title">Seja bem-vindo, {{ user.username }} 👋</h1>
+    <p>
+      Organize orçamentos, tarefas, documentos e validações. Transforme a gestão
+      da sua obra com tecnologia criada para a construção civil.
+    </p>
+  </section>
+  }
+</section>

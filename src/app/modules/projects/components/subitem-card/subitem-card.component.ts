@@ -161,7 +161,7 @@ export class SubitemCardComponent {
 
   validateIsSubitemCanBeCompleted(task: any): boolean {
     const actionPlanStatusNameCode =
-      task.action_plan_target.action_plan.action_plan_status.name_code;
+      task?.action_plan_target?.action_plan?.action_plan_status?.name_code;
 
     return (
       actionPlanStatusNameCode === ActionPlanStatus.CONCLUSAO &&
@@ -186,6 +186,7 @@ export class SubitemCardComponent {
   }
 
   completeSubitem(task: any): void {
+
     if (!this.validateIsSubitemCanBeCompleted(task)) {
       this.toastService.addToast(
         'error',
@@ -217,6 +218,7 @@ export class SubitemCardComponent {
         .completeSubitem(task.id)
         .pipe(
           tap(() => {
+            task.status = 'completed';
             this.router
               .navigateByUrl('/', { skipLocationChange: true })
               .then(() => {

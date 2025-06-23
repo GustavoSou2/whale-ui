@@ -4,7 +4,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InputCustomComponent } from '../../../../shared/components/input/input.component';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
 import { TextareaCustomComponent } from '../../../../shared/components/textarea-custom/textarea-custom.component';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-clients-upsert-ui',
@@ -21,6 +21,21 @@ import { MatDialogRef } from '@angular/material/dialog';
 export class ClientsUpsertUiComponent {
   dialogRef = inject(MatDialogRef<ClientsUpsertUiComponent>);
   fb = inject(FormBuilder);
+  data = inject(MAT_DIALOG_DATA);
+
+  get isView() {
+    return this.data?.isView || false;
+  }
+
+  get dialogTitle() {
+    if (this.isView && this.data?.client) {
+      return `Detalhes do Cliente`;
+    } else if (!this.isView && this.data?.client) {
+      return `Editar Cliente`;
+    } else {
+      return `Novo Cliente`;
+    }
+  }
 
   client = this.fb.group({
     name: ['', [Validators.required, Validators.minLength(3)]],
@@ -35,6 +50,16 @@ export class ClientsUpsertUiComponent {
     number: [''],
     complement: [''],
   });
+
+  constructor() {
+    if (this.data?.client) {
+      this.client.patchValue(this.data.client);
+    }
+
+    if (this.isView) {
+      this.client.disable();
+    }
+  }
 
   cancel() {
     this.dialogRef.close();

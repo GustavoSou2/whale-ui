@@ -1,0 +1,199 @@
+<section id="project-info">
+  <h1>Informações do Projeto</h1>
+
+  <section class="project-info--budget">
+    <div class="card info">
+      <div class="card-header">
+        <i class="fas fa-wallet"></i>
+        <span>Orçamento Total</span>
+      </div>
+      <p>{{ project?.budget | currency : "BRL" : "symbol-narrow" }}</p>
+
+      <div class="deviation-detail">
+        <div class="deviation-numb">
+          <p>{{ deviation | currency : "BRL" : "symbol-narrow" }}</p>
+          <small>Desvio</small>
+        </div>
+        <div class="percentage">
+          <p>
+            <i
+              class="fas"
+              [ngClass]="
+                deviation > 0
+                  ? 'fa-arrow-up text-danger'
+                  : 'fa-arrow-down text-success'
+              "
+            ></i>
+            {{ deviationPercentage | number : "1.0-2" }}%
+          </p>
+          <small *ngIf="deviation > 0">Ultrapassou</small>
+          <small *ngIf="deviation <= 0">Economizou</small>
+        </div>
+      </div>
+
+      <div class="budget-progress">
+        <div class="bar">
+          <div class="real" [style.width.%]="realPercentage"></div>
+          <div
+            class="over"
+            *ngIf="deviation > 0"
+            [style.width.%]="overPercentage"
+          ></div>
+          <div class="remaining" [style.width.%]="remainingPercentage"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bar-chart">
+      <div class="bar-row">
+        <span>Gasto Real</span>
+        <div class="bar-container">
+          <div
+            class="bar real"
+            [style.width.%]="(project?.totalActual / project?.budget) * 100"
+          ></div>
+          <div class="bar-control"></div>
+        </div>
+        <small>{{
+          project?.totalActual | currency : "BRL" : "symbol-narrow"
+        }}</small>
+      </div>
+
+      <div class="bar-row">
+        <span>Gasto Real Estimado</span>
+        <div class="bar-container">
+          <div
+            class="bar estimated"
+            [style.width.%]="(project?.totalEstimated / project?.budget) * 100"
+          ></div>
+          <div class="bar-control"></div>
+        </div>
+        <small>{{
+          project?.totalEstimated | currency : "BRL" : "symbol-narrow"
+        }}</small>
+      </div>
+
+      <div class="bar-row">
+        <span>Gasto Estimado</span>
+        <div class="bar-container">
+          <div
+            class="bar actual-estimated"
+            [style.width.%]="
+              (project?.totalActualEstimated / project?.budget) * 100
+            "
+          ></div>
+          <div class="bar-control"></div>
+        </div>
+        <small>{{
+          project?.totalActualEstimated | currency : "BRL" : "symbol-narrow"
+        }}</small>
+      </div>
+    </div>
+
+    <div class="progress-container">
+      <span>Progresso</span>
+
+      <div>
+        <p>
+          {{ completedItems }}/{{ totalItems }}
+          <small>Items concluídos</small>
+        </p>
+        <div class="bar-wrapper">
+          <div class="bar-fill" [style.width.%]="itemProgressPercentage"></div>
+        </div>
+        <small class="percent">{{ itemProgressPercentage }}%</small>
+      </div>
+      <br />
+      <div>
+        <p>
+          {{ completedSubitems }}/{{ totalSubitems }}
+          <small>Subitens concluídos</small>
+        </p>
+        <div class="bar-wrapper">
+          <div
+            class="bar-fill"
+            [style.width.%]="subitemProgressPercentage"
+          ></div>
+        </div>
+        <small class="percent">{{ subitemProgressPercentage }}%</small>
+      </div>
+    </div>
+
+   
+
+ 
+  </section>
+  <section class="detail--info-grid-item">
+    <div class="detail--info__project_detail">
+      <span class="label"
+        ><img src="./icons/Info.svg" alt="Responsável" />Responsável</span
+      >
+      <span class="data">{{ project?.users?.username }}</span>
+    </div>
+    <div class="detail--info__project_detail">
+      <span class="label"
+        ><img src="./icons/Calendar.svg" alt="Calendario data inicio" /> Data de
+        início</span
+      >
+      <span class="data">{{
+        project?.init_date | date : "MMM dd, yyyy" : "UTC"
+      }}</span>
+    </div>
+    <div class="detail--info__project_detail">
+      <span class="label"
+        ><img src="./icons/My week.svg" alt="Calendario data inicio" /> Data de
+        término</span
+      >
+      <span class="data">{{
+        project?.end_date | date : "MMM dd, yyyy" : "UTC"
+      }}</span>
+    </div>
+
+    <div class="detail--info__project_detail">
+      <span class="label"
+        ><img src="./icons/Person.svg" alt="Client" /> Cliente</span
+      >
+      <span class="data">{{ project?.clients?.name }}</span>
+    </div>
+  </section>
+  <section>
+    <h2>Descrição</h2>
+    <p class="description">
+      {{ showFullDescription ? project?.description : shortDescription }}
+      <button
+        *ngIf="project?.description?.length > 255"
+        (click)="toggleDescription()"
+      >
+        {{ showFullDescription ? "Ver menos" : "Ver mais" }}
+      </button>
+    </p>
+  </section>
+  <section class="collaborators">
+    <div class="cards-container">
+      <div class="cards-header">
+        <small>Colaborador</small>
+        <small>Qtde Items</small>
+        <small>Qtde Subitems</small>
+        <small>Gasto Real Estimado</small>
+        <small>Gasto Real</small>
+        <small>Orçamento</small>
+        <small>Desvio</small>
+      </div>
+      <div class="card-user" *ngFor="let user of financeCollaborators">
+        <p>{{ user.username }}</p>
+        <p>{{ user.itemQuantities }}</p>
+        <p>{{ user.subitemQuantities }}</p>
+
+        <p>R${{ user.estimatedCost | number : "1.2-2" }}</p>
+        <p>R$ {{ user.actualCost | number : "1.2-2" }}</p>
+        <p>R$ {{ user.budget | number : "1.2-2" }}</p>
+        <p
+          [class.positivo]="getDesvio(user) >= 0"
+          [class.negativo]="getDesvio(user) < 0"
+        >
+          R$ {{ getDesvio(user) | number : "1.2-2" }}
+        </p>
+      </div>
+    </div>
+  </section>
+</section>

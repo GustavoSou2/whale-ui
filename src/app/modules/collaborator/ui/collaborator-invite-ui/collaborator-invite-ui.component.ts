@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { CollaboratorUiComponent } from '../collaborator-ui/collaborator-ui.component';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
 import { InputCustomComponent } from '../../../../shared/components/input/input.component';
@@ -23,11 +23,25 @@ import { SelectComponent } from '../../../../shared/components/select/select.com
 export class CollaboratorInviteUiComponent {
   dialogRef = inject(MatDialogRef<CollaboratorUiComponent>);
   fb = inject(FormBuilder);
+  data = inject(MAT_DIALOG_DATA);
+
+  get isEdit() {
+    return !!this.data?.user;
+  }
 
   client = this.fb.group({
     role: ['', [Validators.required]],
     email: ['', [Validators.required, Validators.email]],
   });
+
+  constructor() {
+    const collaborator = this.data?.user;
+
+    if (this.isEdit) {
+      this.client.get('email')?.setValidators([]);
+      this.client.patchValue({ role: collaborator.role_id });
+    }
+  }
 
   cancel() {
     this.dialogRef.close();

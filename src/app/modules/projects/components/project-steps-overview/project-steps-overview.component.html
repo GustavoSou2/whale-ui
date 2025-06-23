@@ -1,0 +1,13 @@
+<div class="overview-info">
+  <div
+    *ngFor="let step of steps; let i = index"
+    class="overview-item"
+    [matTooltip]="step.description"
+    matTooltipPosition="below"
+  >
+    <div class="step-number">
+      {{ step.step }}
+    </div>
+    <span>{{ step.name }}</span>
+  </div>
+</div>

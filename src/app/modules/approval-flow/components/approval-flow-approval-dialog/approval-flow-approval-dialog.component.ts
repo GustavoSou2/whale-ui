@@ -8,6 +8,9 @@ export const ApprovalFlowEntityType = {
   action_plan: {
     name: 'Plano de Ação',
   },
+  project: {
+    name: 'Projeto',
+  },
 }
 
 @Component({

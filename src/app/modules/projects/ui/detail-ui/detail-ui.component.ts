@@ -66,6 +66,7 @@ export class DetailUiComponent {
   @Input() tableSource!: any;
   @Input() set items(itemAgroupedByStatus: any) {
     this.itemAgroupedByStatus = itemAgroupedByStatus;
+    this.calculateProgress();
   }
   @Input() subItemTemplate!: TemplateRef<any>;
 
@@ -163,4 +164,6 @@ export class DetailUiComponent {
       return acc + (item.subitems ? item.subitems.length : 0);
     }, 0);
   }
+
+ 
 }

@@ -1,0 +1,67 @@
+.dialog-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  small {
+    font-size: 0.9rem;
+    color: var(--big-stone-500);
+  }
+
+  .dialog--grid {
+    display: grid;
+    height: max-content;
+    grid-template-columns: 150px 1fr;
+    justify-items: center;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .user-name--circle {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background: linear-gradient(
+      135deg,
+      var(--victoria-700),
+      var(--royal-blue-700),
+      var(--royal-blue-500)
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    span {
+      font-size: 2rem;
+      color: var(--waterloo-100);
+    }
+  }
+
+  .dialog--row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .info-group {
+    display: flex;
+    flex-direction: column;
+
+    label {
+      font-size: 0.85rem;
+      color: var(--waterloo-500);
+    }
+
+    p {
+      font-size: 1rem;
+      margin: 0;
+      color: var(--waterloo-800);
+    }
+  }
+
+  .dialog--foter {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 2rem;
+  }
+}

@@ -1,31 +1,18 @@
 <body id="nav">
-  <nav class="nav--topbar">
-    <div class="nav--logo logo">
-      <img [src]="'logo/logo_royal.svg'" alt="logo" />
-      <span class="logo">Alicerce</span>
-    </div>
-
-    <div class="nav--actions">
-      <ng-content select="[nav-actions]"></ng-content>
-      <ng-content select="[nav-avatar]"></ng-content>
-    </div>
-  </nav>
-  <main class="nav--container">
-    <aside class="nav--aside-menu border">
-      <section class="nav--menu">
-        <ng-content select="[nav-aside-add-button]"></ng-content>
-        <ng-content select="[nav-aside-menu]"></ng-content>
+  <aside class="nav--aside">
+    <section class="nav--aside-menu">
+      <section class="nav--aside-menu-logo">
+        <img [src]="'logo/logo_royal.svg'" alt="logo" />
+        <span class="menu-logo">Alicerce PRO</span>
       </section>
-      <div class="nav--close-menu">
-        <button-custom
-          type="button"
-          variant="transparent"
-          icon="NavigationChevron.svg"
-        ></button-custom>
-      </div>
-    </aside>
-    <section class="nav--content border">
+      <ng-content select="[nav-aside-menu]"></ng-content>
+    </section>
+  </aside>
+  <section class="nav--content border">
+    <ng-content select="[nav-top-bar]"></ng-content>
+    <ng-content select="[nav-hero-bar]"></ng-content>
+    <section class="nav--content-body">
       <router-outlet></router-outlet>
     </section>
-  </main>
+  </section>
 </body>

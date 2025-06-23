@@ -7,6 +7,9 @@ import { MenuComponent } from '../menu/menu.component';
 import { ProjectsService } from '../../../projects/services/projects/projects.service';
 import { catchError, tap, throwError } from 'rxjs';
 import { StatusActionPlanService } from '../../../status-action-plan/services/status-action-plan/status-action-plan.service';
+import { TopBarComponent } from '../../components/top-bar/top-bar.component';
+import { HeroBarComponent } from '../../components/hero-bar/hero-bar.component';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-nav',
@@ -17,18 +20,22 @@ import { StatusActionPlanService } from '../../../status-action-plan/services/st
     ButtonComponent,
     AvatarComponent,
     MenuComponent,
+    TopBarComponent,
+    HeroBarComponent,
   ],
   providers: [ProjectsService],
   template: `
     <nav-ui>
       <ng-container *ngTemplateOutlet="navActions" nav-actions></ng-container>
-      <ng-container *ngTemplateOutlet="avatar" nav-avatar></ng-container>
       <ng-container *ngTemplateOutlet="asideMenu" nav-aside-menu></ng-container>
-      <ng-container
-        *ngTemplateOutlet="addButton"
-        nav-aside-add-button
-      ></ng-container>
+    
+      <ng-container *ngTemplateOutlet="topBarRef" nav-top-bar></ng-container>
+      <ng-container *ngTemplateOutlet="heroBarRef" nav-hero-bar></ng-container>
     </nav-ui>
+
+    <ng-template #topBarRef> <top-bar [user]="user"></top-bar></ng-template>
+    <ng-template #heroBarRef> <hero-bar></hero-bar></ng-template>
+
     <ng-template #navActions>
       <button-custom
         type="button"
@@ -38,25 +45,23 @@ import { StatusActionPlanService } from '../../../status-action-plan/services/st
         (clicked)="action.action()"
       ></button-custom>
     </ng-template>
-    <ng-template #avatar><avatar /></ng-template>
     <ng-template #asideMenu>
       <menu></menu>
     </ng-template>
-    <ng-template #addButton>
-      <button-custom
-        type="button"
-        variant="primary"
-        label="Novo Projeto"
-        (clicked)="createProject()"
-      ></button-custom>
-    </ng-template>
+   
   `,
 })
 export class NavComponent {
   projectsService = inject(ProjectsService);
   statusActionPlanService = inject(StatusActionPlanService);
+  private cookieService = inject(CookieService);
 
+  userstringfy = this.cookieService.get('user');
   actionStatus$ = this.statusActionPlanService.loadActionStatus();
+
+  get user() {
+    return JSON.parse(this.userstringfy);
+  }
 
   navTopBarActions = [
     {

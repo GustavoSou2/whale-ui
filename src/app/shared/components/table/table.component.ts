@@ -146,13 +146,13 @@ export class TableDataSource<T> implements AfterViewInit {
 
   loadDataFromApi(apiConfig: TableSourceApi<T>) {
     const { method, url, onFormatterResponse, params } = apiConfig;
-    console.log('API URL:', url);
 
     const loader = this.loaderService.show();
 
     let httpParams = new HttpParams();
 
     if (params) {
+      console.log(url, params);
       params.keys().forEach((key) => {
         const value = params.getAll(key);
         if (value) {

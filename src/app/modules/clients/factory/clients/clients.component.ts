@@ -11,8 +11,10 @@ import {
   TableDataSource,
   TableSource,
 } from '../../../../shared/components/table/table.component';
-import { map } from 'rxjs';
+import { map, tap } from 'rxjs';
 import { TableDataSourceService } from '../../../../shared/components/table/table.service';
+import { ToastService } from '../../../../shared/components/toast/toast.service';
+import { ConfirmationDialogService } from '../../../../shared/components/confirmation-dialog/services/confirmation-dialog.service';
 
 @Component({
   selector: 'app-clients',
@@ -48,11 +50,13 @@ import { TableDataSourceService } from '../../../../shared/components/table/tabl
   `,
   providers: [ClientsService],
 })
-export class ClientsComponent implements OnInit {
+export class ClientsComponent {
   dialogService = inject(MatDialog);
   clientsService = inject(ClientsService);
   loaderService = inject(LoaderService);
+  toastService = inject(ToastService);
   tableDataSource = inject(TableDataSourceService);
+  confirmationDialogService = inject(ConfirmationDialogService);
 
   loader = this.loaderService.show();
 
@@ -74,25 +78,82 @@ export class ClientsComponent implements OnInit {
       {
         icon: 'Show.svg',
         onClick: (row: any) => {
-          console.log('Edit', row);
+          const dialogRef = this.dialogService.open(ClientsUpsertUiComponent, {
+            data: {
+              client: row,
+              isView: true,
+            },
+          });
         },
       },
       {
         icon: 'Edit.svg',
         onClick: (row: any) => {
-          console.log('Edit', row);
+          const dialogRef = this.dialogService.open(ClientsUpsertUiComponent, {
+            data: {
+              client: row,
+              isView: false,
+            },
+          });
+
+          dialogRef.afterClosed().subscribe((result) => {
+            if (!result) {
+              return;
+            }
+
+            let loader = this.loaderService.show();
+            this.clientsService
+              .updateClient(row.id, result)
+              .pipe(
+                tap((data) => {
+                  this.tableDataSource.reload();
+                  loader.hide();
+                  this.toastService.addToast(
+                    'success',
+                    'Cliente atualizado com sucesso!'
+                  );
+                })
+              )
+              .subscribe();
+          });
         },
       },
       {
         icon: 'Delete.svg',
         onClick: (row: any) => {
-          console.log('Delete', row);
+          const dialogRef = this.confirmationDialogService.open({
+            title: 'Deletar Equipe',
+            messageHTML: `Você tem certeza que deseja deletar a equipe <strong>${row.name}</strong>?`,
+            cancelButton: {
+              text: 'Não',
+              color: 'transparent',
+            },
+            confirmButton: {
+              text: 'Deletar',
+              color: 'danger',
+            },
+          });
+
+          dialogRef.afterClosed().subscribe((result) => {
+            if (!result) {
+              return;
+            }
+
+            let loader = this.loaderService.show();
+
+            this.clientsService.deleteClient(row.id).subscribe(() => {
+              loader.hide();
+              this.toastService.addToast(
+                'Sucesso',
+                'Cliente deletado com sucesso!'
+              );
+              this.tableDataSource.reload();
+            });
+          });
         },
       },
     ],
   };
-
-  ngOnInit() {}
 
   createClient() {
     let dialogRef = this.dialogService.open(ClientsUpsertUiComponent);
@@ -102,12 +163,12 @@ export class ClientsComponent implements OnInit {
         return;
       }
 
-      let loader = this.loaderService.show();
+      const loader = this.loaderService.show();
 
       this.clientsService.createClient(result).subscribe((data) => {
-        console.log(data);
         this.tableDataSource.reload();
         loader.hide();
+        this.toastService.addToast('success', 'Cliente Criado com sucesso!');
       });
     });
   }

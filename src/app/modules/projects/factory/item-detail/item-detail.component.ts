@@ -38,6 +38,11 @@ import { ToastService } from '../../../../shared/components/toast/toast.service'
 import { Router } from '@angular/router';
 import { LoaderService } from '../../../../shared/components/loader/loader.service';
 import { SubitemCardComponent } from '../../components/subitem-card/subitem-card.component';
+import { DialogService } from '../../../../shared/components/dialog/dialog.service';
+import { MatDialog } from '@angular/material/dialog';
+import { SubItemFormComponent } from '../sub-item-form/sub-item-form.component';
+import { TableDataSourceService } from '../../../../shared/components/table/table.service';
+import { ItemsService } from '../../services/items/items.service';
 
 @Component({
   selector: 'app-item-detail',
@@ -55,47 +60,47 @@ import { SubitemCardComponent } from '../../components/subitem-card/subitem-card
         [ngTemplateOutlet]="itemActionsRef"
         item-actions
       ></ng-container>
-      <ng-container
-        [ngTemplateOutlet]="tableSubitemsRef"
-        item-subitems
-      ></ng-container>
+
       <ng-container
         [ngTemplateOutlet]="commentsRef"
         item-comments
       ></ng-container>
+
+      <ng-container
+        [ngTemplateOutlet]="itemGroupAction"
+        item-group-action
+      ></ng-container>
     </item-detail-ui>
-    <ng-template #itemActionsRef>
+
+    <ng-template #itemGroupAction>
+      <button-custom
+        type="button"
+        label="Concluir item"
+        style="width: max-content"
+        variant="success"
+        size="sm"
+        [disabled]="itemCanComplete"
+        (click)="completeItem()"
+      ></button-custom>
       <button-custom
         type="button"
         label="Adicionar um subitem"
         size="sm"
+        [disabled]="item.status === 'completed'"
         (clicked)="newSubItem()"
         style="width: 280px"
       ></button-custom>
     </ng-template>
 
+    <ng-template #itemActionsRef> </ng-template>
+
     <ng-template #commentsRef>
       <!-- <comments [bgDetail]="'white'"></comments> -->
     </ng-template>
-
-    <ng-template #tableSubitemsRef>
-      <table-custom
-        class="detail--item__subitems-table-over"
-        [tableFullWidth]="false"
-        [tableSource]=" {
-          api: {
-            url: 'sub-item/item/' + item.id,
-            method: 'GET',
-          },
-          columns: columns,
-          actions: actions,
-        }"
-      ></table-custom>
-    </ng-template>
   `,
-  providers: [SubItemsService, DatePipe, ActionPlanService],
+  providers: [SubItemsService, DatePipe, ActionPlanService, ItemsService],
 })
-export class ItemDetailComponent implements AfterViewInit {
+export class ItemDetailComponent {
   @Input() set data(value: any) {
     this.selfData = value;
     this.subItems$ = this.getSubitemByItemBy(value.item.id);
@@ -106,11 +111,28 @@ export class ItemDetailComponent implements AfterViewInit {
     return this.selfData?.item;
   }
 
+  get itemCanComplete() {
+    const allSubitemsCompleted = this.item.subitems.every(
+      (subitem: any) => subitem.status === 'completed'
+    );
+
+    return (
+      !allSubitemsCompleted ||
+      this.item.status === 'completed' ||
+      this.item.status === 'in_progress' ||
+      this.item.status === 'cancel' ||
+      this.item.status === 'blocked'
+    );
+  }
+
   private router = inject(Router);
   private subItemsService = inject(SubItemsService);
   private actionPlanService = inject(ActionPlanService);
   private toastService = inject(ToastService);
   private loaderService = inject(LoaderService);
+  private dialogService = inject(MatDialog);
+  private itemsService = inject(ItemsService);
+  private tableSourceService = inject(TableDataSourceService);
   private confirmationDialogService = inject(ConfirmationDialogService);
   private datePipe = inject(DatePipe);
   subItems$!: Observable<any>;
@@ -128,151 +150,6 @@ export class ItemDetailComponent implements AfterViewInit {
       })
     );
   }
-
-  columns = [
-    { key: 'name', header: 'Titulo', width: 'max-content' },
-    {
-      key: 'description',
-      header: 'Descrição',
-      width: '300px',
-      onFormatter: (col: any, row: any) => {
-        return col?.length > 20 ? `${col.slice(0, 35)}...` : col;
-      },
-    },
-    {
-      key: 'category',
-      header: 'Categoria',
-      onFormatter: (col: any, row: any) => {
-        return CATEGORY_DICTIONARY[col].label;
-      },
-    },
-    {
-      key: 'status',
-      header: 'Status',
-      width: 'max-content',
-      onFormatter: (col: any, row: any) => {
-        return STATUS_DICTIONARY[col].label;
-      },
-    },
-    {
-      key: 'estimated_cost',
-      header: 'Valor unitário',
-      width: 'max-content',
-      onFormatter: (col: any, row: any) => {
-        const quantity = row.quantity || 1;
-        const unitCost = col / quantity;
-
-        return unitCost.toLocaleString('pt-BR', {
-          style: 'currency',
-          currency: 'BRL',
-        });
-      },
-    },
-    {
-      key: 'quantity',
-      width: 'max-content',
-      header: 'Quantidade',
-    },
-    {
-      key: 'estimated_cost',
-      header: 'Valor total',
-      width: 'max-content',
-      onFormatter: (col: any, row: any) => {
-        return (+col).toLocaleString('pt-BR', {
-          style: 'currency',
-          currency: 'BRL',
-        });
-      },
-    },
-
-    {
-      key: 'actual_cost',
-      header: 'Custo real',
-      width: 'max-content',
-      onFormatter: (col: any) => {
-        return (+col).toLocaleString('pt-BR', {
-          style: 'currency',
-          currency: 'BRL',
-        });
-      },
-    },
-    {
-      key: 'unit',
-      header: 'Unidade',
-      width: 'max-content',
-      onFormatter: (col: any, row: any) => {
-        return UNITS_DICTIONARY[col];
-      },
-    },
-    {
-      key: 'start_date',
-      header: 'Data de inicio',
-      width: 'max-content',
-      onFormatter: (col: any) => {
-        return this.datePipe.transform(col, 'dd/MM/yyyy');
-      },
-    },
-    {
-      key: 'end_date',
-      header: 'Data de fim',
-      width: 'max-content',
-      onFormatter: (col: any) => {
-        return this.datePipe.transform(col, 'dd/MM/yyyy');
-      },
-    },
-  ];
-  actions = [
-    {
-      icon: 'Play.svg',
-      hidden: (row: any) => {
-        const subitemHasActionPlan = this.validateIfSubitemHasActionPlan(row);
-
-        return subitemHasActionPlan;
-      },
-      onClick: (row: any) => {},
-    },
-    {
-      icon: 'Table.svg',
-      hidden: (row: any) => {
-        const subitemHasActionPlan = this.validateIfSubitemHasActionPlan(row);
-
-        return !subitemHasActionPlan;
-      },
-      onClick: (row: any) => {
-        const actionPlan = this.getActionPlanBySubitemId(row.id);
-
-        this.router
-          .navigateByUrl('/action-plan', { skipLocationChange: true })
-          .then(() => {
-            this.router.navigate(['/action-plan'], {
-              queryParams: {
-                action_id: actionPlan.id,
-                target_id: row.id,
-                target_type: 'subitem',
-              },
-            });
-          });
-      },
-    },
-    {
-      icon: 'Show.svg',
-      onClick: (row: any) => {
-        console.log('Edit', row);
-      },
-    },
-    {
-      icon: 'Edit.svg',
-      onClick: (row: any) => {
-        console.log('Edit', row);
-      },
-    },
-    {
-      icon: 'Delete.svg',
-      onClick: (row: any) => {
-        console.log('Delete', row);
-      },
-    },
-  ];
 
   validateIfSubitemHasActionPlan = (row: any) => {
     const itemSubitems = this.data?.item?.subitems || [];
@@ -298,9 +175,80 @@ export class ItemDetailComponent implements AfterViewInit {
     return subitem?.action_plan_targets || null;
   };
 
-  newSubItem() {}
+  newSubItem() {
+    const dialogRef = this.dialogService.open(SubItemFormComponent, {
+      data: {
+        itemId: this.item.id,
+      },
+    });
 
-  ngAfterViewInit(): void {
-    // this.subItems$ = this.getSubitemByItemBy(this.data?.item.id)
+    dialogRef.afterClosed().subscribe((result) => {
+      if (!result) return;
+
+      this.subItemsService
+        .createSubItem(result)
+        .pipe(
+          tap((response) => {
+
+          }),
+          catchError(({ error }) => {
+            this.toastService.addToast(
+              'success',
+              `Erro ao criar sub item: ${error.message}`
+            );
+            return throwError(() => error);
+          })
+        )
+        .subscribe();
+    });
+  }
+
+  completeItem() {
+    const dialogRef = this.confirmationDialogService.open({
+      title: 'Concluir item',
+      message: 'Tem certeza que deseja concluir este item?',
+      cancelButton: {
+        text: 'Cancelar',
+        color: 'transparent',
+      },
+      confirmButton: {
+        text: 'Concluir item',
+        color: 'success',
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (!result) return;
+
+      const loader = this.loaderService.show();
+
+      this.itemsService
+        .completeItem(this.item.id)
+        .pipe(
+          tap((response) => {
+            this.tableSourceService.reload();
+
+            this.router
+              .navigateByUrl('/', { skipLocationChange: true })
+              .then(() => {
+                this.router.navigate([this.router.url]).then(() => {
+                  this.toastService.addToast(
+                    'success',
+                    'Item concluido com sucesso'
+                  );
+                  loader.hide();
+                });
+              });
+          }),
+          catchError(({ error }) => {
+            this.toastService.addToast(
+              'success',
+              `Erro ao concluir item: ${error.message}`
+            );
+            return throwError(() => error);
+          })
+        )
+        .subscribe();
+    });
   }
 }

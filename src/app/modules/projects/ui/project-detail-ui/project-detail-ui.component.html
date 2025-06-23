@@ -1,0 +1,16 @@
+<section id="project-detail">
+  <header class="project-detail--header">
+    <h1><ng-content select="[project-title]"></ng-content></h1>
+    <section class="project-detail--header-actions">
+      <span
+        class="status"
+        style="--card-status-color: {{ project()?.project_status.color }}; --card-status-color-ap: {{ project()?.project_status.color }}30"
+        >{{ project().project_status.name }} </span
+      >
+      <ng-content select="[project-actions]"></ng-content>
+    </section>
+  </header>
+  <section class="project-detail--content">
+    <ng-content select="[project-content]"></ng-content>
+  </section>
+</section>

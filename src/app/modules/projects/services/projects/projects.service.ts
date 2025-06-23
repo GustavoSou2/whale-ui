@@ -21,6 +21,12 @@ export class ProjectsService {
     return this.apiService.get<any>('projects');
   }
 
+  findOne(id: string) {
+    return <Observable<any>>(
+      this.apiService.get<any>(`projects/${id}`).pipe(map((project) => project))
+    );
+  }
+
   getProject(id: string) {
     return <Observable<any>>(
       this.apiService.get<any>(`projects/${id}`).pipe(map((project) => project))
@@ -35,5 +41,13 @@ export class ProjectsService {
     let projectId = project.id;
     delete project.id;
     return this.apiService.patch(`projects/${projectId}`, project);
+  }
+
+  completeProject(id: string) {
+    return this.apiService.post(`projects/${id}/complete`, {});
+  }
+
+  sendProjectApproval(id: string) {
+    return this.apiService.post(`projects/${id}/send-approval`, {});
   }
 }

@@ -9,13 +9,13 @@
     <button-custom
       type="button"
       [label]="cancelButton.text || 'Cancelar'"
-      [variant]="cancelButton.code || 'transparent'"
+      [variant]="cancelButton.color || 'transparent'"
       (clicked)="cancel()"
     ></button-custom>
     <button-custom
       type="button"
       [label]="confirmButton.text || 'Confirmar'"
-      [variant]="confirmButton.code || 'primary'"
+      [variant]="confirmButton.color || 'primary'"
       (clicked)="confirm()"
     ></button-custom>
   </section>

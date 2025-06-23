@@ -1,6 +1,5 @@
 .tabs {
   width: 100%;
-  margin-top: 1.4rem;
 }
 
 .tab-headers {
@@ -21,18 +20,18 @@
 
 .tab-header--button {
   padding: 0.2rem 1rem;
-  border-radius: 6px;
   cursor: pointer;
   border: none;
   color: var(--waterloo-600);
-  background: var(--waterloo-50);
+  background-color: transparent;
+  border-bottom: 2px solid transparent;
   display: flex;
   align-items: center;
   gap: 0.5rem;
   font-size: 1rem;
 
   &.active {
-    background: #546de530;
-    color: #546de5;
+    border-bottom-color: var(--royal-blue-600);
+    color: var(--royal-blue-600);
   }
 }

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { ApprovalFlowUiComponent } from '../../ui/approval-flow-ui/approval-flow-ui.component';
 import { CommonModule } from '@angular/common';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
@@ -15,7 +15,8 @@ import { ApprovalFlowStatusComponent } from '../../components/approval-flow-stat
 import { ApprovalFlowPriorityComponent } from '../../components/approval-flow-priority/approval-flow-priority.component';
 import { ApprovalFlowApprovalDialogComponent } from '../../components/approval-flow-approval-dialog/approval-flow-approval-dialog.component';
 import { ApprovalFlowService } from '../../services/approval-flow/approval-flow.service';
-import { tap } from 'rxjs';
+import { BehaviorSubject, tap } from 'rxjs';
+import { HttpParams } from '@angular/common/http';
 
 export const ApprovalFlowType = {
   action_plan: {},
@@ -116,6 +117,19 @@ export class ApprovalFlowComponent {
       },
     },
     columns: [
+      {
+        key: 'entity_type',
+        header: 'Módulo',
+        width: 'max-content',
+        onFormatter: (col: any) => {
+          const entityTypeDict: Record<string, string> = {
+            action_plan: 'Planejamento de Ação',
+            project: 'Projeto',
+          };
+
+          return entityTypeDict[col];
+        },
+      },
       {
         key: 'users',
         header: 'Criado por',

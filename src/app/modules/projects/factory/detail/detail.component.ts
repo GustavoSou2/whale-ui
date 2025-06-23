@@ -4,7 +4,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ProjectsService } from '../../services/projects/projects.service';
 import { CommonModule } from '@angular/common';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
-import { CardBudgetUiComponent } from '../../components/card-budget-ui/card-budget-ui.component';
 import { MatDialog } from '@angular/material/dialog';
 import { BudgetUpsertDialogComponent } from '../../components/budget-upsert-dialog/budget-upsert-dialog.component';
 import { BudgetService } from '../../services/budget/budget.service';
@@ -24,6 +23,7 @@ import { InputCustomComponent } from '../../../../shared/components/input/input.
 import { CollaboratorComponent } from '../../../collaborator/factory/collaborator/collaborator.component';
 import { CollaboratorListComponent } from '../../components/collaborator-list/collaborator-list.component';
 import { ProjectStatsComponent } from '../../components/project-stats/project-stats.component';
+import { ConfirmationDialogService } from '../../../../shared/components/confirmation-dialog/services/confirmation-dialog.service';
 
 export const ITEM_STATUS_DICTIONARY: Record<string, string> = {
   blocked: 'Bloqueado',
@@ -49,7 +49,6 @@ export const ITEMS_CATEGORIES_DICTIONARY: Record<string, string> = {
     DetailUiComponent,
     CommonModule,
     ButtonComponent,
-    CardBudgetUiComponent,
     InputCustomComponent,
     CollaboratorListComponent,
     ProjectStatsComponent,
@@ -76,6 +75,12 @@ export const ITEMS_CATEGORIES_DICTIONARY: Record<string, string> = {
 
       <ng-container project-stats>
         <project-stats [data]="items!"></project-stats>
+      </ng-container>
+
+      <ng-container project-actions-button>
+        <ng-container
+          [ngTemplateOutlet]="templateRefCompleteProjectButton"
+        ></ng-container>
       </ng-container>
     </detail-ui>
 
@@ -114,6 +119,25 @@ export const ITEMS_CATEGORIES_DICTIONARY: Record<string, string> = {
         (click)="newSubItemDialog(+id)"
       ></button-custom>
     </ng-template>
+
+    <ng-template #templateRefCompleteProjectButton>
+      <button-custom
+        type="button"
+        size="sm"
+        variant="primary"
+        label="Enviar para aprovação"
+        [disabled]="!projectIsCompleted(project)"
+        (click)="sendProjectApproval(project)"
+      ></button-custom>
+      <button-custom
+        type="button"
+        size="sm"
+        variant="success"
+        label="Concluir o projeto"
+        [disabled]="!project.approval_is_approved || project.status == 4"
+        (click)="completeProject(project)"
+      ></button-custom>
+    </ng-template>
   `,
   providers: [
     ProjectsService,
@@ -131,6 +155,7 @@ export class DetailComponent {
   private budgetService = inject(BudgetService);
   private itemService = inject(ItemsService);
   private subItemsService = inject(SubItemsService);
+  private confirmationDialogService = inject(ConfirmationDialogService);
   private toastService = inject(ToastService);
   private projectsService = inject(ProjectsService);
   private tableSourceService = inject(TableDataSourceService);
@@ -284,5 +309,103 @@ export class DetailComponent {
 
   onSearch(search: any) {
     console.log(search);
+  }
+
+  projectIsCompleted(project: any) {
+    if (project.has_approval_flow) return false;
+
+    const allItemsAreCompleted = project.items.every(
+      (item: any) => item.status === 'completed'
+    );
+
+    const allSubitemsAreCompleted = project.items
+      .flatMap((item: any) => item.subitems)
+      .every((subitem: any) => subitem.status === 'completed');
+
+    return allItemsAreCompleted && allSubitemsAreCompleted;
+  }
+
+  sendProjectApproval(project: any) {
+    const dialogRef = this.confirmationDialogService.open({
+      title: 'Enviar Projeto para aprovação',
+      messageHTML: `Deseja realmente enviar o projecto <strong>${project.name}</strong>?`,
+      cancelButton: {
+        text: 'Fechar',
+        color: 'transparent',
+      },
+      confirmButton: {
+        text: 'Enviar',
+        color: 'primary',
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (!result) {
+        return;
+      }
+
+      let loader = this.loaderService.show();
+
+      this.projectsService
+        .sendProjectApproval(project.id)
+        .pipe(
+          tap(() => {
+            this.router
+              .navigateByUrl('/', { skipLocationChange: true })
+              .then(() => {
+                this.router.navigate([window.location.pathname]).then(() => {
+                  loader.hide();
+                  this.toastService.addToast(
+                    'Sucesso',
+                    'Projecto finalizado com sucesso!'
+                  );
+                });
+              });
+          })
+        )
+        .subscribe();
+    });
+  }
+
+  completeProject(project: any) {
+    const dialogRef = this.confirmationDialogService.open({
+      title: 'Finalizar Projeto',
+      messageHTML: `Você tem certeza que deseja finalizar este projeto <strong>${project.name}</strong>?`,
+      cancelButton: {
+        text: 'Fechar',
+        color: 'transparent',
+      },
+      confirmButton: {
+        text: 'Concluir',
+        color: 'success',
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (!result) {
+        return;
+      }
+
+      let loader = this.loaderService.show();
+
+      this.projectsService
+        .completeProject(project.id)
+        .pipe(
+          tap(() => {
+            this.router
+              .navigateByUrl('/', { skipLocationChange: true })
+              .then(() => {
+                this.router.navigate([window.location.pathname]).then(() => {
+                  loader.hide();
+                  this.toastService.addToast(
+                    'Sucesso',
+                    'Projecto finalizado com sucesso!'
+                  );
+                });
+              });
+          })
+        )
+        .subscribe();
+    });
   }
 }

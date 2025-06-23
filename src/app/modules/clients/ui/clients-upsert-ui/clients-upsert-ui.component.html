@@ -1,5 +1,5 @@
 <section id="clientUpsert">
-  <h1>Novo Cliente</h1>
+  <h1>{{ dialogTitle }}</h1>
   <form [formGroup]="client">
     <input-custom
       type="text"
@@ -85,21 +85,14 @@
       label="Cancelar"
       (clicked)="cancel()"
     ></button-custom>
-    <ng-container *ngIf="!client.valid; else buttonClientValid">
-      <button-custom
-        type="button"
-        variant="secondary"
-        label="Gerar cliente"
-      ></button-custom>
-    </ng-container>
 
-    <ng-template #buttonClientValid>
-      <button-custom
-        type="button"
-        variant="primary"
-        label="Gerar cliente"
-        (clicked)="submit()"
-      ></button-custom>
-    </ng-template>
+    <button-custom
+      type="button"
+      variant="primary"
+      [label]="data?.client ? 'Editar cliente' : 'Gerar cliente'"
+      [disabled]="!client.valid"
+      *ngIf="!isView"
+      (clicked)="submit()"
+    ></button-custom>
   </section>
 </section>

@@ -1,4 +1,9 @@
-<button [type]="type()" [class]="buttonClass" (click)="handleClick($event)">
+<button
+  [type]="type()"
+  [class]="buttonClass"
+  [disabled]="isDisabled$ | async"
+  (click)="handleClick($event)"
+>
   <span *ngIf="isLoading()">⏳</span>
 
   <ng-content

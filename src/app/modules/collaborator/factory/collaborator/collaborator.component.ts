@@ -17,6 +17,11 @@ import { AdminService } from '../../../../core/services/admin/admin.service';
 import { AuthService } from '../../../account/services/auth/auth.service';
 import { catchError, of, tap, throwError } from 'rxjs';
 import { ToastService } from '../../../../shared/components/toast/toast.service';
+import { CollaboratorService } from '../../services/collaborator/collaborator.service';
+import { TableDataSourceService } from '../../../../shared/components/table/table.service';
+import { UserDetailDialogComponent } from '../../components/user-detail-dialog/user-detail-dialog.component';
+import { ConfirmationDialogService } from '../../../../shared/components/confirmation-dialog/services/confirmation-dialog.service';
+import { LoaderService } from '../../../../shared/components/loader/loader.service';
 
 @Component({
   selector: 'app-collaborator',
@@ -47,7 +52,7 @@ import { ToastService } from '../../../../shared/components/toast/toast.service'
         required
       ></input-custom>
     </ng-template>`,
-  providers: [DatePipe, AuthService],
+  providers: [DatePipe, AuthService, CollaboratorService],
 })
 export class CollaboratorComponent {
   dialogService = inject(MatDialog);
@@ -55,6 +60,10 @@ export class CollaboratorComponent {
   adminService = inject(AdminService);
   authService = inject(AuthService);
   toastService = inject(ToastService);
+  loaderService = inject(LoaderService);
+  collaboratorService = inject(CollaboratorService);
+  tableDataSourceService = inject(TableDataSourceService);
+  confirmationDialogService = inject(ConfirmationDialogService);
 
   isAdmin(user: any) {
     return this.adminService.isAdmin(user);
@@ -90,13 +99,40 @@ export class CollaboratorComponent {
       {
         icon: 'Show.svg',
         onClick: (row: any) => {
-          console.log('Edit', row);
+          let dialogRef = this.dialogService.open(UserDetailDialogComponent, {
+            data: row,
+            width: '600px',
+          });
         },
       },
       {
         icon: 'Edit.svg',
         onClick: (row: any) => {
-          console.log('Edit', row);
+          let dialogRef = this.dialogService.open(
+            CollaboratorInviteUiComponent,
+            {
+              data: {
+                user: row,
+              },
+            }
+          );
+
+          dialogRef.afterClosed().subscribe((result) => {
+            if (!result) return;
+
+            this.collaboratorService
+              .updateCollaborator(row.id, { role_id: result.role })
+              .pipe(
+                tap(() => {
+                  this.toastService.addToast(
+                    'success',
+                    'Colaborador atualizado com sucesso'
+                  );
+                  this.tableDataSourceService.reload();
+                })
+              )
+              .subscribe();
+          });
         },
         hidden: (row: any) => {
           return this.isAdmin(row)!;
@@ -105,7 +141,35 @@ export class CollaboratorComponent {
       {
         icon: 'Delete.svg',
         onClick: (row: any) => {
-          console.log('Delete', row);
+          const dialogRef = this.confirmationDialogService.open({
+            title: 'Deletar Equipe',
+            messageHTML: `Você tem certeza que deseja deletar a equipe <strong>${row.name}</strong>?`,
+            cancelButton: {
+              text: 'Não',
+              color: 'transparent',
+            },
+            confirmButton: {
+              text: 'Deletar',
+              color: 'danger',
+            },
+          });
+
+          dialogRef.afterClosed().subscribe((result) => {
+            if (!result) {
+              return;
+            }
+
+            let loader = this.loaderService.show();
+
+            this.collaboratorService.deleteCollaborator(row.id).subscribe(() => {
+              loader.hide();
+              this.toastService.addToast(
+                'Sucesso',
+                'Colaborador deletada com sucesso!'
+              );
+              this.tableDataSourceService.reload();
+            });
+          });
         },
         hidden: (row: any) => {
           return this.isAdmin(row)!;

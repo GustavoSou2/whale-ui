@@ -4,7 +4,7 @@ import { ButtonComponent } from '../../../../shared/components/button/button.com
 import { InputCustomComponent } from '../../../../shared/components/input/input.component';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-status-action-plan-upsert',
@@ -22,13 +22,23 @@ import { MatDialogRef } from '@angular/material/dialog';
 export class StatusActionPlanUpsertComponent {
   dialogRef = inject(MatDialogRef<StatusActionPlanUpsertComponent>);
   fb = inject(FormBuilder);
+  statusToEdit = inject(MAT_DIALOG_DATA);
 
   status = this.fb.group({
-    name: ['', [Validators.required, Validators.minLength(3)]],
-    description: ['', [Validators.required]],
-    rank: ['', [Validators.required]],
-    color: ['#546de5', [Validators.required]],
+    id: [this.statusToEdit?.id ?? null],
+    name: [
+      this.statusToEdit?.name ?? '',
+      [Validators.required, Validators.minLength(3)],
+    ],
+    description: [this.statusToEdit?.description ?? '', [Validators.required]],
+    color: [this.statusToEdit?.color ?? '#546de5', [Validators.required]],
   });
+
+  constructor() {
+    if (this.statusToEdit.isShowable) {
+      this.status.disable();
+    }
+  }
 
   cancel() {
     this.dialogRef.close();

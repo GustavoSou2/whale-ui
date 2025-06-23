@@ -31,4 +31,12 @@ export class ClientsService {
   findAll() {
     return this.apiService.get<Client>('clients');
   }
+
+  updateClient(id: number, client: Client) {
+    return this.apiService.put(`clients/${id}`, client);
+  }
+
+  deleteClient(id: number) {
+    return this.apiService.delete(`clients/${id}`);
+  }
 }

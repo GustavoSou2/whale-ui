@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, Inject, inject, Injector } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InputCustomComponent } from '../../../../shared/components/input/input.component';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { TextareaCustomComponent } from '../../../../shared/components/textarea-custom/textarea-custom.component';
 
 @Component({
@@ -22,12 +22,24 @@ import { TextareaCustomComponent } from '../../../../shared/components/textarea-
 export class StatusUpsertUiComponent {
   dialogRef = inject(MatDialogRef<StatusUpsertUiComponent>);
   fb = inject(FormBuilder);
+  statusToEdit = inject(MAT_DIALOG_DATA);
 
   status = this.fb.group({
-    name: ['', [Validators.required, Validators.minLength(3)]],
-    description: ['', [Validators.required]],
-    color: ['#546de5', [Validators.required]],
+    id: [this.statusToEdit?.id ?? ''],
+    name: [
+      this.statusToEdit?.name ?? '',
+      [Validators.required, Validators.minLength(3)],
+    ],
+    description: [this.statusToEdit?.description ?? '', [Validators.required]],
+    color: [this.statusToEdit?.color ?? '', [Validators.required]],
   });
+
+  constructor() {
+    console.log(this.statusToEdit.isShowable);
+    if (this.statusToEdit.isShowable) {
+      this.status?.disable();
+    }
+  }
 
   cancel() {
     this.dialogRef.close();

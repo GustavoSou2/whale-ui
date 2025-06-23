@@ -24,6 +24,7 @@ import { PhoneMaskDirective } from '../../../core/directives/phone-mask/phone-ma
 import { animate, style, transition, trigger } from '@angular/animations';
 import { errorAnimation } from '../../animations/animations.global';
 import { CurrencyMaskDirective } from '../../../core/directives/currency-mask/currency-mask.directive';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'input-custom',
@@ -40,12 +41,18 @@ import { CurrencyMaskDirective } from '../../../core/directives/currency-mask/cu
       [ngClass]="{ erro: hasError(), focus: this.onFocus() }"
     >
       <label [for]="inputId" *ngIf="label">{{ label }}</label>
-      <label [for]="inputId" class="field" [ngClass]="size">
+      <label
+        [for]="inputId"
+        class="field"
+        [class]="size"
+        [ngClass]="{ 'is-disabled': isDisabled$ | async }"
+      >
         <img *ngIf="icon" [src]="'./icons/' + icon" />
         <input
           [id]="inputId"
           [type]="type"
           [placeholder]="placeholder"
+          [disabled]="isDisabled$ | async"
           [value]="value"
           (input)="onInput($event)"
           (blur)="onTouched(); onFocus.set(false)"
@@ -57,6 +64,7 @@ import { CurrencyMaskDirective } from '../../../core/directives/currency-mask/cu
           [id]="inputId"
           type="text"
           [placeholder]="placeholder"
+          [disabled]="isDisabled$ | async"
           cpfCnpjMask
           [value]="value"
           (input)="onInput($event)"
@@ -68,6 +76,7 @@ import { CurrencyMaskDirective } from '../../../core/directives/currency-mask/cu
           [id]="inputId"
           type="text"
           [placeholder]="placeholder"
+          [disabled]="isDisabled$ | async"
           phoneMask
           [value]="value"
           (input)="onInput($event)"
@@ -79,6 +88,7 @@ import { CurrencyMaskDirective } from '../../../core/directives/currency-mask/cu
           [id]="inputId"
           type="text"
           [placeholder]="placeholder"
+          [disabled]="isDisabled$ | async"
           currencyMask
           [value]="value"
           (input)="onInput($event)"
@@ -105,6 +115,9 @@ export class InputCustomComponent
   @Input() type: string = 'text';
   @Input() placeholder?: string;
   @Input() icon?: string;
+  @Input() set disabled(value: boolean) {
+    this.isDisabled.next(value);
+  }
 
   change = output<any>();
 
@@ -116,13 +129,16 @@ export class InputCustomComponent
   onChanged = effect(() => {
     if (!this.onFocus()) {
       this.change.emit(this.value);
-    } 
+    }
   });
 
   value: string = '';
   inputId = `input${Date.now()
     .toLocaleString()
     .replace(/[^0-9]/g, '')}`;
+
+  private isDisabled = new BehaviorSubject(false);
+  isDisabled$ = this.isDisabled.asObservable();
 
   onChange: (value: string) => void = () => {};
 
@@ -182,5 +198,9 @@ export class InputCustomComponent
     if (errors['passwordsMismatch']) return 'Senhas diferentes.';
 
     return 'Valor inválido.';
+  }
+
+  setDisabledState(isDisabled: boolean): void {
+    this.isDisabled.next(isDisabled);
   }
 }

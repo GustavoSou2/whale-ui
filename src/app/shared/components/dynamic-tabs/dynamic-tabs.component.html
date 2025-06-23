@@ -13,7 +13,7 @@
     <ng-container *ngIf="tabs[selectedIndex]">
       <ndc-dynamic
         [ndcDynamicComponent]="tab.component"
-        [ndcDynamicInputs]="{ data: tab.data }"
+        [ndcDynamicInputs]="{ data: tab?.data ?? {} }"
       ></ndc-dynamic>
     </ng-container>
   </div>

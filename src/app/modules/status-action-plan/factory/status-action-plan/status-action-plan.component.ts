@@ -13,36 +13,14 @@ import { ToastService } from '../../../../shared/components/toast/toast.service'
 import { TableSource } from '../../../../shared/components/table/table.component';
 import { StatusActionPlanService } from '../../services/status-action-plan/status-action-plan.service';
 import { StatusActionPlanUpsertComponent } from '../../components/status-action-plan-upsert/status-action-plan-upsert.component';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-status-action-plan',
   standalone: true,
-  imports: [
-    StatusActionPlanUiComponent,
-    CommonModule,
-    ButtonComponent,
-    InputCustomComponent,
-  ],
+  imports: [StatusActionPlanUiComponent, CommonModule],
   template: `<status-action-plan-ui [tableSource]="tableSource">
-      <ng-container
-        *ngTemplateOutlet="statusHeader"
-        status-header
-      ></ng-container>
-    </status-action-plan-ui>
-    <ng-template #statusHeader>
-      <button-custom
-        type="button"
-        label="Novo Status"
-        (clicked)="createStatus()"
-      ></button-custom>
-      <input-custom
-        type="text"
-        placeholder="Pesquisar"
-        name="text"
-        icon="Search.svg"
-        required
-      ></input-custom>
-    </ng-template>`,
+  </status-action-plan-ui> `,
   providers: [StatusActionPlanService],
 })
 export class StatusActionPlanComponent {
@@ -50,6 +28,7 @@ export class StatusActionPlanComponent {
   loaderService = inject(LoaderService);
   statusService = inject(StatusActionPlanService);
   tableDataSource = inject(TableDataSourceService);
+  statusActionPlanService = inject(StatusActionPlanService);
   toastService = inject(ToastService);
 
   tableSource: TableSource<any> = {
@@ -59,7 +38,6 @@ export class StatusActionPlanComponent {
     },
     columns: [
       { key: 'name', header: 'Status' },
-      { key: 'name_code', header: 'Código do Status' },
       {
         key: 'description',
         header: 'Descrição',
@@ -73,25 +51,41 @@ export class StatusActionPlanComponent {
       {
         icon: 'Show.svg',
         onClick: (row: any) => {
-          console.log('Edit', row);
+          this.dialogService.open(StatusActionPlanUpsertComponent, {
+            data: { ...row, isShowable: true },
+          });
         },
       },
       {
         icon: 'Edit.svg',
         onClick: (row: any) => {
-          console.log('Edit', row);
-        },
-      },
-      {
-        icon: 'Delete.svg',
-        onClick: (row: any) => {
-          console.log('Delete', row);
+          const dialogRef = this.dialogService.open(
+            StatusActionPlanUpsertComponent,
+            {
+              data: { ...row },
+            }
+          );
+
+          dialogRef.afterClosed().subscribe((response) => {
+            if (!response) return;
+
+            this.statusActionPlanService
+              .update(response)
+              .pipe(
+                tap(() => {
+                  this.tableDataSource.reload();
+                  this.toastService.addToast(
+                    'Sucesso',
+                    'Status atualizado com sucesso'
+                  );
+                })
+              )
+              .subscribe();
+          });
         },
       },
     ],
   };
-
-  ngOnInit() {}
 
   createStatus() {}
 }

@@ -3,17 +3,18 @@
   flex-direction: column;
   gap: 0.4rem;
 
-   small {
-      font-size: 0.9rem;
-      margin-top: 1rem;
-    }
+  small {
+    font-weight: 400;
+    font-size: 1rem;
+    color: var(--waterloo-600);
+  }
 
-  li {
+  label {
     width: 100%;
     height: 35px;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 1rem;
     padding: 0 0.7rem;
     color: var(--big-stone-700);
     cursor: pointer;
@@ -23,11 +24,14 @@
       margin-top: 1rem;
     }
 
-   
+    &.menu--option-activated {
+      background-color: var(--big-stone-100);
+    }
 
     span {
-      font-size: 0.9rem;
-      font-weight: 300;
+      font-weight: 400;
+      font-size: 1rem;
+      color: #676879;
     }
 
     &:hover {

@@ -149,3 +149,23 @@
     }
   }
 }
+
+.item--detail-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0 2rem;
+  color: var(--waterloo-800);
+
+  button-custom {
+    width: max-content;
+  }
+}
+
+.detail--info--action {
+  display: flex;
+  color: var(--waterloo-600);
+  font-size: 0.9rem;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}

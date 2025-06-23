@@ -268,6 +268,8 @@ export class SelectComponent implements ControlValueAccessor {
     this.selectedValue = value;
 
     if (this.data.length) {
+      console.log('data');
+
       const selectedItem = this.data.find(
         (item) => item[this.source.keys.value] == value
       );
