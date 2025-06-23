@@ -7,6 +7,7 @@ import {
   Type,
   ViewContainerRef,
   ComponentRef,
+  signal,
 } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
@@ -18,8 +19,14 @@ export class DialogService {
 
   isOpen$ = this.isOpen.asObservable();
 
+  config = signal<any>({});
+
   get dialogState() {
     return this.isOpen.getValue();
+  }
+
+  get isDisabledClosable() {
+    return this.config().disabledClosable;
   }
 
   constructor(private appRef: ApplicationRef, private injector: Injector) {}
@@ -28,7 +35,7 @@ export class DialogService {
     this.viewContainerRef = vcr;
   }
 
-  open<T>(component: Type<T>, config: { data?: any } = {}) {
+  open<T>(component: Type<T>, config: { data?: any; config?: any } = {}) {
     if (!this.viewContainerRef) {
       throw new Error('Dialog host container (ViewContainerRef) not set.');
     }
@@ -38,6 +45,11 @@ export class DialogService {
     const componentRef: any = this.viewContainerRef.createComponent(component, {
       environmentInjector: this.appRef.injector,
     });
+
+    if (config.config) {
+      console.log(config.config);
+      this.config.set(config.config);
+    }
 
     if (config.data && 'data' in componentRef.instance) {
       (componentRef.instance as any).data = config.data;

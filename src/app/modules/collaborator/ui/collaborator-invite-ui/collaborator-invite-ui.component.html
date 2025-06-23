@@ -1,9 +1,17 @@
 <section id="collaboratorInvite">
+  @if(isEdit) {
+  <h1>Editar equipe do colaborador</h1>
+  } @else {
   <h1>Convidar novo colaborador</h1>
+  }
   <form [formGroup]="client">
-    <small>
+    <small *ngIf="!isEdit">
       Por favor, insira o endereço de e-mail do colaborador que você deseja
       convidar para a equipe.
+    </small>
+    <small *ngIf="isEdit">
+      Cada colaborador é responsável por sua própria conta, isso inclui
+      informações pessoais e acesso ao sistema.
     </small>
     <select-custom
       [source]="{
@@ -25,30 +33,16 @@
       name="email"
       formControlName="email"
       required
+      *ngIf="!isEdit"
     ></input-custom>
   </form>
   <section class="collaboratorInvite--actions">
     <button-custom
       type="button"
-      variant="transparent"
-      label="Cancelar"
-      (clicked)="cancel()"
+      variant="primary"
+      [label]="isEdit ? 'Alterar Equipe' : 'Convidar'"
+      [disabled]="!client.valid"
+      (clicked)="submit()"
     ></button-custom>
-    <ng-container *ngIf="!client.valid; else buttonClientValid">
-      <button-custom
-        type="button"
-        variant="secondary"
-        label="Convidar"
-      ></button-custom>
-    </ng-container>
-
-    <ng-template #buttonClientValid>
-      <button-custom
-        type="button"
-        variant="primary"
-        label="Convidar"
-        (clicked)="submit()"
-      ></button-custom>
-    </ng-template>
   </section>
 </section>

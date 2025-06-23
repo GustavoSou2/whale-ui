@@ -1,11 +1,15 @@
 <section id="statusUpsert">
-  <h1>Novo Status do Plano de Ação</h1>
+  <h1>
+    {{ statusToEdit.isShowable ? "Detalhes" : "Editar" }} Status do Plano de
+    Ação
+  </h1>
   <form [formGroup]="status">
     <input-custom
       type="text"
       placeholder="Nome do status"
       label="Nome"
       name="name"
+      [disabled]="statusToEdit.isShowable"
       formControlName="name"
       required
     ></input-custom>
@@ -13,21 +17,24 @@
       placeholder="Descrição do stauts"
       label="Descrição"
       name="description"
+      [disabled]="statusToEdit.isShowable"
       formControlName="description"
       [maxlength]="255"
     ></textarea-custom>
-    <input-custom
-      type="number"
-      placeholder="Ordem do status"
-      label="Ordem"
-      name="rank"
-      formControlName="rank"
-      required
-    ></input-custom>
+
     <div class="statusUpsert--color">
       <label for="color">Cor do status</label>
-      <label for="color" class="statusUpsert--color-picker" [style.background]="status.get('color')?.value"></label>
-      <input type="color" id="color" formControlName="color">
+      <label
+        for="color"
+        class="statusUpsert--color-picker"
+        [style.background]="status.get('color')?.value"
+      ></label>
+      <input
+        type="color"
+        id="color"
+        [disabled]="statusToEdit.isShowable"
+        formControlName="color"
+      />
     </div>
   </form>
   <section class="statusUpsert--actions">
@@ -38,21 +45,12 @@
       (clicked)="cancel()"
     ></button-custom>
 
-    <ng-container *ngIf="!status.valid; else buttonStatusValid">
-      <button-custom
-        type="button"
-        variant="secondary"
-        label="Criar status"
-      ></button-custom>
-    </ng-container>
-
-    <ng-template #buttonStatusValid>
-      <button-custom
-        type="button"
-        variant="primary"
-        label="Gerar status"
-        (clicked)="submit()"
-      ></button-custom>
-    </ng-template>
+    <button-custom
+      type="button"
+      label="Criar status"
+      *ngIf="!statusToEdit.isShowable"
+      [disabled]="!status.valid"
+      (clicked)="submit()"
+    ></button-custom>
   </section>
 </section>

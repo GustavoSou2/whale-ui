@@ -13,4 +13,8 @@ export class ItemsService {
   findAll(projectId: string) {
     return this.apiService.get<any>(`items/project/${projectId}`);
   }
+
+  completeItem(id: string) {
+    return this.apiService.post(`items/${id}/complete`, {});
+  }
 }

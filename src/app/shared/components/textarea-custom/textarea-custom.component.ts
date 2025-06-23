@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, Optional, Self } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'textarea-custom',
@@ -18,6 +19,7 @@ import { ControlValueAccessor, NgControl } from '@angular/forms';
         class="field"
         [ngClass]="size"
         [placeholder]="placeholder"
+        [disabled]="isDisabled$ | async"
         [value]="value"
         (input)="onInput($event)"
         (blur)="onTouched()"
@@ -37,8 +39,13 @@ export class TextareaCustomComponent implements ControlValueAccessor {
   @Input() size: 'sm' | 'md' | 'lg' = 'md';
   @Input() placeholder?: string;
   @Input() maxlength?: number;
-
+  @Input() set disabled(value: boolean) {
+    this.isDisabled.next(value);
+  }
   value: string = '';
+
+  private isDisabled = new BehaviorSubject(false);
+  isDisabled$ = this.isDisabled.asObservable();
 
   onChange: (value: string) => void = () => {};
   onTouched: () => void = () => {};
@@ -84,5 +91,9 @@ export class TextareaCustomComponent implements ControlValueAccessor {
     if (errors['email']) return 'E-mail inválido.';
 
     return 'Valor inválido.';
+  }
+
+  setDisabledState(isDisabled: boolean): void {
+    this.isDisabled.next(isDisabled);
   }
 }

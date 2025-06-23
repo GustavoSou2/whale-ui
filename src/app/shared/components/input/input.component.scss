@@ -16,6 +16,10 @@
     gap: 0.5rem;
     background: white;
 
+    &.is-disabled {
+      background-color: var(--waterloo-50);
+    }
+
     input {
       width: 100%;
       font-size: 0.9rem;

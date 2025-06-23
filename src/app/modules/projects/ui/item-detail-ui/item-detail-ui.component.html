@@ -67,8 +67,10 @@
       <h2>{{ item.budget | currency : "R$" }}</h2>
     </div>
   </section>
+  <div class="detail--info--action">
+    <ng-content select="[item-group-action]"></ng-content>
+  </div>
   <section class="detail--item__subitems">
-    <h3>Subitens</h3>
     <ng-content select="[item-actions]"></ng-content>
     <subitem-list [subitems]="subitems"></subitem-list>
   </section>

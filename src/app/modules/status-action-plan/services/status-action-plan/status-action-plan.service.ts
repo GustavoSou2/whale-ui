@@ -54,6 +54,10 @@ export class StatusActionPlanService {
     }
   }
 
+  update({id, ...status}: any) {
+    return this.apiService.patch(`action-plan-status/${id}`, status);
+  }
+
   getCancelStatus() {
     const actionStatus = this.actionStatus.getValue();
 

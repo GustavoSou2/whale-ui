@@ -9,4 +9,8 @@ export class ApprovalFlowService {
   approveApprovalFlow(id: string, body: any) {
     return this.apiService.post(`approval-flow/${id}/approve`, body);
   }
+
+  getApprovalProject(id: string) {
+    return this.apiService.get(`approval-flow/${id}/project`);
+  }
 }

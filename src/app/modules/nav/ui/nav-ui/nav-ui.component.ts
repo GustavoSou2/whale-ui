@@ -10,4 +10,10 @@ import { DialogComponent } from '../../../../shared/components/dialog/dialog.com
   templateUrl: './nav-ui.component.html',
   styleUrl: './nav-ui.component.scss',
 })
-export class NavUiComponent {}
+export class NavUiComponent {
+  menuOpen = false;
+
+  setStateMenu() {
+    this.menuOpen = !this.menuOpen;
+  }
+}

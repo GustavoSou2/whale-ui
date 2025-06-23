@@ -4,15 +4,7 @@
       @if(validateIsSubitemHasActionPlan(task)) {
       <div class="task-action-plan">
         <h2>{{ getActionPlanBySubitem(task).name }}</h2>
-        <button-custom
-          type="button"
-          variant="transparent"
-          size="sm"
-          label="Ir até a ação"
-          style="width: max-content"
-        >
-          <img src="./icons/API.svg" alt="Arrow" button-icon />
-        </button-custom>
+        
         <div class="detail--info">
           Status da ação:
           <span
@@ -25,6 +17,15 @@
             {{ getActionPlanStatusBySubitem(task).name }}
           </span>
         </div>
+        <button-custom
+          type="button"
+          variant="secondary"
+          size="sm"
+          label="Ir até a ação"
+          style="width: max-content"
+        >
+          <img src="./icons/API.svg" alt="Arrow" button-icon />
+        </button-custom>
       </div>
       } @else {
       <button-custom
@@ -33,6 +34,7 @@
         size="sm"
         label="Iniciar ação"
         style="width: max-content"
+        (clicked)="startActionPlan(task)"
       >
         <img src="./icons/Play.svg" alt="Play" button-icon />
       </button-custom>

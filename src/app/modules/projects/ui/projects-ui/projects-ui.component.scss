@@ -1,0 +1,7 @@
+.projects--content {
+  width: 100%;
+  height: max-content;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+}

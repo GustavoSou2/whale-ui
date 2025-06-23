@@ -13,4 +13,8 @@ export class StatusService {
   findAll() {
     return this.apiService.get<any>('status');
   }
+
+  update({ id, ...status }: any) {
+    return this.apiService.patch(`status/${id}`, status);
+  }
 }

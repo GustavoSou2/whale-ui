@@ -7,6 +7,14 @@ export class RolesService {
   constructor() {}
 
   createRole(body: any) {
-    return this.apiService.post('roles', body)
+    return this.apiService.post('roles', body);
+  }
+
+  updateRole(id: string, body: any) {
+    return this.apiService.patch(`roles/${id}`, body);
+  }
+
+  deleteRole(id: string) {
+    return this.apiService.delete(`roles/${id}`);
   }
 }

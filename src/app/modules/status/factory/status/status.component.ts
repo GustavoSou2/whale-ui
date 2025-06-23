@@ -11,36 +11,13 @@ import { StatusUpsertUiComponent } from '../../ui/status-upsert-ui/status-upsert
 import { StatusService } from '../../services/status/status.service';
 import { formatRole } from '../../../roles/factory/roles/roles.component';
 import { ToastService } from '../../../../shared/components/toast/toast.service';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-status',
   standalone: true,
-  imports: [
-    CommonModule,
-    ButtonComponent,
-    InputCustomComponent,
-    StatusUiComponent,
-  ],
-  template: `<status-ui [tableSource]="tableSource">
-      <ng-container
-        *ngTemplateOutlet="statusHeader"
-        status-header
-      ></ng-container>
-    </status-ui>
-    <ng-template #statusHeader>
-      <button-custom
-        type="button"
-        label="Novo Status"
-        (clicked)="createStatus()"
-      ></button-custom>
-      <input-custom
-        type="text"
-        placeholder="Pesquisar"
-        name="text"
-        icon="Search.svg"
-        required
-      ></input-custom>
-    </ng-template>`,
+  imports: [CommonModule, StatusUiComponent],
+  template: `<status-ui [tableSource]="tableSource"> </status-ui> `,
   providers: [StatusService],
 })
 export class StatusComponent {
@@ -57,7 +34,6 @@ export class StatusComponent {
     },
     columns: [
       { key: 'name', header: 'Status' },
-      { key: 'name_code', header: 'Código do Status' },
       {
         key: 'description',
         header: 'Descrição',
@@ -71,49 +47,73 @@ export class StatusComponent {
       {
         icon: 'Show.svg',
         onClick: (row: any) => {
-          console.log('Edit', row);
+          let dialogRef = this.dialogService.open(StatusUpsertUiComponent, {
+            data: { ...row, isShowable: true },
+          });
+
+          dialogRef.afterClosed().subscribe((response) => {
+            if (!response) return;
+          });
         },
       },
       {
         icon: 'Edit.svg',
         onClick: (row: any) => {
-          console.log('Edit', row);
-        },
-      },
-      {
-        icon: 'Delete.svg',
-        onClick: (row: any) => {
-          console.log('Delete', row);
+          let dialogRef = this.dialogService.open(StatusUpsertUiComponent, {
+            data: row,
+          });
+
+          dialogRef.afterClosed().subscribe((response) => {
+            if (!response) return;
+
+            this.statusService
+              .update(response)
+              .pipe(
+                tap((data) => {
+                  this.toastService.addToast(
+                    'success',
+                    'Status atualizado com sucesso'
+                  );
+                  this.tableDataSource.reload();
+                })
+              )
+              .subscribe();
+          });
         },
       },
     ],
   };
-
-  ngOnInit() {}
 
   createStatus() {
     let dialogRef = this.dialogService.open(StatusUpsertUiComponent);
 
     dialogRef
       .afterClosed()
-      .subscribe((status: { name: string; description: string, color: string } | null) => {
-        if (!status) return;
+      .subscribe(
+        (
+          status: { name: string; description: string; color: string } | null
+        ) => {
+          if (!status) return;
 
-        const name_code = formatRole(status.name);
-        const loader = this.loaderService.show();
+          const name_code = formatRole(status.name);
+          const loader = this.loaderService.show();
 
-        this.statusService
-          .createStatus({
-            name: status.name,
-            name_code,
-            description: status.description,
-            color: status.color,
-          })
-          .subscribe((data) => {
-            this.toastService.addToast('success', 'Status criado com sucesso');
-            this.tableDataSource.reload();
-            loader.hide();
-          });
-      });
+          this.statusService
+            .createStatus({
+              name: status.name,
+              name_code,
+              description: status.description,
+              color: status.color,
+            })
+            .subscribe((data) => {
+              this.toastService.addToast(
+                'success',
+                'Status criado com sucesso'
+              );
+              this.tableDataSource.reload();
+              loader.hide();
+            });
+        }
+      );
   }
 }

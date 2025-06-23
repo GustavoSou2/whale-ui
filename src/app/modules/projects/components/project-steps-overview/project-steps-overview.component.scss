@@ -1,0 +1,27 @@
+.overview-info {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto;
+  gap: 3.4rem;
+
+  .overview-item {
+    width: max-content;
+    display: flex;
+    flex-direction: column;
+
+    .step-number {
+      display: flex;
+      align-items: center;
+      border-radius: 5px;
+      font-size: 1.3rem;
+      text-align: left;
+      color: #fff;
+    }
+
+    span {
+      font-size: 0.9rem;
+      color: #ededee;
+
+    }
+  }
+}

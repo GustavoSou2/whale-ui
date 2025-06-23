@@ -1,0 +1,47 @@
+#top-bar {
+  width: 100%;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+
+  .top-bar--title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    font-family: "Poppins", sans-serif;
+  }
+
+  .top-bar--actions {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+
+    .top-bar--perfil {
+      width: 300px;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+
+      .top-bar--perfil-user {
+        display: flex;
+        flex-direction: column;
+        line-height: 1.1rem;
+      }
+
+      .top-bar--perfil-user-name {
+        font-size: 1rem;
+        font-weight: 500;
+        font-family: "Poppins", sans-serif;
+        color: var(--waterloo-800);
+      }
+
+      .top-bar--perfil-user-role {
+        font-size: 0.9rem;
+        font-weight: 400;
+        font-family: "Poppins", sans-serif;
+        color: var(--waterloo-600);
+      }
+    }
+  }
+}

@@ -1,0 +1,70 @@
+@let itemsByStatus = items$() | async;
+<section id="project-items">
+  
+  <section class="project-items--title">
+    <h1>Itens</h1>
+    <button-custom
+        type="button"
+        label="Adicionar um item"
+        icon="fa-solid fas fa-plus plus"
+        iconPosition="right"
+        size="sm"
+        (click)="newItemDialog()"
+      ></button-custom>
+  </section>
+
+
+  <section class="project-items--kanban">
+    <section class="kanban--status" *ngFor="let status of $any(itemsByStatus)">
+      <section
+        class="kanban--status-header"
+        style="--kanban-status-color: {{
+          STATUS_DICTIONARY[status.status].color
+        }}25 "
+      >
+        <h2>{{ STATUS_DICTIONARY[status.status].label }}</h2>
+        <small class="status-count">
+          {{ status.items?.length }}
+          {{ status.items?.length > 1 ? "itens" : "item" }} /
+          {{ status.item?.length }}
+          {{ status.item?.length > 1 ? "subitems" : "subitem" }}
+        </small>
+      </section>
+      <section class="kanban--status-body">
+        <section
+          class="kanban--item border"
+          *ngFor="let item of status.items"
+          (click)="openItemDetailDialog(item)"
+        >
+          <p class="kanban--item-title">
+            {{ item.name }}
+          </p>
+          <span>{{ item.description }}</span>
+
+          <span class="date">
+            {{ item.start_date | date : "MMM dd, yyyy" : "UTC" }} →
+            {{ item.end_date | date : "MMM dd,yyyy" : "UTC" }}
+          </span>
+          
+          <span
+          class="tag tag--category"
+          [ngStyle]="{
+            backgroundColor:
+              CATEGORY_DICTIONARY[item.category].color + '30',
+            color: CATEGORY_DICTIONARY[item.category].color
+          }"
+        >
+          {{ CATEGORY_DICTIONARY[item.category].label }}
+        </span>
+          <div class="kanban--item-between">
+            <small>{{ item.users.username }}</small>
+            <small
+              >{{ item.subitems?.length }}
+              {{ item.subitems?.length > 1 ? "subitems" : "subitem" }}</small
+            >
+          </div>
+        </section>
+      </section>
+    </section>
+  </section>
+</section>

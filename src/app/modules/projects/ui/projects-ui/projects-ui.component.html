@@ -1,12 +1,16 @@
-<layout title="Projectos">
+<layout>
   <ng-container *ngTemplateOutlet="layoutHeader" layout-header></ng-container>
 
-  <ng-container *ngTemplateOutlet="table" layout-content></ng-container>
+  <ng-container layout-content>
+    <section class="projects--content">
+      <ng-container *ngTemplateOutlet="layoutContent"></ng-container>
+    </section>
+  </ng-container>
 </layout>
 
 <ng-template #layoutHeader>
-  <ng-content select="[clients-header]"></ng-content>
+  <ng-content select="[project-header]"></ng-content>
 </ng-template>
-<ng-template #table>
-  <table-custom [tableSource]="tableSource"></table-custom>
+<ng-template #layoutContent>
+  <ng-content select="[project-content]"></ng-content>
 </ng-template>

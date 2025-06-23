@@ -3,6 +3,7 @@ import {
   computed,
   effect,
   inject,
+  Input,
   signal,
   Type,
 } from '@angular/core';
@@ -87,6 +88,13 @@ const cancelActionPlan = (name: string, type: 'item' | 'subitem') => {
   providers: [StatusActionPlanService, ActionPlanService, DatePipe],
 })
 export class ActionPlanComponent {
+  @Input() set data(value: any) {
+    const project = value.project;
+
+    const httpParams = new HttpParams().append('project_id', project.id.toString());
+    this.params.next(httpParams);
+  }
+
   confirmationDialogService = inject(ConfirmationDialogService);
   statusActionPlanService = inject(StatusActionPlanService);
   tableDataSourceService = inject(TableDataSourceService);
@@ -134,7 +142,6 @@ export class ActionPlanComponent {
     },
     columns: [
       { key: 'name', header: 'Titulo', width: 'max-content' },
-
       {
         key: 'action_plan_status',
         header: 'Status',

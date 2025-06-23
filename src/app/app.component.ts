@@ -63,7 +63,6 @@ export class AppComponent implements AfterViewInit {
   dialogIsOpen = false;
 
   ngAfterViewInit(): void {
-
     if (!this.dialogHost) {
       console.error('dialogHost não encontrado!');
       return;
@@ -85,7 +84,11 @@ export class AppComponent implements AfterViewInit {
     const clickedInside = this.dialogElement.nativeElement.contains(
       event.target
     );
-    if (!clickedInside) {
+    const isDisabledClosable = this.dialogService.isDisabledClosable || true;
+
+    console.log(isDisabledClosable);
+
+    if (!clickedInside && isDisabledClosable) {
       this.closeDialog();
     }
   }

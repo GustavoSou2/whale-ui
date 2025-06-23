@@ -1,0 +1,44 @@
+@let groupApproval = approvals$() | async;
+<section id="project-approval">
+  <h1>Histórico de Aprovação</h1>
+
+  <section class="project-approval--timeline">
+    <section class="timeline-item" *ngFor="let group of $any(groupApproval)">
+      <section
+        class="timeline-group"
+        style="--group-color: {{
+          group.approval_status.color
+        }}; --group-color-ap: {{ group.approval_status.color }}30"
+      >
+        <section class="timeline-group-header">
+          <p>Todos os itens que estão {{ group.approval_status.name }}</p>
+          <small>{{ group.items.length }}</small>
+        </section>
+        <section class="timeline-group-body">
+          <div
+            class="timeline-group--approval"
+            *ngFor="let item of group.items"
+          >
+            <div class="timeline-group--approval-header">
+              <div class="title">
+                <p>{{ item.target.action_plan.name }}</p>
+                <span>{{ item.target.action_plan.description }}</span>
+              </div>
+              <div class="user">
+                {{ item.approval_flow.users.username }}
+                <small>({{ item.approval_flow.users.email }})</small>
+              </div>
+              <div class="date">
+                {{ item.approval_flow.created_at | date : "dd MMM, yyyy" }}
+              </div>
+              <div class="ago">
+                <i class="fa-regular fa-clock"></i>
+                {{ item.approval_flow.created_at | timeAgo }}
+              </div>
+            </div>
+          </div>
+        </section>
+      </section>
+    </section>
+  </section>
+</section>

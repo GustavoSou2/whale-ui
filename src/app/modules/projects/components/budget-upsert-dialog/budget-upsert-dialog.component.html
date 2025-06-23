@@ -20,13 +20,8 @@
   <section class="budgetUpsert--actions">
     <button-custom
       type="button"
-      variant="transparent"
-      label="Cancelar"
-      (clicked)="onCancel()"
-    ></button-custom>
-    <button-custom
-      type="button"
-      label="Salvar"
+      label="Gerar"
+      [disabled]="!budget.valid"
       (clicked)="onSubmit()"
     ></button-custom>
   </section>

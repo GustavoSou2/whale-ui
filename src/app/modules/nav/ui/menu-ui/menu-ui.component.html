@@ -1,21 +1,43 @@
-<ul id="menu">
-  <small>Menu</small>
+<div id="menu">
   @for(item of menu; track item) {
-  <li [class]="itemClass(item)" (click)="handleClick(item.path)">
+  <label
+    [class]="itemClass(item)"
+    [ngClass]="{ 'menu--option-activated': currentPatch() == item.path }"
+    (click)="handleClick(item.path)"
+    *ngIf="item.state == 'activated'"
+  >
     <img src="./icons/{{ item.icon }}" alt="{{ item.title }}" />
     <span>{{ item.title }}</span>
-  </li>
+    <input
+      type="radio"
+      name="menu-option"
+      [style.display]="'none'"
+      [value]="item.path"
+      (change)="handleClick(item)"
+    />
+  </label>
   }
 
   <ng-container *ngIf="isAdmin" [ngTemplateOutlet]="admin"></ng-container>
-</ul>
+</div>
 
 <ng-template #admin>
-  <small>Administrativo</small>
   @for(item of adminMenu; track item) {
-  <li [class]="itemClass(item)" (click)="handleClick(item.path)">
+  <label
+    [class]="itemClass(item)"
+    [ngClass]="{ 'menu--option-activated': currentPatch() == item.path }"
+    (click)="handleClick(item.path)"
+    *ngIf="item.state == 'activated'"
+  >
     <img src="./icons/{{ item.icon }}" alt="{{ item.title }}" />
     <span>{{ item.title }}</span>
-  </li>
+    <input
+      type="radio"
+      name="menu-option"
+      [style.display]="'none'"
+      [value]="item.path"
+      (change)="handleClick(item)"
+    />
+  </label>
   }
 </ng-template>

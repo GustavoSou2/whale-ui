@@ -63,8 +63,6 @@ export class CardComponent {
   }
 
   navigate() {
-    this.router.navigate([`/projects/detail/${this.id}`]).then(() => {
-      console.log('oi');
-    });
+    this.router.navigate([`/projects/${this.id}/detail`]).then(() => {});
   }
 }

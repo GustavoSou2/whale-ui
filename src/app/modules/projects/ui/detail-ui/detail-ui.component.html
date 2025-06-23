@@ -36,6 +36,8 @@
         <!-- <comments></comments> -->
       </section>
       <section class="detail--actions detail--content__container">
+        <ng-content select="[project-actions-button]"></ng-content>
+        
         <section class="detail--info-grid-item">
           <div class="detail--info__project_detail">
             <span class="label"
@@ -138,7 +140,7 @@
       <section class="detail--status-body">
         <section class="detail--status-body-list">
           <section
-            class="detail--item"
+            class="detail--item border"
             *ngFor="let item of status.items"
             (click)="openItemDetailDialog(item)"
           >
@@ -183,12 +185,6 @@
                 ></div>
               </div>
             </div>
-            <ng-container
-              *ngTemplateOutlet="
-                subItemTemplate;
-                context: { $implicit: item.id }
-              "
-            ></ng-container>
           </section>
         </section>
       </section>

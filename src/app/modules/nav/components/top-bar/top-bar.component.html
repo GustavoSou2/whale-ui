@@ -1,0 +1,21 @@
+@let currentRoute = currentRoute$ | async;
+<section id="top-bar">
+  <h1 class="top-bar--title">{{ currentRoute.title }}</h1>
+  <section class="top-bar--actions">
+    <button-custom
+      type="button"
+      label="Atualizar plano"
+      size="sm"
+      style="width: max-content"
+    ></button-custom>
+    <section class="top-bar--perfil">
+      <avatar [user]="user"></avatar>
+      <section class="top-bar--perfil-user">
+        <span class="top-bar--perfil-user-name">
+          {{ currentUser.username }}
+        </span>
+        <span class="top-bar--perfil-user-role"> {{ currentUser.email }} </span>
+      </section>
+    </section>
+  </section>
+</section>

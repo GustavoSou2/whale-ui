@@ -8,4 +8,5 @@ import { Component } from '@angular/core';
   styleUrl: './home-ui.component.scss'
 })
 export class HomeUiComponent {
+  
 }

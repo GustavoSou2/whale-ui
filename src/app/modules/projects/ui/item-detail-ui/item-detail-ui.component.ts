@@ -47,4 +47,12 @@ export class ItemDetailUiComponent {
       }, 0) || 0
     );
   }
+
+  calculateIfAllSubitemsAreDone() {
+    return this.subitems.every((subitem: any) => subitem.status === 'completed');
+  }
+
+  completeItem() {
+    
+  }
 }

@@ -1,4 +1,4 @@
-<layout title="Colaboradores">
+<layout >
   <ng-container *ngTemplateOutlet="layoutHeader" layout-header></ng-container>
 
   <ng-container *ngTemplateOutlet="table" layout-content></ng-container>
@@ -8,5 +8,8 @@
   <ng-content select="[clients-header]"></ng-content>
 </ng-template>
 <ng-template #table>
-  <table-custom [tableSource]="tableSource"></table-custom>
+  <section class="collaborator--content">
+  <table-custom [tableSource]="tableSource" [tableFullWidth]="false"></table-custom>
+
+  </section>
 </ng-template>

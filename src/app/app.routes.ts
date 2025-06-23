@@ -52,6 +52,14 @@ const appRoutes: Routes = [
           ),
       },
       {
+        path: 'projects/:id/detail',
+        canActivate: [AuthGuard],
+        loadComponent: () =>
+          import(
+            './modules/projects/factory/project-detail/project-detail.component'
+          ).then((m) => m.ProjectDetailComponent),
+      },
+      {
         path: 'clients',
         canActivate: [AuthGuard],
         loadComponent: () =>
@@ -116,6 +124,15 @@ const appRoutes: Routes = [
           import(
             './modules/action-plan/factory/action-plan/action-plan.component'
           ).then((m) => m.ActionPlanComponent),
+      },
+
+      {
+        path: 'config',
+        canActivate: [AuthGuard],
+        loadComponent: () =>
+          import('./modules/config/factory/config/config.component').then(
+            (m) => m.ConfigComponent
+          ),
       },
       {
         path: '',
